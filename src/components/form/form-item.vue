@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
+        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <transition name="fade">
@@ -48,8 +48,12 @@
                 type: String,
                 default: ''
             },
+            size: { // by FEN
+                type: String,
+                default: ''
+            },
             labelWidth: {
-                type: Number
+                type: [Number,String]
             },
             prop: {
                 type: String
@@ -98,6 +102,7 @@
                     {
                         [`${prefixCls}-required`]: this.required || this.isRequired,
                         [`${prefixCls}-error`]: this.validateState === 'error',
+                        [`${prefixCls}-${this.itemSize}`]: this.itemSize,
                         [`${prefixCls}-validating`]: this.validateState === 'validating'
                     }
                 ];
@@ -123,19 +128,27 @@
                     return getPropByPath(model, path).v;
                 }
             },
+            itemSize () {
+                const size = this.size || this.form.size;
+                return size;
+            },
             labelStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
-                    style.width = `${labelWidth}px`;
+                const labelWidth = labelWidth === 0 || this.labelWidth || this.form.labelWidth;
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth === 0 || labelWidth && labelWidth !== '100%') {
+                    style.width = typeof labelWidth === 'string' && labelWidth === '100%' ? labelWidth : `${labelWidth}px`;
                 }
                 return style;
             },
             contentStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
-                    style.marginLeft = `${labelWidth}px`;
+                const labelWidth = this.labelWidth === 0 || this.labelWidth || this.form.labelWidth;
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth || labelWidth === 0) {
+                    if (labelWidth !== '100%'){
+                        style.marginLeft = `${labelWidth}px`;
+                    }
                 }
                 return style;
             }
