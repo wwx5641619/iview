@@ -3,9 +3,7 @@
         <Form-item label="姓名" prop="name">
             <Input v-model="formValidate.name" placeholder="请输入姓名" size="small"></Input>
         </Form-item>
-        <Form-item label="test" prop="test" v-for="item in test" :key="item">
-            <Input v-model="formValidate.name" placeholder="请输入姓名" size="small"></Input>
-        </Form-item>
+
         <Form-item label="邮箱" prop="mail" size="small">
             <Form-item prop="mail" size="small">
                 <Input v-model="formValidate.mail" placeholder="请输入邮箱" size="small">
