@@ -1,78 +1,59 @@
 <template>
-    <i-select transfer multiple v-model="m1">
-        <i-option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</i-option>
-    </i-select>
+    <div>
+        <h4>有remote属性</h4>
+        {{ selectedIds }}
+        <i-select remote clearable filterable multiple :label="selectedLabel" v-model="selectedIds" style='margin-bottom:20px;'>
+            <i-option v-for="option in list" :value="option.id" :key="option.id">{{option.name}}</i-option>
+        </i-select>
+        <i-button @click="setVal3">设置3</i-button>
+    </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                m1: [],
-                showModal: false,
-                showModal2: false,
-                options: [
-                    {
-                        value: 'beijing',
-                        label: '北京市'
-                    },
-                    {
-                        value: 'shanghai',
-                        label: '上海市'
-                    },
-                    {
-                        value: 'shenzhen',
-                        label: '深圳市'
-                    },
-                    {
-                        value: 'hangzhou',
-                        label: '杭州市'
-                    },
-                    {
-                        value: 'nanjing',
-                        label: '南京市'
-                    },
-                    {
-                        value: 'chongqing',
-                        label: '重庆市'
-                    }
-                ]
+                list: [],
+                selectedIds: [],
+                selectedLabel: []
             }
         },
         methods: {
-            remoteMethod1 (query) {
-                if (query !== '') {
-                    this.loading1 = true;
-                    setTimeout(() => {
-                        this.loading1 = false;
-                        const list = this.list.map(item => {
-                            return {
-                                value: item,
-                                label: item
-                            };
-                        });
-                        this.options1 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
-                    }, 200);
-                } else {
-                    this.options1 = [];
-                }
+            setVal1: function () {
+                this.selectedLabel = ['几何', '化学'];
+                this.selectedIds = ['201701041343', '201701011541']
+
             },
-            remoteMethod2 (query) {
-                if (query !== '') {
-                    this.loading2 = true;
-                    setTimeout(() => {
-                        this.loading2 = false;
-                        const list = this.list.map(item => {
-                            return {
-                                value: item,
-                                label: item
-                            };
-                        });
-                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
-                    }, 200);
-                } else {
-                    this.options2 = [];
-                }
+            setVal2: function () {
+                this.selectedLabel = ['政治', '英语', '数学'];
+                this.selectedIds = ['201701031442', '201701061244', '201701011145']
+            },
+            setVal3: function () {
+                this.selectedLabel = [];
+                this.selectedIds = [];
             }
+        },
+        mounted () {
+            setTimeout(() => {
+                this.list = [{
+                    name: '语文',
+                    id: '201701011046'
+                }, {
+                    name: '数学',
+                    id: '201701011145'
+                }, {
+                    name: '英语',
+                    id: '201701061244'
+                }, {
+                    name: '几何',
+                    id: '201701041343'
+                }, {
+                    name: '政治',
+                    id: '201701031442'
+                }, {
+                    name: '化学',
+                    id: '201701011541'
+                }]
+            }, 1000)
         }
     }
 </script>
