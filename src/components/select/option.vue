@@ -22,6 +22,9 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            optionData: {
+                type: Object
             }
         },
         data () {
@@ -55,7 +58,8 @@
                     return false;
                 }
 
-                this.dispatch('iSelect', 'on-select-selected', this.value);
+                // Add By FEN 为了适应 仓库选择后需要对不同类型的仓库做判断，需要返回整个对象
+                this.dispatch('iSelect', 'on-select-selected', {value:this.value, optionData:this.optionData});
             },
             blur () {
                 this.isFocus = false;

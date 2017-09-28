@@ -149,7 +149,8 @@
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
-                currentLabel: this.label
+                currentLabel: this.label,
+                currentData: {}
             };
         },
         computed: {
@@ -430,14 +431,14 @@
                             this.$emit('on-change', {
                                 value: value,
                                 label: label
-                            });
+                            }, this.currentData);
                             this.dispatch('FormItem', 'on-form-change', {
                                 value: value,
                                 label: label
-                            });
+                            }, this.currentData);
                         } else {
-                            this.$emit('on-change', value);
-                            this.dispatch('FormItem', 'on-form-change', value);
+                            this.$emit('on-change', value, this.currentData);
+                            this.dispatch('FormItem', 'on-form-change', value, this.currentData);
                         }
                     }
                 }
@@ -672,9 +673,13 @@
             this.$on('append', this.debouncedAppendRemove);
             this.$on('remove', this.debouncedAppendRemove);
 
-            this.$on('on-select-selected', (value) => {
-                if (this.model === value) {
-                    if (this.autoComplete) this.$emit('on-change', value);
+            this.$on('on-select-selected', (data) => {
+                // add by FEN 主要是为了可以返回当前选择的对象
+                // TODO 没有判断多选的情况
+                const {value, optionData} = data;
+                this.currentData = optionData;
+              if (this.model === value) {
+                    if (this.autoComplete) this.$emit('on-change', value, this.currentData);
                     this.hideMenu();
                 } else {
                     if (this.multiple) {
