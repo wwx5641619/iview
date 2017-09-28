@@ -16,6 +16,7 @@
         </div>
         <div :class="inputWrapClasses">
             <input
+                :id="elementId"
                 :class="inputClasses"
                 :disabled="disabled"
                 autocomplete="off"
@@ -25,7 +26,7 @@
                 @keydown.stop="keyDown"
                 @change="change"
                 :name="name"
-                :value="currentValue">
+                :value="precisionValue">
         </div>
     </div>
 </template>
@@ -98,6 +99,12 @@
             },
             name: {
                 type: String
+            },
+            precision: {
+                type: Number
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -151,6 +158,10 @@
             },
             inputClasses () {
                 return `${prefixCls}-input`;
+            },
+            precisionValue () {
+                // can not display 1.0
+                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             }
         },
         methods: {
@@ -208,6 +219,9 @@
                 this.setValue(val);
             },
             setValue (val) {
+                // 如果 step 是小数，且没有设置 precision，是有问题的
+                if (this.precision) val = Number(Number(val).toFixed(this.precision));
+
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);

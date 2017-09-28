@@ -82,16 +82,21 @@
             </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
+        <Spin fix size="large" v-if="loading">
+            <slot name="loading"></slot>
+        </Spin>
     </div>
 </template>
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
+    import Spin from '../spin/spin.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
+    import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-table';
 
@@ -101,7 +106,7 @@
     export default {
         name: 'Table',
         mixins: [ Locale ],
-        components: { tableHead, tableBody },
+        components: { tableHead, tableBody, Spin },
         props: {
             data: {
                 type: Array,
@@ -159,6 +164,10 @@
             },
             disabledHover: {
                 type: Boolean
+            },
+            loading: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -342,7 +351,7 @@
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
 
                         if (this.data.length) {
-                            const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
+                            const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].children;
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
 
@@ -374,9 +383,8 @@
                 if (this.disabledHover) return;
                 this.objData[_index]._isHover = false;
             },
-            highlightCurrentRow (_index) {
-                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
-
+            // 通用处理 highlightCurrentRow 和 clearCurrentRow
+            handleCurrentRow (type, _index) {
                 let oldIndex = -1;
                 for (let i in this.objData) {
                     if (this.objData[i]._isHighlight) {
@@ -384,17 +392,26 @@
                         this.objData[i]._isHighlight = false;
                     }
                 }
-                this.objData[_index]._isHighlight = true;
+                if (type === 'highlight') this.objData[_index]._isHighlight = true;
                 const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
+                const newData = type === 'highlight' ? JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
+                this.$emit('on-current-change', newData, oldData);
+            },
+            highlightCurrentRow (_index) {
+                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
+                this.handleCurrentRow('highlight', _index);
+            },
+            clearCurrentRow () {
+                if (!this.highlightRow) return;
+                this.handleCurrentRow('clear');
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
+                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
             },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
+                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
             },
             getSelection () {
                 let selectionIndexes = [];
@@ -711,8 +728,11 @@
             this.handleResize();
             this.fixedHeader();
             this.$nextTick(() => this.ready = true);
-//            window.addEventListener('resize', this.handleResize, false);
+
             on(window, 'resize', this.handleResize);
+            this.observer = elementResizeDetectorMaker();
+            this.observer.listenTo(this.$el, this.handleResize);
+
             this.$on('on-visible-change', (val) => {
                 if (val) {
                     this.handleResize();
@@ -721,8 +741,8 @@
             });
         },
         beforeDestroy () {
-//            window.removeEventListener('resize', this.handleResize, false);
             off(window, 'resize', this.handleResize);
+            this.observer.removeListener(this.$el, this.handleResize);
         },
         watch: {
             data: {

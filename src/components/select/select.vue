@@ -5,6 +5,7 @@
             ref="reference"
             @click="toggleMenu">
             <slot name="input">
+                <input type="hidden" :name="name" :value="model">
                 <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
                     <span class="ivu-tag-text">{{ item.label }}</span>
                     <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
@@ -12,6 +13,7 @@
                 <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
                 <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
                 <input
+                    :id="elementId"
                     type="text"
                     v-if="filterable"
                     v-model="query"
@@ -131,6 +133,12 @@
             autoComplete: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -286,7 +294,7 @@
                     });
                 }
             },
-            updateOptions (init, slot = false) {
+            updateOptions (slot = false) {
                 let options = [];
                 let index = 1;
 
@@ -297,18 +305,14 @@
                     });
                     child.index = index++;
 
-                    if (init) {
-                        this.optionInstances.push(child);
-                    }
+                    this.optionInstances.push(child);
                 });
 
                 this.options = options;
 
-                if (init) {
-                    if (!this.remote) {
-                        this.updateSingleSelected(true, slot);
-                        this.updateMultipleSelected(true, slot);
-                    }
+                if (!this.remote) {
+                    this.updateSingleSelected(true, slot);
+                    this.updateMultipleSelected(true, slot);
                 }
             },
             updateSingleSelected (init = false, slot = false) {
@@ -625,18 +629,21 @@
                     this.broadcast('iOption', 'on-query-change', val);
                 }
             },
-            debouncedAppendRemove: debounce(function(){
-                if (!this.remote) {
-                    this.modelToQuery();
-                    this.$nextTick(() => this.broadcastQuery(''));
-                } else {
-                    this.findChild((child) => {
-                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
-                    });
-                }
-                this.slotChange();
-                this.updateOptions(true, true);
-            }),
+            debouncedAppendRemove(){
+                return debounce(function(){
+                    if (!this.remote) {
+                        this.modelToQuery();
+                        this.$nextTick(() => this.broadcastQuery(''));
+                    } else {
+                        this.findChild((child) => {
+                            child.updateSearchLabel();   // #1865
+                            child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                        });
+                    }
+                    this.slotChange();
+                    this.updateOptions(true);
+                });
+            },
             // 处理 remote 初始值
             updateLabel () {
                 if (this.remote) {
@@ -667,11 +674,11 @@
                 this.broadcastQuery('');
             });
 
-            this.updateOptions(true);
+            this.updateOptions();
             document.addEventListener('keydown', this.handleKeydown);
 
-            this.$on('append', this.debouncedAppendRemove);
-            this.$on('remove', this.debouncedAppendRemove);
+            this.$on('append', this.debouncedAppendRemove());
+            this.$on('remove', this.debouncedAppendRemove());
 
             this.$on('on-select-selected', (data) => {
                 // add by FEN 主要是为了可以返回当前选择的对象

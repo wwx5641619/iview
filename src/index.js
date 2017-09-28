@@ -155,6 +155,7 @@ const install = function (Vue, opts = {}) {
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Notice = Notice;
+    Vue.prototype.$Spin = Spin;
 };
 
 // auto install
