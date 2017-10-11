@@ -25,6 +25,7 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @change="change"
+                :readonly="readonly || !editable"
                 :name="name"
                 :value="precisionValue">
         </div>
@@ -96,6 +97,14 @@
             autofocus: {
                 type: Boolean,
                 default: false
+            },
+            readonly: {
+                type: Boolean,
+                default: false
+            },
+            editable: {
+                type: Boolean,
+                default: true
             },
             name: {
                 type: String
@@ -183,7 +192,7 @@
                 this.changeStep('down', e);
             },
             changeStep (type, e) {
-                if (this.disabled) {
+                if (this.disabled || this.readonly) {
                     return false;
                 }
 
@@ -220,7 +229,7 @@
             },
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
-                if (this.precision) val = Number(Number(val).toFixed(this.precision));
+                if (!isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
 
                 this.$nextTick(() => {
                     this.currentValue = val;
