@@ -22,4 +22,10 @@ gulp.task('fonts', function () {
         .pipe(gulp.dest('../dist/styles/fonts'));
 });
 
-gulp.task('default', ['css', 'fonts']);
+// 拷贝 custom.less
+gulp.task('copyCustom', function () {
+    gulp.src('../src/styles/custom.less')
+      .pipe(gulp.dest('../dist/styles'));
+});
+
+gulp.task('default', ['css', 'fonts', 'copyCustom']);
