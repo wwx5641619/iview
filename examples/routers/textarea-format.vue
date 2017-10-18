@@ -1,7 +1,7 @@
 <template>
     <Panel shadow class="dkfj">
-        <Input type="textarea" v-model="val"/>
-        <textarea-format :data="val"></textarea-format>
+        <Input type="textarea" v-model="val" autosize/>
+        <textarea-format>{{val}}</textarea-format>
     </Panel>
 </template>
 <script>

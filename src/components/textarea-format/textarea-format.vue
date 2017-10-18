@@ -1,5 +1,5 @@
 <template>
-    <pre :class="classes">{{data}}</pre>
+    <pre :class="classes"><slot>{{data}}</slot></pre>
 </template>
 
 <script>
