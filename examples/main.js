@@ -220,6 +220,10 @@ const router = new VueRouter({
         {
           path: '/file-export',
           component: require('./routers/file-export.vue')
+        },
+        {
+          path: '/textarea-format',
+          component: require('./routers/textarea-format.vue')
         }
     ]
 });

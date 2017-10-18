@@ -55,6 +55,7 @@ import Split from './components/split';
 import Panel from './components/panel';
 import List from './components/list';
 import Editor from './components/editor';
+import TextareaFormat from './components/textarea-format';
 
 // add by shilei
 
@@ -142,6 +143,7 @@ const iview = {
     List,
     ListItem: List.Item,
     Editor,
+    TextareaFormat,
     FileExport
 };
 

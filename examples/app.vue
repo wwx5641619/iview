@@ -64,6 +64,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/list">List</router-link></li>
                 <li><router-link to="/editor">Editor</router-link></li>
                 <li><router-link to="/file-export">FileExport</router-link></li>
+                <li><router-link to="/textarea-format">textarea format</router-link></li>
 
             </ul>
         </nav>
