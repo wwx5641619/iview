@@ -5,8 +5,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './app.vue';
 import iView from '../src/index';
-import locale from '../src/locale/lang/en-US';
-// import locale from '../src/locale/lang/zh-CN';
+// import locale from '../src/locale/lang/en-US';
+import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
 Vue.use(iView, { locale });
@@ -193,26 +193,34 @@ const router = new VueRouter({
             path: '/color-picker',
             component: require('./routers/color-picker.vue')
         },
-      {
-        path: '/split',
-        component: require('./routers/split.vue')
-      },
-      {
-        path: '/panel',
-        component: require('./routers/panel.vue')
-      },
-      {
-        path: '/list',
-        component: require('./routers/list.vue')
-      },
-      {
-        path: '/editor',
-        component: require('./routers/editor.vue')
-      },
-      {
-        path: '/file-export',
-        component: require('./routers/file-export.vue')
-      }
+        {
+            path: '/auto-complete',
+            component: require('./routers/auto-complete.vue')
+        },
+        {
+            path: '/scroll',
+            component: require('./routers/scroll.vue')
+        },
+        {
+          path: '/split',
+          component: require('./routers/split.vue')
+        },
+        {
+          path: '/panel',
+          component: require('./routers/panel.vue')
+        },
+        {
+          path: '/list',
+          component: require('./routers/list.vue')
+        },
+        {
+          path: '/editor',
+          component: require('./routers/editor.vue')
+        },
+        {
+          path: '/file-export',
+          component: require('./routers/file-export.vue')
+        }
     ]
 });
 
