@@ -56,6 +56,8 @@ import Panel from './components/panel';
 import List from './components/list';
 import Editor from './components/editor';
 import TextareaFormat from './components/textarea-format';
+import MergeTable from './components/merge-table';
+import {TableTd, TableTr} from './components/merge-table';
 
 // add by shilei
 
@@ -144,7 +146,10 @@ const iview = {
     ListItem: List.Item,
     Editor,
     TextareaFormat,
-    FileExport
+    FileExport,
+    MergeTable,
+    TableTd,
+    TableTr
 };
 
 const install = function(Vue, opts = {}) {

@@ -224,6 +224,10 @@ const router = new VueRouter({
         {
           path: '/textarea-format',
           component: require('./routers/textarea-format.vue')
+        },
+        {
+          path: '/merge-table',
+          component: require('./routers/merge-table.vue')
         }
     ]
 });
