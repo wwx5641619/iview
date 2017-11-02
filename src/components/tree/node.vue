@@ -12,12 +12,13 @@
                         :indeterminate="data.indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
-                <Render v-if="data.render" :render="data.render"></Render>
-                <span v-else :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
+                <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
+                <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
+                <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
                 <Tree-node
                         v-if="data.expand"
-                        v-for="item in data.children"
-                        :key="item.nodeKey"
+                        v-for="(item, i) in data.children"
+                        :key="i"
                         :data="item"
                         :multiple="multiple"
                         :show-checkbox="showCheckbox">
@@ -29,7 +30,7 @@
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
     import Icon from '../icon/icon.vue';
-    import Render from '../base/render';
+    import Render from './render';
     import CollapseTransition from '../base/collapse-transition';
     import Emitter from '../../mixins/emitter';
     import { findComponentUpward } from '../../utils/assist';
@@ -96,6 +97,27 @@
             },
             showLoading () {
                 return 'loading' in this.data && this.data.loading;
+            },
+            isParentRender () {
+                const Tree = findComponentUpward(this, 'Tree');
+                return Tree && Tree.render;
+            },
+            parentRender () {
+                const Tree = findComponentUpward(this, 'Tree');
+                if (Tree && Tree.render) {
+                    return Tree.render;
+                } else {
+                    return null;
+                }
+            },
+            node () {
+                const Tree = findComponentUpward(this, 'Tree');
+                if (Tree) {
+                    // 将所有的 node（即flatState）和当前 node 都传递
+                    return [Tree.flatState, Tree.flatState.find(item => item.nodeKey === this.data.nodeKey)];
+                } else {
+                    return [];
+                }
             }
         },
         methods: {
@@ -104,12 +126,15 @@
                 if (item.disabled) return;
 
                 // async loading
-                if (item.loading !== undefined && !item.children.length) {
+                if (item.children.length === 0) {
                     const tree = findComponentUpward(this, 'Tree');
                     if (tree && tree.loadData) {
-                        tree.loadData(item, () => {
-                            if (item.children.length) {
-                                this.handleExpand(item);
+                        this.$set(this.data, 'loading', true);
+                        tree.loadData(item, children => {
+                            this.$set(this.data, 'loading', false);
+                            if (children.length) {
+                                this.$set(this.data, 'children', children);
+                                this.$nextTick(() => this.handleExpand());
                             }
                         });
                         return;
