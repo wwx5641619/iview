@@ -261,6 +261,7 @@
 
                 set (value) {
                     if (value) {
+                        console.log(value, 22);
                         const type = this.type;
                         const parser = (
                             TYPE_VALUE_RESOLVER_MAP[type] ||

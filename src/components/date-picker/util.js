@@ -1,6 +1,7 @@
 import dateUtil from '../../utils/date';
 
 export const toDate = function(date) {
+    console.log(date, 22)
     let _date = new Date(date);
     // IE patch start (#1422)
     if (isNaN(_date.getTime()) && typeof date === 'string'){
