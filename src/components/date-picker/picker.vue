@@ -152,6 +152,10 @@
         components: { iInput, Drop },
         directives: { clickoutside, TransferDom },
         props: {
+            timestamp:{ // add by FEN 用来是否用时间戳来通信
+                type: Boolean,
+                default: true
+            },
             format: {
                 type: String
             },
@@ -260,8 +264,8 @@
                 },
 
                 set (value) {
+                    console.log(value, 'set')
                     if (value) {
-                        console.log(value, 22);
                         const type = this.type;
                         const parser = (
                             TYPE_VALUE_RESOLVER_MAP[type] ||
@@ -406,6 +410,7 @@
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
             },
+            // 展开下拉框
             showPicker () {
                 if (!this.picker) {
                     let isConfirm = this.confirm;
@@ -457,8 +462,10 @@
                 this.picker.resetView && this.picker.resetView();
             },
             emitChange (date) {
+                // const newDate = dateToTimestamp(date);
                 const newDate = this.formattingDate(date);
-
+                // console.log(newDate, 328974)
+                
                 this.$emit('on-change', newDate);
                 this.$nextTick(() => {
                     this.dispatch('FormItem', 'on-form-change', newDate);
@@ -498,14 +505,27 @@
                 if (!val && this.picker && typeof this.picker.handleClear === 'function') {
                     this.picker.handleClear();
                 }
-//                this.$emit('input', val);
+            //    this.$emit('input', val);
             },
-            value (val) {
-                this.currentValue = val;
-            },
+            // value (val) {
+            //     this.currentValue = timestampToDate(val);
+            // },
             currentValue: {
                 immediate: true,
                 handler (val) {
+
+                    const timestampToDate = timestamp => {
+                    // TODO 简单判断时间戳为13位
+                        if(timestamp.toString().length === 13){
+                            const newDate = new Date();
+                            newDate.setTime(timestamp)
+                            return newDate
+                        }
+                        return timestamp
+                    }
+
+                    val = timestampToDate(val)
+
                     const type = this.type;
                     const parser = (
                         TYPE_VALUE_RESOLVER_MAP[type] ||
@@ -516,13 +536,29 @@
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     } else if (val && type.match(/range$/) && Array.isArray(val) && val.filter(Boolean).length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
                         val = val.join(RANGE_SEPARATOR);
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]);                    
                     } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
                         val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                     }
 
                     this.internalValue = val;
-                    this.$emit('input', val);
+
+                    // add by FEN
+                    //  返回组件的 value 的指为时间戳格式
+                    const getTime = val => {
+                        // 有空数据的时候
+                        return val.getTime ? val.getTime() : val
+                    }                    
+                    const getTimestamp = val => {
+                        if(Array.isArray(val)){
+                            return val.map(item => getTime(item));
+                        }else{
+                            return getTime(val); 
+                        }
+                    }
+                    // 保持和原来组件的兼容，增加 timetamp 属性，用来确定是否返回时间戳
+                    this.$emit('input', this.timestamp ? getTimestamp(val) : val)
+                    
                 }
             },
             open (val) {

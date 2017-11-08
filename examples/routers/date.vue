@@ -3,6 +3,8 @@
         {{ value1 }}
         <Date-picker v-model="value1" type="daterange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Date-picker v-model="value2" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
+        <Date-picker v-model="value3" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
+        <Date-picker :timestamp="false" v-model="value4" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Button @click="setDate">set date</Button>
         <Button @click="getDate">get date</Button>
         <!--<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>-->
@@ -13,12 +15,17 @@
     export default {
         data () {
             return {
-                value1: ['2014-10-10', '2017-10-10'],
-                value2: '1508143679588'
+                value1: ['2016.12.12', '2017-10-10'],
+                value2: '2017-12-12',
+                value3: 1508143679588,
+                value4: '2017-12-12',
             }
         },
         created (){
-//            this.value2 = new Date('2017-12-12');
+            const date = new Date()
+            date.setTime(this.value2)
+            console.log(date.getTime(), 22)
+            console.log(this.value2.toString().length)
         },
         methods: {
             changeDate(date){
@@ -26,11 +33,14 @@
             },
             setDate () {
                 this.value1 = ['2014-10-10', '2017-10-10'];
+                this.value2 = '1508143679588';
             },
             getDate () {
-                console.log(this.value2)
-                const date = new Date(this.value2);
-                console.log(date.getMonth()+1)
+                const date = new Date()
+                console.log(this.value1, 'value1')
+                console.log(this.value2, 'value2')
+                console.log(this.value3, 'value3')
+                console.log(this.value4, 'value4')
             },
             hc (d) {
                 console.log(d);
