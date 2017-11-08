@@ -513,8 +513,8 @@
             currentValue: {
                 immediate: true,
                 handler (val) {
-
-                    const timestampToDate = timestamp => {
+                    // 如果没有 v-model 绑定，就会返回 undefined, 需要默认给一个空值
+                    const timestampToDate = (timestamp = '') => {
                     // TODO 简单判断时间戳为13位
                         if(timestamp.toString().length === 13){
                             const newDate = new Date();

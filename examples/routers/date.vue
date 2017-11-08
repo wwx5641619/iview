@@ -4,6 +4,7 @@
         <Date-picker v-model="value1" type="daterange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Date-picker v-model="value2" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Date-picker v-model="value3" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
+        <Date-picker type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Date-picker :timestamp="false" v-model="value4" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Button @click="setDate">set date</Button>
         <Button @click="getDate">get date</Button>
@@ -18,6 +19,7 @@
                 value1: ['2016.12.12', '2017-10-10'],
                 value2: '2017-12-12',
                 value3: 1508143679588,
+                value5: '',
                 value4: '2017-12-12',
             }
         },
