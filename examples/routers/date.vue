@@ -8,6 +8,16 @@
         <Date-picker :timestamp="false" v-model="value4" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Button @click="setDate">set date</Button>
         <Button @click="getDate">get date</Button>
+
+        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+        <FormItem label="1" prop="date">
+            <Date-picker v-model="formValidate.date" type="date" placeholder="选择日期" style="width: 200px"></Date-picker>
+        </FormItem>
+        <FormItem label="232" prop="num">
+            <Input v-model="formValidate.num" number style="width: 200px"></Input>
+        </FormItem>
+        <Button @click="vdate">vdate</Button>
+        </Form>
         <!--<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>-->
         <!--<Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>-->
     </div>
@@ -21,8 +31,17 @@
                 value3: 1508143679588,
                 value5: '',
                 value4: '2017-12-12',
+                formValidate: {
+                    date: 1508143679588,
+                    num: 0
+                },
+                ruleValidate: {
+                    num: { required: true, type: 'number', message: 'Please select the date', trigger: 'change' },
+                    date: { required: true, type: 'number', length:13, message: 'Please select the date', trigger: 'change' },
+                },
             }
         },
+    
         created (){
             const date = new Date()
             date.setTime(this.value2)
@@ -30,6 +49,15 @@
             console.log(this.value2.toString().length)
         },
         methods: {
+            vdate () {
+                this.$refs.formValidate.validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('Success!');
+                    } else {
+                        this.$Message.error('Fail!');
+                    }
+                })
+            },
             changeDate(date){
                 console.log(date);
             },
@@ -43,6 +71,7 @@
                 console.log(this.value2, 'value2')
                 console.log(this.value3, 'value3')
                 console.log(this.value4, 'value4')
+                console.log(this.formValidate.date, 'date')
             },
             hc (d) {
                 console.log(d);

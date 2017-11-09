@@ -264,7 +264,6 @@
                 },
 
                 set (value) {
-                    console.log(value, 'set')
                     if (value) {
                         const type = this.type;
                         const parser = (
@@ -462,9 +461,7 @@
                 this.picker.resetView && this.picker.resetView();
             },
             emitChange (date) {
-                // const newDate = dateToTimestamp(date);
                 const newDate = this.formattingDate(date);
-                // console.log(newDate, 328974)
                 
                 this.$emit('on-change', newDate);
                 this.$nextTick(() => {
@@ -507,9 +504,9 @@
                 }
             //    this.$emit('input', val);
             },
-            // value (val) {
-            //     this.currentValue = timestampToDate(val);
-            // },
+            value (val) {
+                // this.currentValue = val;
+            },
             currentValue: {
                 immediate: true,
                 handler (val) {
@@ -547,11 +544,12 @@
                     //  返回组件的 value 的指为时间戳格式
                     const getTime = val => {
                         // 有空数据的时候
-                        return val.getTime ? val.getTime() : val
+                        return val && val.getTime ? val.getTime() : val
                     }                    
                     const getTimestamp = val => {
                         if(Array.isArray(val)){
-                            return val.map(item => getTime(item));
+                            val.forEach(item => getTime(item))
+                            return val;
                         }else{
                             return getTime(val); 
                         }
