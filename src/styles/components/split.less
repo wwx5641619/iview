@@ -12,7 +12,14 @@
 
   &--dashed{
     border-style:dashed;
+  }
 
+  &--small{
+    margin:4px auto;
+  }
+
+  &--large{
+    margin:16px auto;
   }
 
   &--vertical{
@@ -25,11 +32,12 @@
     vertical-align: middle;
   }
 
-  &--small{
-    margin:4px auto;
+  &--vertical&--small{
+    margin: 0 4px;
+    height: 10px;
   }
 
-  &--large{
-    margin:16px auto;
+  &--vertical&--large{
+    height: 14px;
   }
 }

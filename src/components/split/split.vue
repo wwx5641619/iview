@@ -23,6 +23,10 @@
             transparent: {
                 type: Boolean,
                 default: false
+            },
+            vertical: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
@@ -33,7 +37,8 @@
                         [`${prefixCls}--small`]: this.small,
                         [`${prefixCls}--large`]: this.large,
                         [`${prefixCls}--dashed`]: this.dashed,
-                        [`${prefixCls}--transparent`]: this.transparent
+                        [`${prefixCls}--transparent`]: this.transparent,
+                        [`${prefixCls}--vertical`]: this.vertical,
                     }
                 ]
             }
