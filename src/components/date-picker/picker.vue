@@ -515,6 +515,8 @@ export default {
                 } else if (_val && type.match(/range$/) && Array.isArray(_val) && _val.filter(Boolean).length === 2 && !(_val[0] instanceof Date) && !(_val[1] instanceof Date)) {
                     _val = _val.join(RANGE_SEPARATOR);
                     _val = parser(_val, this.format || DEFAULT_FORMATS[type]);
+                    val = val.join(RANGE_SEPARATOR);
+                    val = parser(val, this.format || DEFAULT_FORMATS[type]);
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0) {
                     val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                 }

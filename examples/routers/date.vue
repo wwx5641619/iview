@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{ value1 }}
+        {{ value1 }} {{value2}}
         <Date-picker v-model="value1" type="daterange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Date-picker v-model="value2" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Date-picker v-model="value3" type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
