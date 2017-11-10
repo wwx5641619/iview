@@ -22,6 +22,7 @@
 
   &__title {
     font-weight: bold;
+    font-size: 14px;
     display: inline-block;
     color: #333;
   }
@@ -98,36 +99,6 @@
     background: transparent;
   }
 
-  &--no-header-bd {
-    & > .panel {
-      &__header {
-        margin-bottom: -8px;
-        border: transparent;
-      }
-    }
-  }
-
-  &--no-header-bd&--small {
-    & > .panel {
-      &__header {
-        margin-bottom: -4px;
-      }
-    }
-  }
-
-  &--no-padding {
-    & > .panel {
-      &__header {
-        margin-left: 0;
-        margin-right: 0;
-      }
-      &__body {
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-  }
-
   &--gray {
     background: @background-color-base ;
     border: 1px solid #eee;
@@ -186,6 +157,10 @@
       padding-top: @panel-padding-small;
       margin-left: @panel-padding-small;
       margin-right: @panel-padding-small;
+
+      .panel__title{
+        font-size:12px;
+      }
     }
   }
 
@@ -219,6 +194,36 @@
     & > .panel__body {
       padding: @panel-padding-large;
       padding-top:@panel-padding-large/1.5;
+    }
+  }
+  
+  &--no-header-bd {
+    & > .panel {
+      &__header {
+        margin-bottom: -8px;
+        border: transparent;
+      }
+    }
+  }
+
+  &--no-header-bd&--small {
+    & > .panel {
+      &__header {
+        margin-bottom: -4px;
+      }
+    }
+  }
+
+  &--no-padding {
+    & > .panel {
+      &__header {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      &__body {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
   }
 }

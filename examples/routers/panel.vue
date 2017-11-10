@@ -5,7 +5,11 @@
         </Panel>
         <Panel title="large & shadow" shadow size="large">
             内容
+            <Panel noPadding title="large & shadow"  noHeaderBorder>
+            内容
         </Panel>
+        </Panel>
+        
         <Panel shadow noHeaderBorder title="title">
             asdkfj
         </Panel>
