@@ -2,6 +2,24 @@
     <div>
         <h4>基本</h4>
         <br><br>
+        <div>
+            <Button type="primary">add</Button>
+            <Button type="primary">remove</Button>
+            <Button type="primary">delete</Button>
+        </div>
+        <br><br>
+        <div>
+            <Button size="small" type="primary">add</Button>
+            <Button size="small" type="primary">remove</Button>
+            <Button size="small" type="primary">delete</Button>
+        </div>
+        <br><br>
+        <div>
+            <Button size="large" type="primary">save</Button>
+            <Button size="large" type="primary">add</Button>
+            <Button size="large" type="primary">cancel</Button>
+        </div>
+        <br><br>
         <Button-group>
             <Button>取消</Button>
             <Button type="primary">确定</Button>
