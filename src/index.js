@@ -63,7 +63,7 @@ import {TableTd, TableTr} from './components/merge-table';
 
 import FileExport from './components/file-export';
 
-const iview = {
+const components = {
     Affix,
     Alert,
     AutoComplete,
@@ -72,7 +72,6 @@ const iview = {
     Badge,
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
-    iButton: Button,
     Button,
     ButtonGroup: Button.Group,
     Card,
@@ -81,9 +80,7 @@ const iview = {
     Cascader,
     Checkbox,
     CheckboxGroup: Checkbox.Group,
-    iCircle: Circle,
     Col,
-    iCol: Col,
     Collapse,
     ColorPicker,
     DatePicker,
@@ -91,16 +88,13 @@ const iview = {
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
     Form,
-    iForm: Form,
     FormItem: Form.Item,
     Icon,
     Input,
-    iInput: Input,
     InputNumber,
     Scroll,
     LoadingBar,
     Menu,
-    iMenu: Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
     Submenu: Menu.Sub,
@@ -108,26 +102,20 @@ const iview = {
     Modal,
     Notice,
     Option: Option,
-    iOption: Option,
     OptionGroup,
     Page,
     iPanel: Collapse.Panel,
     Poptip,
     Progress,
-    iProgress: Progress,
     Radio,
     RadioGroup: Radio.Group,
     Rate,
     Row,
     Select,
-    iSelect: Select,
     Slider,
     Spin,
     Step: Steps.Step,
     Steps,
-	// Switch,
-    iSwitch: Switch,
-    iTable: Table,
     Table,
     Tabs: Tabs,
     TabPane: Tabs.Pane,
@@ -152,6 +140,21 @@ const iview = {
     TableTr
 };
 
+const iview = {
+    ...components,
+    iButton: Button,
+    iCircle: Circle,
+    iCol: Col,
+    iForm: Form,
+    iInput: Input,
+    iMenu: Menu,
+    iOption: Option,
+    iProgress: Progress,
+    iSelect: Select,
+    iSwitch: Switch,
+    iTable: Table
+};
+
 const install = function(Vue, opts = {}) {
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
@@ -172,4 +175,20 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-module.exports = Object.assign(iview, {install}); // eslint-disable-line no-undef
+const API = {
+    version: '2.7.0',
+    locale: locale.use,
+    i18n: locale.i18n,
+    install,
+    Circle,
+    Switch,
+    ...components
+};
+
+API.lang = (code) => {
+    const langObject = window['iview/locale'].default;
+    if (code === langObject.i.locale) locale.use(langObject);
+    else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
+};
+
+module.exports.default = module.exports = API;   // eslint-disable-line no-undef

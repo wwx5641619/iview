@@ -10,15 +10,14 @@ let lang = defaultLang;
 // let merged = false;
 let i18nHandler = function() {
     const vuei18n = Object.getPrototypeOf(this || Vue).$t;
-    if (typeof vuei18n === 'function') {
-      // by FEN 为了兼容最新的 vue-i18n
-        // if (!merged) {
-        //     merged = true;
-        //     Vue.locale(
-        //         Vue.config.lang,
-        //         deepmerge(lang, Vue.locale(Vue.config.lang) || {}, { clone: true })
-        //     );
-        // }
+    if (typeof vuei18n === 'function' && !!Vue.locale) {
+        if (!merged) {
+            merged = true;
+            Vue.locale(
+                Vue.config.lang,
+                deepmerge(lang, Vue.locale(Vue.config.lang) || {}, { clone: true })
+            );
+        }
         return vuei18n.apply(this, arguments);
     }
 };
