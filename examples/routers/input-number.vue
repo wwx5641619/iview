@@ -8,6 +8,7 @@
         <!--<Input-number :max="10" :min="1" v-model="obj.v"></Input-number>-->
         <InputNumber :editable="false" :max="10" :min="1" :step="1.2" v-model="value2"></InputNumber>
         <InputNumber :precision="1" :max="10" :min="1" :step="0.1" v-model="value1"></InputNumber>
+        <InputNumber :min="0"/>
     </div>
 </template>
 <script>

@@ -16,6 +16,7 @@
         </div>
         <div :class="inputWrapClasses">
             <input
+                placeholder="请输入"
                 :id="elementId"
                 :class="inputClasses"
                 :disabled="disabled"
@@ -81,8 +82,7 @@
                 default: 1
             },
             value: {
-                type: Number,
-                default: 1
+                type: Number
             },
             size: {
                 validator (value) {

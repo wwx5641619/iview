@@ -152,6 +152,10 @@
         components: { iInput, Drop },
         directives: { clickoutside, TransferDom },
         props: {
+            timestamp: { // add by FEN 用来是否用时间戳来通信
+                type: Boolean,
+                default: true
+            },
             format: {
                 type: String
             },
@@ -509,7 +513,7 @@
             currentValue: {
                 immediate: true,
                 handler (val) {
-                    // console.log(val, '源值')
+//                     console.log(val, '源值')
                     // 如果没有 v-model 绑定，就会返回 undefined, 需要默认给一个空值
                     const timestampToDate = (timestamp = '') => {
                         // TODO 简单判断时间戳为13位
@@ -521,7 +525,7 @@
                         return timestamp;
                     };
 
-                    let _val = Array.isArray(val) ? val.map(item => item = timestampToDate(item)) : timestampToDate(val)
+                    let _val = Array.isArray(val) ? val.map(item => item = timestampToDate(item)) : timestampToDate(val);
 
                     // console.log(_val, '转成时间戳')
                     const type = this.type;
@@ -530,57 +534,58 @@
                         TYPE_VALUE_RESOLVER_MAP['default']
                     ).parser;
 
-                if (val && type === 'time' && !(val instanceof Date)) {
-                    val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                } else if (_val && type.match(/range$/) && Array.isArray(_val) && _val.filter(Boolean).length === 2 && !(_val[0] instanceof Date) && !(_val[1] instanceof Date)) {
-                    _val = _val.join(RANGE_SEPARATOR);
-                    _val = parser(_val, this.format || DEFAULT_FORMATS[type]);
-                    val = val.join(RANGE_SEPARATOR);
-                    val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                } else if (typeof val === 'string' && type.indexOf('time') !== 0) {
-                    val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
-                }
-
-                // console.log(_val, '转成 date 类型')
-                this.internalValue = val;
-
-                // add by FEN
-                //  返回组件的 value 的指为时间戳格式
-                const getTime = val => {
-                    // 有空数据的时候
-                    return val && val.getTime ? val.getTime() : val
-                }
-                const getTimestamp = val => {
-                    if (Array.isArray(val)) {
-                        val.forEach((item, i) => { val[i] = getTimestamp(item) })
-                        return val;
-                    } else {
-                        return getTime(val);
+                    if (val && type === 'time' && !(val instanceof Date)) {
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    } else if (_val && type.match(/range$/) && Array.isArray(_val) && _val.filter(Boolean).length === 2 && !(_val[0] instanceof Date) && !(_val[1] instanceof Date)) {
+                        _val = _val.join(RANGE_SEPARATOR);
+                        _val = parser(_val, this.format || DEFAULT_FORMATS[type]);
+                        val = val.join(RANGE_SEPARATOR);
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    } else if (typeof val === 'string' && type.indexOf('time') !== 0) {
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                     }
-                };
 
-                // console.log(getTimestamp(val), _val, '转成 时间戳 类型')
-                // 保持和原来组件的兼容，增加 timetamp 属性，用来确定是否返回时间戳
-                this.$emit('input', this.timestamp ? getTimestamp(val) : val)
+                    // console.log(_val, '转成 date 类型')
+                    this.internalValue = _val;
 
-            };
-        },
-        open (val) {
-            if (val === true) {
-                this.visible = val;
-                this.$emit('on-open-change', true);
-            } else if (val === false) {
-                this.$emit('on-open-change', false);
+                    // add by FEN
+                    //  返回组件的 value 的指为时间戳格式
+                    const getTime = val => {
+                        // 有空数据的时候
+                        return val && val.getTime ? val.getTime() : val;
+                    };
+                    const getTimestamp = val => {
+                        if (Array.isArray(val)) {
+                            val.forEach((item, i) => {
+                                val[i] = getTimestamp(item);
+                            });
+                            return val;
+                        } else {
+                            return getTime(val);
+                        }
+                    };
+
+//                     console.log(getTimestamp(val), _val, '转成 时间戳 类型')
+                    // 保持和原来组件的兼容，增加 timetamp 属性，用来确定是否返回时间戳
+                    this.$emit('input', this.timestamp ? getTimestamp(val) : val);
+                }
+            },
+            open (val) {
+                if (val === true) {
+                    this.visible = val;
+                    this.$emit('on-open-change', true);
+                } else if (val === false) {
+                    this.$emit('on-open-change', false);
+                }
             }
+        },
+        beforeDestroy () {
+            if (this.picker) {
+                this.picker.$destroy();
+            }
+        },
+        mounted () {
+            if (this.open !== null) this.visible = this.open;
         }
-    },
-    beforeDestroy () {
-        if (this.picker) {
-            this.picker.$destroy();
-        }
-    },
-    mounted () {
-        if (this.open !== null) this.visible = this.open;
-    }
 };
 </script>
