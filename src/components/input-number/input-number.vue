@@ -16,7 +16,7 @@
         </div>
         <div :class="inputWrapClasses">
             <input
-                placeholder="请输入"
+                :placeholder="placeholder"
                 :id="elementId"
                 :class="inputClasses"
                 :disabled="disabled"
@@ -69,6 +69,7 @@
         name: 'InputNumber',
         mixins: [ Emitter ],
         props: {
+            placeholder: [String],
             max: {
                 type: Number,
                 default: Infinity
