@@ -9,9 +9,9 @@
         </div>
         <div :class="[prefixCls + '-main']">
             <div :class="[prefixCls + '-title']" :style="bgStyles">{{ title }}</div>
-            <slot>
-                <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
-            </slot>
+            <div v-if="content || $slots.default" :class="[prefixCls + '-content']">
+                <slot>{{ content }}</slot>
+            </div>
         </div>
     </div>
 </template>

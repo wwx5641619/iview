@@ -7,20 +7,22 @@
     </Steps>
     <Button @click="change">change</Button>
     <br><br><br><br>
-    <hr>
-    <!--<Steps :current="1" size="small">-->
-        <!--<Step title="已完成" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>-->
-        <!--<Step title="进行中" content="这里是该步骤的描述信息"></Step>-->
-        <!--<Step title="待进行" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>-->
-        <!--<Step title="待进行" content="这里是该步骤的描述信息"></Step>-->
-    <!--</Steps>-->
-    <!--<br>-->
-    <!--<Steps :current="2">-->
-        <!--<Step title="已完成"></Step>-->
-        <!--<Step title="进行中"></Step>-->
-        <!--<Step title="待进行"></Step>-->
-        <!--<Step title="待进行"></Step>-->
-    <!--</Steps>-->
+    <Split size="large"/>
+    <Steps :current="1" size="small">
+        <Step title="已完成" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
+        <Step title="进行中" content="这里是该步骤的描述信息"></Step>
+        <Step title="待进行" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
+        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
+    </Steps>
+    <Split size="large"/>
+    <Steps>
+        <Step title="已完成" status="wait">
+            <Button type="primary" size="small">Edit</Button>
+        </Step>
+        <Step title="进行中" status="error"></Step>
+        <Step title="待进行" status="process"></Step>
+        <Step title="待进行" status="finish"></Step>
+    </Steps>
     <!--<br>-->
     <!--<Steps :current="1" size="small">-->
         <!--<Step title="已完成"></Step>-->
