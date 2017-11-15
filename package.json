@@ -1,7 +1,7 @@
 {
-  "name": "kagou",
-  "version": "1.4.3",
-  "title": "Kagou UI",
+  "name": "iview",
+  "version": "2.7.0",
+  "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.cargopm.com",
   "keywords": [
