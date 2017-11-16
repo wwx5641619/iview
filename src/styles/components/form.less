@@ -81,6 +81,34 @@
             }
         }
     }
+
+    // add by CargoPM FEN 增加纯文字排版
+    &-text{
+      .@{form-prefix-cls}{
+        &-item{
+          margin-bottom:0;
+
+          &-label{
+            font-weight:700;
+            line-height: inherit;
+            padding-top:0;
+            padding-bottom: 0;
+          }
+
+          &-content{
+            line-height: inherit;
+          }
+        }
+      }
+
+      &.@{form-prefix-cls}-label-top{
+        .@{form-prefix-cls}{
+          &-item{
+            margin-bottom: 12px;
+          }
+        }
+      }
+    }
 }
 
 .@{form-item-prefix-cls} {

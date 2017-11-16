@@ -41,6 +41,10 @@
                 type: Boolean,
                 default: false
             },
+            text: {
+                type: Boolean,
+                default: false
+            },
             autocomplete: {
                 validator (value) {
                     return oneOf(value, ['on', 'off']);
@@ -60,6 +64,7 @@
                     `${prefixCls}-label-${this.labelPosition}`,
                     {
                         [`${prefixCls}-inline`]: this.inline,
+                        [`${prefixCls}-text`]: this.text,
                         [`${prefixCls}-compact`]: this.compact
                     }
                 ];
