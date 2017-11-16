@@ -16,9 +16,7 @@
     </Steps>
     <Split size="large"/>
     <Steps>
-        <Step :title="item.approveUserName" status="wait" v-for="item in changeList">
-            {{item.approveUserName}}
-            <Split size="small" transparent/>
+        <Step title="等待中" status="wait">
             <Button type="primary" size="small">{{item.startTime}}</Button>
         </Step>
         <Step title="进行中" status="error"></Step>
