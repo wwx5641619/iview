@@ -2,6 +2,16 @@
     <div>
         <h4>基本</h4>
         <br><br>
+        <Button type="primary">primary</Button>
+        <Button type="warning">warning</Button>
+        <Button type="success">success</Button>
+        <Button type="error">error</Button>
+        <Button type="info">info</Button>
+        <Button type="ghost">ghost</Button>
+        <Button type="text">text</Button>
+        <Button type="link">link</Button>
+        <Button type="link" size="small">link</Button>
+        <br><br>
         <div>
             <Button type="primary">add</Button>
             <Button type="primary">remove</Button>
@@ -12,6 +22,7 @@
             <Button size="small" type="primary">add</Button>
             <Button size="small" type="primary">remove</Button>
             <Button size="small" type="primary">delete</Button>
+            <Button size="small" type="link">delete</Button>
         </div>
         <br><br>
         <div>

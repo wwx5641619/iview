@@ -271,6 +271,34 @@
     }
 }
 
+// Link add by FEN
+.btn-link() {
+    .button-variant(@link-color, @btn-ghost-bg, transparent);
+
+    // for disabled
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            .button-color(@btn-disable-color; @btn-ghost-bg; transparent);
+        }
+    }
+
+    &:hover
+        //&:focus
+    {
+        .button-color(@link-hover-color; @btn-ghost-bg; transparent);
+    }
+    &:active,
+    &.active {
+        .button-color(@link-active-color; @btn-ghost-bg; transparent);
+    }
+}
+
 // Color
 .btn-color(@color) {
     .button-variant(@btn-primary-color; @color; @color);
