@@ -10,6 +10,7 @@
         <Split small></Split>
         large
         <Split large></Split>
+        <Split large loss vertical></Split>
         <Split large></Split>
 
         <span>total: 333 <Split small vertical/>  Volume: 324</span>
