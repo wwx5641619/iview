@@ -11,7 +11,7 @@
         </Panel>
         
         <Panel shadow noHeaderBorder title="title">
-            asdkfj
+            <Panel gray  size="small">111</Panel>
         </Panel>
 
         <Panel gray shadow size="small">
