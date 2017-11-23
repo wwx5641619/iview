@@ -1,31 +1,62 @@
 <template>
-    <Panel shadow>
-        <Button @click="show">get</Button>
-        <Split transparent></Split>
-        <MergeTable :data="tableData" ref="table">
-            <tr slot="thead">
-                <th width="60">item</th>
-                <th>detail</th>
-                <th>status</th>
-                <th>input</th>
-                <th width="70">actions</th>
-            </tr>
-            <TableTr slot="tbody" slot-scope="props" :rowData="props">
-                <TableTd renderKey="item">
-                    {{tableData[props.rowData.rowIndex].item}}
-                    <Input v-model="tableData[props.rowData.rowIndex].item"/>
-                </TableTd>
-                <TableTd renderKey="detail"/>
-                <TableTd renderKey="status"/>
-                <TableTd>
-                    <Input v-model="props.rowData.dd.parent[props.rowData.dd.index].dd"/>
-                </TableTd>
-                <TableTd>
-                    <Button type="primary" size="small">{{props.index}} add</Button>
-                </TableTd>
-            </TableTr>
-        </MergeTable>
-    </Panel>
+    <div>
+        <Panel shadow>
+            <Button @click="show">get</Button>
+            <Button @click="show">show</Button>
+            <Button @click="hide">hide</Button>
+            <Split transparent></Split>
+            <MergeTable :data="tableData" ref="table" :loading="isLoading">
+                <tr slot="thead">
+                    <th width="60">item</th>
+                    <th>detail</th>
+                    <th>status</th>
+                    <th>input</th>
+                    <th width="70">actions</th>
+                </tr>
+                <TableTr slot="tbody" slot-scope="props" :rowData="props">
+                    <TableTd renderKey="item">
+                        {{tableData[props.rowData.rowIndex].item}}
+                        <Input v-model="tableData[props.rowData.rowIndex].item"/>
+                    </TableTd>
+                    <TableTd renderKey="detail"/>
+                    <TableTd renderKey="status"/>
+                    <TableTd>
+                        <Input v-model="props.rowData.dd.parent[props.rowData.dd.index].dd"/>
+                    </TableTd>
+                    <TableTd>
+                        <Button type="primary" size="small">{{props.index}} add</Button>
+                    </TableTd>
+                </TableTr>
+            </MergeTable>
+        </Panel>
+        <Panel shadow>
+            <Button @click="show">get</Button>
+            <Split transparent></Split>
+            <MergeTable :data="testData" ref="table">
+                <tr slot="thead">
+                    <th width="60">item</th>
+                    <th>detail</th>
+                    <th>status</th>
+                    <th>input</th>
+                    <th width="70">actions</th>
+                </tr>
+                <TableTr slot="tbody" slot-scope="props" :rowData="props">
+                    <TableTd renderKey="item">
+                        {{tableData[props.rowData.rowIndex].item}}
+                        <Input v-model="tableData[props.rowData.rowIndex].item"/>
+                    </TableTd>
+                    <TableTd renderKey="detail"/>
+                    <TableTd renderKey="status"/>
+                    <TableTd>
+                        <Input v-model="props.rowData.dd.parent[props.rowData.dd.index].dd"/>
+                    </TableTd>
+                    <TableTd>
+                        <Button type="primary" size="small">{{props.index}} add</Button>
+                    </TableTd>
+                </TableTr>
+            </MergeTable>
+        </Panel>
+    </div>
 </template>
 <script>
     export default {
@@ -33,6 +64,7 @@
             return {
                 i: 0,
                 testData: [],
+                isLoading: false,
                 tableData: [
                     {
                         item: 2,
@@ -72,26 +104,31 @@
                             }]
                     }
                 ]
-            }
+            };
         },
         methods: {
             trans (sourceData) {
-                const ret = []
-                let row = {}
-                let oldLength = 0
+                const ret = [];
+                let row = {};
+                let oldLength = 0;
                 sourceData.forEach(item => {
                     if (oldLength) {
-                        item.length < oldLength
+                        item.length < oldLength;
                     }
-                })
+                });
             },
             show () {
-                console.log(this.$refs.table.data)
-                console.log(this.$refs.table.mergedData)
+//                this.$Spin.show();
+                this.isLoading = true;
+                console.log(this.$refs.table.data);
+                console.log(this.$refs.table.mergedData);
+            },
+            hide () {
+                this.isLoading = false;
             },
             cc (dd) {
-                console.log(dd)
+                console.log(dd);
             }
         }
-    }
+    };
 </script>
