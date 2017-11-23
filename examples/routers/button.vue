@@ -3,6 +3,7 @@
         <h4>基本</h4>
         <br><br>
         <Button type="primary">primary</Button>
+        <Button >primary</Button>
         <Button type="warning">warning</Button>
         <Button type="success">success</Button>
         <Button type="error">error</Button>

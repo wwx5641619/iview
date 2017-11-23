@@ -263,11 +263,11 @@
     &:hover
         //&:focus
     {
-        .button-color(tint(@primary-color, 20%); @btn-ghost-bg; transparent);
+        .button-color(tint(@primary-color, 20%); shade(@btn-ghost-bg, 4%); transparent);
     }
     &:active,
     &.active {
-        .button-color(shade(@primary-color, 5%); @btn-ghost-bg; transparent);
+        .button-color(shade(@primary-color, 5%); shade(@btn-ghost-bg, 8%); transparent);
     }
 }
 
