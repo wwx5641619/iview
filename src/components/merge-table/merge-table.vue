@@ -62,8 +62,8 @@
         }
 
         &__no-data{
-            height: 300px;
-            line-height:300px;
+            height: 280px;
+            line-height:280px;
             border:1px solid @border-color-base;
             border-top:none;
             text-align: center;

@@ -4,7 +4,7 @@
             <Button @click="show">get</Button>
             <Button @click="show">show</Button>
             <Button @click="hide">hide</Button>
-            <Split transparent></Split>
+            <Split transparent small></Split>
             <MergeTable :data="tableData" ref="table" :loading="isLoading">
                 <tr slot="thead">
                     <th width="60">item</th>
@@ -31,8 +31,8 @@
         </Panel>
         <Panel shadow>
             <Button @click="show">get</Button>
-            <Split transparent></Split>
-            <MergeTable :data="testData" ref="table">
+            <Split transparent small></Split>
+            <MergeTable :data="testData" ref="table" :loading="isLoading">
                 <tr slot="thead">
                     <th width="60">item</th>
                     <th>detail</th>
@@ -119,7 +119,13 @@
             },
             show () {
 //                this.$Spin.show();
+                const that = this;
                 this.isLoading = true;
+                setTimeout(function () {
+//                    that.testDate = that.tableData;
+                    that.$set(that,'testData',that.tableData)
+                    that.isLoading = false;
+                },1000);
                 console.log(this.$refs.table.data);
                 console.log(this.$refs.table.mergedData);
             },
