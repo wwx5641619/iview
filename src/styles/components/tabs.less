@@ -118,11 +118,11 @@
             transition: color .3s @ease-in-out;
 
             &:hover {
-                color: @link-hover-color;
+                color: tint( @primary-color, 20%);
             }
 
             &:active {
-                color: @link-active-color;
+                color: shade( @primary-color, 20%);
             }
             .@{css-prefix-iconfont} {
                 width: 14px;
