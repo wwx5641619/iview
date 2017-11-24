@@ -8,9 +8,9 @@
         <!--<Input-number :max="10" :min="1" v-model="obj.v"></Input-number>-->
         <InputNumber :editable="false" :max="10" :min="1" :step="1.2" v-model="value2"></InputNumber>
         <InputNumber :precision="1" :max="10" :min="1" :step="0.1" v-model="value1"></InputNumber>
-        <InputNumber :min="0" placeholder="hhhhh"/>
+        <InputNumber :min="0" placeholder="hhhhh" :show-handler="true"/>
+        <InputNumber placeholder="hhhhh" show-handler="hover" v-model="v3" />
         <InputNumber placeholder="hhhhh"  v-model="v3" />
-        <Input placeholder="hhhhh"/>
     </div>
 </template>
 <script>

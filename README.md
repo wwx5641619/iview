@@ -11,6 +11,22 @@
 <Date-picker :timestamp="false"></Date-picker>
 ```
 
+### input-number
+新增 showHandler, placeholder 属性，默认是 false， [false, true, 'hover]
+
+@param false  始终不显示
+
+@param true  始终显示
+
+@param 'hover' 鼠标移上去显示
+
+``` javascript
+<InputNumber :min="0" placeholder="我是 placehover" :show-handler="true"/>
+<InputNumber show-handler="hover" />
+<InputNumber />
+```
+
+
 ## Links
 
 - [TalkingData](https://github.com/TalkingData)

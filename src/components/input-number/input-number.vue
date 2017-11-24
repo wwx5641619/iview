@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapClasses">
-        <div :class="handlerClasses">
+        <div :class="handlerClasses" v-if="showHandler">
             <a
                 @click="up"
                 @mousedown="preventDefault"
@@ -70,6 +70,11 @@
         mixins: [ Emitter ],
         props: {
             placeholder: [String],
+            'show-handler': {
+                validator (value) {
+                    return oneOf(value, [false, true, 'hover']);
+                }
+            },
             max: {
                 type: Number,
                 default: Infinity
@@ -131,7 +136,8 @@
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-focused`]: this.focused
+                        [`${prefixCls}-focused`]: this.focused,
+                        [`${prefixCls}--show-handler`]: this.showHandler === true
                     }
                 ];
             },
