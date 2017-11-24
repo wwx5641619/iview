@@ -13,6 +13,9 @@
         <Split large loss vertical></Split>
         <Split large></Split>
 
+        111
+        <Split loss></Split>
+222
         <span>total: 333 <Split small vertical/>  Volume: 324</span>
         <br>
         <span class="fs14">total: 333 <Split vertical/>  Volume: 324</span>
