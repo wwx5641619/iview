@@ -5,7 +5,8 @@
 
 # 组件调整说明
 ### datepick 
-组件新增 timestamp 接口，默认是 true ，使组件采用时间戳的格式来绑定
+- 组件新增 timestamp 接口，默认是 true ，使组件采用时间戳的格式来绑定
+- 新增 options 属性的 sidebarWidth 配置，使组件支持自定义宽度，类型 Nunber ，单位 px
 ``` javascript
 // 原来的模式，返回的是 date 类型
 <Date-picker :timestamp="false"></Date-picker>

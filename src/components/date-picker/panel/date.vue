@@ -1,6 +1,6 @@
 <template>
-    <div :class="classes" @mousedown.prevent>
-        <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length">
+    <div :class="classes" @mousedown.prevent :style="'padding-left:'+sidebarWidth+'px'">
+        <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length" :style="'width:'+sidebarWidth+'px;margin-left: -'+sidebarWidth+'px'">
             <div
                 :class="[prefixCls + '-shortcut']"
                 v-for="shortcut in shortcuts"
@@ -99,6 +99,7 @@
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
                 shortcuts: [],
+                sidebarWidth: '',
                 currentView: 'date',
                 date: initTimeDate(),
                 value: '',

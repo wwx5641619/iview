@@ -8,6 +8,8 @@
         <Date-picker type="date" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
         <Date-picker :timestamp="false" v-model="value4" type="date" placeholder="选择日期" style="width: 200px"
                      @on-change="hc"></Date-picker>
+        <Date-picker :options="options1" v-model="value1" type="daterange" placeholder="选择日期" style="width: 200px"
+                     @on-change="hc"></Date-picker>
         <Button @click="setDate">set date</Button>
         <Button @click="getDate">get date</Button>
 
@@ -30,6 +32,7 @@
         data () {
             return {
                 options1: {
+                    sidebarWidth: 106,
                     shortcuts: [
                         {
                             text: 'Today 11 11111',

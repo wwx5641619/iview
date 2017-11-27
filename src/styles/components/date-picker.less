@@ -218,26 +218,18 @@
             }
         }
 
-        // by FEN 让 sidebar 的宽度能随文字自适应
-        // todo 高度超出后不会有滚动条，暂时不会有这样场景出现
         &-body-wrapper&-with-sidebar{
-            //padding-left: 92px;
-            background: @table-thead-bg;
-            .clearfix;
-            .@{picker-prefix-cls}-panel-body{
-                background: #fff;
-                border-left: 1px solid @border-color-split;
-            }
+            padding-left: 92px;
         }
         &-sidebar{
-            //width: 92px;
+            width: 92px;
             float: left;
-            //margin-left: -92px;
-            //position: absolute;
-            //top: 0;
-            //bottom: 0;
-            //max-width: 160px;
+            margin-left: -92px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
             background: @table-thead-bg;
+            border-right: 1px solid @border-color-split;
             border-radius: @border-radius-small 0 0 @border-radius-small;
             overflow: auto;
         }

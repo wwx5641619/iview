@@ -3,47 +3,47 @@
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
-                    :element-id="elementId"
-                    :class="[prefixCls + '-editor']"
-                    :readonly="!editable || readonly"
-                    :disabled="disabled"
-                    :size="size"
-                    :placeholder="placeholder"
-                    :value="visualValue"
-                    :name="name"
-                    @on-input-change="handleInputChange"
-                    @on-focus="handleFocus"
-                    @on-blur="handleBlur"
-                    @on-click="handleIconClick"
-                    @mouseenter.native="handleInputMouseenter"
-                    @mouseleave.native="handleInputMouseleave"
-                    :icon="iconType"></i-input>
+                        :element-id="elementId"
+                        :class="[prefixCls + '-editor']"
+                        :readonly="!editable || readonly"
+                        :disabled="disabled"
+                        :size="size"
+                        :placeholder="placeholder"
+                        :value="visualValue"
+                        :name="name"
+                        @on-input-change="handleInputChange"
+                        @on-focus="handleFocus"
+                        @on-blur="handleBlur"
+                        @on-click="handleIconClick"
+                        @mouseenter.native="handleInputMouseenter"
+                        @mouseleave.native="handleInputMouseleave"
+                        :icon="iconType"></i-input>
             </slot>
         </div>
         <transition :name="transition">
             <Drop
-                @click.native="handleTransferClick"
-                v-show="opened"
-                :class="{ [prefixCls + '-transfer']: transfer }"
-                :placement="placement"
-                ref="drop"
-                :data-transfer="transfer"
-                v-transfer-dom>
+                    @click.native="handleTransferClick"
+                    v-show="opened"
+                    :class="{ [prefixCls + '-transfer']: transfer }"
+                    :placement="placement"
+                    ref="drop"
+                    :data-transfer="transfer"
+                    v-transfer-dom>
                 <div ref="picker"></div>
             </Drop>
         </transition>
     </div>
 </template>
 <script>
-    import iInput from '../../components/input/input.vue';
-    import Drop from '../../components/select/dropdown.vue';
-    import clickoutside from '../../directives/clickoutside';
-    import TransferDom from '../../directives/transfer-dom';
-    import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
-    import Emitter from '../../mixins/emitter';
+    import iInput from '../../components/input/input.vue'
+    import Drop from '../../components/select/dropdown.vue'
+    import clickoutside from '../../directives/clickoutside'
+    import TransferDom from '../../directives/transfer-dom'
+    import {oneOf} from '../../utils/assist'
+    import {formatDate, parseDate} from './util'
+    import Emitter from '../../mixins/emitter'
 
-    const prefixCls = 'ivu-date-picker';
+    const prefixCls = 'ivu-date-picker'
 
     const DEFAULT_FORMATS = {
         date: 'yyyy-MM-dd',
@@ -54,47 +54,47 @@
         timerange: 'HH:mm:ss',
         daterange: 'yyyy-MM-dd',
         datetimerange: 'yyyy-MM-dd HH:mm:ss'
-    };
+    }
 
-    const RANGE_SEPARATOR = ' - ';
+    const RANGE_SEPARATOR = ' - '
 
-    const DATE_FORMATTER = function(value, format) {
-        return formatDate(value, format);
-    };
-    const DATE_PARSER = function(text, format) {
-        return parseDate(text, format);
-    };
-    const RANGE_FORMATTER = function(value, format) {
+    const DATE_FORMATTER = function (value, format) {
+        return formatDate(value, format)
+    }
+    const DATE_PARSER = function (text, format) {
+        return parseDate(text, format)
+    }
+    const RANGE_FORMATTER = function (value, format) {
         if (Array.isArray(value) && value.length === 2) {
-            const start = value[0];
-            const end = value[1];
+            const start = value[0]
+            const end = value[1]
 
             if (start && end) {
-                return formatDate(start, format) + RANGE_SEPARATOR + formatDate(end, format);
+                return formatDate(start, format) + RANGE_SEPARATOR + formatDate(end, format)
             }
         }
-        return '';
-    };
-    const RANGE_PARSER = function(text, format) {
-        const array = text.split(RANGE_SEPARATOR);
+        return ''
+    }
+    const RANGE_PARSER = function (text, format) {
+        const array = text.split(RANGE_SEPARATOR)
         if (array.length === 2) {
-            const range1 = array[0];
-            const range2 = array[1];
+            const range1 = array[0]
+            const range2 = array[1]
 
-            return [parseDate(range1, format), parseDate(range2, format)];
+            return [parseDate(range1, format), parseDate(range2, format)]
         }
-        return [];
-    };
+        return []
+    }
 
     const TYPE_VALUE_RESOLVER_MAP = {
         default: {
-            formatter(value) {
-                if (!value) return '';
-                return '' + value;
+            formatter (value) {
+                if (!value) return ''
+                return '' + value
             },
-            parser(text) {
-                if (text === undefined || text === '') return null;
-                return text;
+            parser (text) {
+                if (text === undefined || text === '') return null
+                return text
             }
         },
         date: {
@@ -130,28 +130,32 @@
             parser: DATE_PARSER
         },
         number: {
-            formatter(value) {
-                if (!value) return '';
-                return '' + value;
+            formatter (value) {
+                if (!value) return ''
+                return '' + value
             },
-            parser(text) {
-                let result = Number(text);
+            parser (text) {
+                let result = Number(text)
 
                 if (!isNaN(text)) {
-                    return result;
+                    return result
                 } else {
-                    return null;
+                    return null
                 }
             }
         }
-    };
+    }
 
     export default {
         name: 'CalendarPicker',
-        mixins: [ Emitter ],
-        components: { iInput, Drop },
-        directives: { clickoutside, TransferDom },
+        mixins: [Emitter],
+        components: {iInput, Drop},
+        directives: {clickoutside, TransferDom},
         props: {
+            sidebarWidth: {
+                type: Number,
+                default: 96
+            },
             timestamp: { // add by FEN 用来是否用时间戳来通信
                 type: Boolean,
                 default: true
@@ -185,7 +189,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large', 'default']);
+                    return oneOf(value, ['small', 'large', 'default'])
                 }
             },
             placeholder: {
@@ -194,7 +198,7 @@
             },
             placement: {
                 validator (value) {
-                    return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']);
+                    return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end'])
                 },
                 default: 'bottom-start'
             },
@@ -222,293 +226,293 @@
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
                 currentValue: this.value
-            };
+            }
         },
         computed: {
             opened () {
-                return this.open === null ? this.visible : this.open;
+                return this.open === null ? this.visible : this.open
             },
             iconType () {
-                let icon = 'ios-calendar-outline';
-                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline';
-                if (this.showClose) icon = 'ios-close';
-                return icon;
+                let icon = 'ios-calendar-outline'
+                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline'
+                if (this.showClose) icon = 'ios-close'
+                return icon
             },
             transition () {
                 if (this.placement === 'bottom-start' || this.placement === 'bottom' || this.placement === 'bottom-end') {
-                    return 'slide-up';
+                    return 'slide-up'
                 } else {
-                    return 'slide-down';
+                    return 'slide-down'
                 }
             },
-            selectionMode() {
+            selectionMode () {
                 if (this.type === 'month') {
-                    return 'month';
+                    return 'month'
                 } else if (this.type === 'year') {
-                    return 'year';
+                    return 'year'
                 }
 
-                return 'day';
+                return 'day'
             },
             visualValue: {
                 get () {
-                    const value = this.internalValue;
-                    if (!value) return;
+                    const value = this.internalValue
+                    if (!value) return
                     const formatter = (
                         TYPE_VALUE_RESOLVER_MAP[this.type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
-                    ).formatter;
-                    const format = DEFAULT_FORMATS[this.type];
+                    ).formatter
+                    const format = DEFAULT_FORMATS[this.type]
 
-                    return formatter(value, this.format || format);
+                    return formatter(value, this.format || format)
                 },
 
                 set (value) {
                     if (value) {
-                        const type = this.type;
+                        const type = this.type
                         const parser = (
                             TYPE_VALUE_RESOLVER_MAP[type] ||
                             TYPE_VALUE_RESOLVER_MAP['default']
-                        ).parser;
-                        const parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
+                        ).parser
+                        const parsedValue = parser(value, this.format || DEFAULT_FORMATS[type])
                         if (parsedValue) {
-                            if (this.picker) this.picker.value = parsedValue;
+                            if (this.picker) this.picker.value = parsedValue
                         }
-                        return;
+                        return
                     }
-                    if (this.picker) this.picker.value = value;
+                    if (this.picker) this.picker.value = value
                 }
             }
         },
         methods: {
             // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
             handleTransferClick () {
-                if (this.transfer) this.disableCloseUnderTransfer = true;
+                if (this.transfer) this.disableCloseUnderTransfer = true
             },
             handleClose () {
                 if (this.disableCloseUnderTransfer) {
-                    this.disableCloseUnderTransfer = false;
-                    return false;
+                    this.disableCloseUnderTransfer = false
+                    return false
                 }
-                if (this.open !== null) return;
+                if (this.open !== null) return
 //                if (!this.disableClickOutSide) this.visible = false;
-                this.visible = false;
-                this.disableClickOutSide = false;
+                this.visible = false
+                this.disableClickOutSide = false
             },
             handleFocus () {
-                if (this.readonly) return;
-                this.visible = true;
+                if (this.readonly) return
+                this.visible = true
             },
             handleBlur () {
-                this.visible = false;
+                this.visible = false
             },
             handleInputChange (event) {
-                const oldValue = this.visualValue;
-                const value = event.target.value;
+                const oldValue = this.visualValue
+                const value = event.target.value
 
-                let correctValue = '';
-                let correctDate = '';
-                const type = this.type;
-                const format = this.format || DEFAULT_FORMATS[type];
+                let correctValue = ''
+                let correctDate = ''
+                const type = this.type
+                const format = this.format || DEFAULT_FORMATS[type]
 
                 if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
                     const parser = (
                         TYPE_VALUE_RESOLVER_MAP[type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
-                    ).parser;
+                    ).parser
 
                     const formatter = (
                         TYPE_VALUE_RESOLVER_MAP[type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
-                    ).formatter;
+                    ).formatter
 
-                    const parsedValue = parser(value, format);
+                    const parsedValue = parser(value, format)
 
                     if (parsedValue[0] instanceof Date && parsedValue[1] instanceof Date) {
                         if (parsedValue[0].getTime() > parsedValue[1].getTime()) {
-                            correctValue = oldValue;
+                            correctValue = oldValue
                         } else {
-                            correctValue = formatter(parsedValue, format);
+                            correctValue = formatter(parsedValue, format)
                         }
                         // todo 判断disabledDate
                     } else {
-                        correctValue = oldValue;
+                        correctValue = oldValue
                     }
 
-                    correctDate = parser(correctValue, format);
+                    correctDate = parser(correctValue, format)
                 } else if (type === 'time') {
-                    const parsedDate = parseDate(value, format);
+                    const parsedDate = parseDate(value, format)
 
                     if (parsedDate instanceof Date) {
                         if (this.disabledHours.length || this.disabledMinutes.length || this.disabledSeconds.length) {
-                            const hours = parsedDate.getHours();
-                            const minutes = parsedDate.getMinutes();
-                            const seconds = parsedDate.getSeconds();
+                            const hours = parsedDate.getHours()
+                            const minutes = parsedDate.getMinutes()
+                            const seconds = parsedDate.getSeconds()
 
                             if ((this.disabledHours.length && this.disabledHours.indexOf(hours) > -1) ||
                                 (this.disabledMinutes.length && this.disabledMinutes.indexOf(minutes) > -1) ||
                                 (this.disabledSeconds.length && this.disabledSeconds.indexOf(seconds) > -1)) {
-                                correctValue = oldValue;
+                                correctValue = oldValue
                             } else {
-                                correctValue = formatDate(parsedDate, format);
+                                correctValue = formatDate(parsedDate, format)
                             }
                         } else {
-                            correctValue = formatDate(parsedDate, format);
+                            correctValue = formatDate(parsedDate, format)
                         }
                     } else {
-                        correctValue = oldValue;
+                        correctValue = oldValue
                     }
 
-                    correctDate = parseDate(correctValue, format);
+                    correctDate = parseDate(correctValue, format)
                 } else {
-                    const parsedDate = parseDate(value, format);
+                    const parsedDate = parseDate(value, format)
 
                     if (parsedDate instanceof Date) {
-                        const options = this.options || false;
+                        const options = this.options || false
                         if (options && options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
-                            correctValue = oldValue;
+                            correctValue = oldValue
                         } else {
-                            correctValue = formatDate(parsedDate, format);
+                            correctValue = formatDate(parsedDate, format)
                         }
                     } else if (!parsedDate) {
-                        correctValue = '';
+                        correctValue = ''
                     } else {
-                        correctValue = oldValue;
+                        correctValue = oldValue
                     }
 
-                    correctDate = parseDate(correctValue, format);
+                    correctDate = parseDate(correctValue, format)
                 }
 
-                this.visualValue = correctValue;
-                event.target.value = correctValue;
-                this.internalValue = correctDate;
-                this.currentValue = correctDate;
+                this.visualValue = correctValue
+                event.target.value = correctValue
+                this.internalValue = correctDate
+                this.currentValue = correctDate
 
-                if (correctValue !== oldValue) this.emitChange(correctDate);
+                if (correctValue !== oldValue) this.emitChange(correctDate)
             },
             handleInputMouseenter () {
-                if (this.readonly || this.disabled) return;
+                if (this.readonly || this.disabled) return
                 if (this.visualValue && this.clearable) {
-                    this.showClose = true;
+                    this.showClose = true
                 }
             },
             handleInputMouseleave () {
-                this.showClose = false;
+                this.showClose = false
             },
             handleIconClick () {
                 if (this.showClose) {
-                    this.handleClear();
+                    this.handleClear()
                 } else if (!this.disabled) {
-                    this.handleFocus();
+                    this.handleFocus()
                 }
             },
             handleClear () {
-                this.visible = false;
-                this.internalValue = '';
-                this.currentValue = '';
-                this.$emit('on-clear');
-                this.dispatch('FormItem', 'on-form-change', '');
+                this.visible = false
+                this.internalValue = ''
+                this.currentValue = ''
+                this.$emit('on-clear')
+                this.dispatch('FormItem', 'on-form-change', '')
                 // #2215，当初始设置了 value，直接点 clear，这时 this.picker 还没有加载
                 if (!this.picker) {
-                    this.emitChange('');
+                    this.emitChange('')
                 }
             },
             showPicker () {
                 if (!this.picker) {
-                    let isConfirm = this.confirm;
-                    const type = this.type;
+                    let isConfirm = this.confirm
+                    const type = this.type
 
-                    this.picker = this.Panel.$mount(this.$refs.picker);
+                    this.picker = this.Panel.$mount(this.$refs.picker)
                     if (type === 'datetime' || type === 'datetimerange') {
-                        isConfirm = true;
-                        this.picker.showTime = true;
+                        isConfirm = true
+                        this.picker.showTime = true
                     }
-                    this.picker.value = this.internalValue;
-                    this.picker.confirm = isConfirm;
-                    this.picker.selectionMode = this.selectionMode;
-                    if (this.format) this.picker.format = this.format;
+                    this.picker.value = this.internalValue
+                    this.picker.confirm = isConfirm
+                    this.picker.selectionMode = this.selectionMode
+                    if (this.format) this.picker.format = this.format
 
                     // TimePicker
-                    if (this.disabledHours) this.picker.disabledHours = this.disabledHours;
-                    if (this.disabledMinutes) this.picker.disabledMinutes = this.disabledMinutes;
-                    if (this.disabledSeconds) this.picker.disabledSeconds = this.disabledSeconds;
-                    if (this.hideDisabledOptions) this.picker.hideDisabledOptions = this.hideDisabledOptions;
+                    if (this.disabledHours) this.picker.disabledHours = this.disabledHours
+                    if (this.disabledMinutes) this.picker.disabledMinutes = this.disabledMinutes
+                    if (this.disabledSeconds) this.picker.disabledSeconds = this.disabledSeconds
+                    if (this.hideDisabledOptions) this.picker.hideDisabledOptions = this.hideDisabledOptions
 
-                    const options = this.options;
+                    const options = this.options
                     for (const option in options) {
-                        this.picker[option] = options[option];
+                        this.picker[option] = options[option]
                     }
 
                     this.picker.$on('on-pick', (date, visible = false) => {
-                        if (!isConfirm) this.visible = visible;
-                        this.currentValue = date;
-                        this.picker.value = date;
-                        this.picker.resetView && this.picker.resetView();
-                        this.emitChange(date);
-                    });
+                        if (!isConfirm) this.visible = visible
+                        this.currentValue = date
+                        this.picker.value = date
+                        this.picker.resetView && this.picker.resetView()
+                        this.emitChange(date)
+                    })
 
                     this.picker.$on('on-pick-clear', () => {
-                        this.handleClear();
-                    });
+                        this.handleClear()
+                    })
                     this.picker.$on('on-pick-success', () => {
-                        this.visible = false;
-                        this.$emit('on-ok');
-                    });
-                    this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
+                        this.visible = false
+                        this.$emit('on-ok')
+                    })
+                    this.picker.$on('on-pick-click', () => this.disableClickOutSide = true)
                 }
                 if (this.internalValue instanceof Date) {
-                    this.picker.date = new Date(this.internalValue.getTime());
+                    this.picker.date = new Date(this.internalValue.getTime())
                 } else {
-                    this.picker.value = this.internalValue;
+                    this.picker.value = this.internalValue
                 }
-                this.picker.resetView && this.picker.resetView();
+                this.picker.resetView && this.picker.resetView()
             },
             emitChange (date) {
-                const newDate = this.formattingDate(date);
+                const newDate = this.formattingDate(date)
 
-                this.$emit('on-change', newDate);
+                this.$emit('on-change', newDate)
                 this.$nextTick(() => {
-                    this.dispatch('FormItem', 'on-form-change', newDate);
-                });
+                    this.dispatch('FormItem', 'on-form-change', newDate)
+                })
             },
             formattingDate (date) {
-                const type = this.type;
-                const format = this.format || DEFAULT_FORMATS[type];
+                const type = this.type
+                const format = this.format || DEFAULT_FORMATS[type]
                 const formatter = (
                     TYPE_VALUE_RESOLVER_MAP[type] ||
                     TYPE_VALUE_RESOLVER_MAP['default']
-                ).formatter;
+                ).formatter
 
-                let newDate = formatter(date, format);
+                let newDate = formatter(date, format)
                 if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
-                    newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
+                    newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]]
                 }
-                return newDate;
+                return newDate
             }
         },
         watch: {
             visible (val) {
                 if (val) {
-                    this.showPicker();
-                    this.$refs.drop.update();
-                    if (this.open === null) this.$emit('on-open-change', true);
+                    this.showPicker()
+                    this.$refs.drop.update()
+                    if (this.open === null) this.$emit('on-open-change', true)
                 } else {
-                    if (this.picker) this.picker.resetView && this.picker.resetView(true);
-                    this.$refs.drop.destroy();
-                    if (this.open === null) this.$emit('on-open-change', false);
+                    if (this.picker) this.picker.resetView && this.picker.resetView(true)
+                    this.$refs.drop.destroy()
+                    if (this.open === null) this.$emit('on-open-change', false)
                     // blur the input
-                    const input = this.$el.querySelector('input');
-                    if (input) input.blur();
+                    const input = this.$el.querySelector('input')
+                    if (input) input.blur()
                 }
             },
-            internalValue(val) {
+            internalValue (val) {
                 if (!val && this.picker && typeof this.picker.handleClear === 'function') {
-                    this.picker.handleClear();
+                    this.picker.handleClear()
                 }
 //                this.$emit('input', val);
             },
             value (val) {
-                this.currentValue = val;
+                this.currentValue = val
             },
             currentValue: {
                 immediate: true,
@@ -518,74 +522,74 @@
                     const timestampToDate = (timestamp = '') => {
                         // TODO 简单判断时间戳为13位
                         if (timestamp && timestamp.toString().length === 13) {
-                            const newDate = new Date();
-                            newDate.setTime(timestamp);
-                            return newDate;
+                            const newDate = new Date()
+                            newDate.setTime(timestamp)
+                            return newDate
                         }
-                        return timestamp;
-                    };
+                        return timestamp
+                    }
 
-                    let _val = Array.isArray(val) ? val.map(item => item = timestampToDate(item)) : timestampToDate(val);
+                    let _val = Array.isArray(val) ? val.map(item => item = timestampToDate(item)) : timestampToDate(val)
 
                     // console.log(_val, '转成时间戳')
-                    const type = this.type;
+                    const type = this.type
                     const parser = (
                         TYPE_VALUE_RESOLVER_MAP[type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
-                    ).parser;
+                    ).parser
 
                     if (val && type === 'time' && !(val instanceof Date)) {
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                        val = parser(val, this.format || DEFAULT_FORMATS[type])
                     } else if (_val && type.match(/range$/) && Array.isArray(_val) && _val.filter(Boolean).length === 2 && !(_val[0] instanceof Date) && !(_val[1] instanceof Date)) {
-                        _val = _val.join(RANGE_SEPARATOR);
-                        _val = parser(_val, this.format || DEFAULT_FORMATS[type]);
-                        val = val.join(RANGE_SEPARATOR);
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                        _val = _val.join(RANGE_SEPARATOR)
+                        _val = parser(_val, this.format || DEFAULT_FORMATS[type])
+                        val = val.join(RANGE_SEPARATOR)
+                        val = parser(val, this.format || DEFAULT_FORMATS[type])
                     } else if (typeof val === 'string' && type.indexOf('time') !== 0) {
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]) || val
                     }
 
                     // console.log(_val, '转成 date 类型')
-                    this.internalValue = _val;
+                    this.internalValue = _val
 
                     // add by FEN
                     //  返回组件的 value 的指为时间戳格式
                     const getTime = val => {
                         // 有空数据的时候
-                        return val && val.getTime ? val.getTime() : val;
-                    };
+                        return val && val.getTime ? val.getTime() : val
+                    }
                     const getTimestamp = val => {
                         if (Array.isArray(val)) {
                             val.forEach((item, i) => {
-                                val[i] = getTimestamp(item);
-                            });
-                            return val;
+                                val[i] = getTimestamp(item)
+                            })
+                            return val
                         } else {
-                            return getTime(val);
+                            return getTime(val)
                         }
-                    };
+                    }
 
 //                     console.log(getTimestamp(val), _val, '转成 时间戳 类型')
                     // 保持和原来组件的兼容，增加 timetamp 属性，用来确定是否返回时间戳
-                    this.$emit('input', this.timestamp ? getTimestamp(val) : val);
+                    this.$emit('input', this.timestamp ? getTimestamp(val) : val)
                 }
             },
             open (val) {
                 if (val === true) {
-                    this.visible = val;
-                    this.$emit('on-open-change', true);
+                    this.visible = val
+                    this.$emit('on-open-change', true)
                 } else if (val === false) {
-                    this.$emit('on-open-change', false);
+                    this.$emit('on-open-change', false)
                 }
             }
         },
         beforeDestroy () {
             if (this.picker) {
-                this.picker.$destroy();
+                this.picker.$destroy()
             }
         },
         mounted () {
-            if (this.open !== null) this.visible = this.open;
+            if (this.open !== null) this.visible = this.open
         }
-};
+    }
 </script>
