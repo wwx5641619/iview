@@ -6,7 +6,8 @@ const lang = {
         select: {
             placeholder: 'Select',
             noMatch: 'No matching data',
-            loading: 'Loading'
+            loading: 'Loading',
+            add: 'Add'
         },
         table: {
             noDataText: 'No Data',

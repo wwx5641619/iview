@@ -6,7 +6,8 @@ const lang = {
         select: {
             placeholder: '请选择',
             noMatch: '无匹配数据',
-            loading: '加载中'
+            loading: '加载中',
+            add: '新增'
         },
         table: {
             noDataText: '暂无数据',

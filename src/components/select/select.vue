@@ -37,11 +37,13 @@
                 v-show="dropVisible"
                 :placement="placement"
                 ref="dropdown"
+                @scroll="hh"
                 :data-transfer="transfer"
                 v-transfer-dom>
                 <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
-                <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
+                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="dropdownListCls"><slot></slot></ul>
+                <div v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</div>  <!--by FEN ul -> div，与 html 规范不符合-->
+                <div v-if="extra" :class="[prefixCls + '__extra']"><Button long type="text" class="tal" @click="handleExtraClick"><Icon type="plus"></Icon> {{extraText ? extraText : t('i.select.add')}}</Button></div>
             </Drop>
         </transition>
     </div>
@@ -64,6 +66,14 @@
         components: { Icon, Drop },
         directives: { clickoutside, TransferDom },
         props: {
+            extra: {
+                type: Boolean,
+                default: false
+            },
+            extraText: {
+                type: String,
+                default: ''
+            },
             value: {
                 type: [String, Number, Array],
                 default: ''
@@ -173,7 +183,7 @@
                         [`${prefixCls}-multiple`]: this.multiple,
                         [`${prefixCls}-single`]: !this.multiple,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
                     }
                 ];
             },
@@ -182,7 +192,13 @@
                     [prefixCls + '-dropdown-transfer']: this.transfer,
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
                     ['ivu-auto-complete']: this.autoComplete,
+                    [`${prefixCls}-dropdown--extra`]: this.extra,
                 };
+            },
+            dropdownListCls () {
+                return [
+                    `${prefixCls}-dropdown-list`
+                ];
             },
             selectionCls () {
                 return {
@@ -261,6 +277,14 @@
             }
         },
         methods: {
+            hh (e) {
+                console.log(e)
+                e.preventDefault();
+            },
+            handleExtraClick () { // by FEN 下拉框中新增按钮被点击
+                this.hideMenu();
+                this.$emit('on-extra-click');
+            },
             toggleMenu () {
                 if (this.disabled || this.autoComplete) {
                     return false;

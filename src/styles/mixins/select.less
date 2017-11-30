@@ -11,6 +11,15 @@
         cursor: pointer;
         transition: background @transition-time @ease-in-out;
 
+        &:first-child{
+            border-top-left-radius:@btn-border-radius;
+            border-top-right-radius:@btn-border-radius;
+        }
+        &:last-child{
+            border-bottom-left-radius:@btn-border-radius;
+            border-bottom-right-radius:@btn-border-radius;
+        }
+
         &:hover{
             background: @background-color-select-hover;
         }
