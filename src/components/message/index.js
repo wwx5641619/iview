@@ -38,21 +38,21 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
     const loadCls = type === 'loading' ? ' ivu-load-loop' : '';
 
     let instance = getMessageInstance();
-
     instance.notice({
         name: `${prefixKey}${name}`,
         duration: duration,
         styles: {},
         transitionName: 'move-up',
         content: `
-            <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
+            <div class="${prefixCls}-custom-content">
                 <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}${loadCls}"></i>
                 <span>${content}</span>
             </div>
         `,
         onClose: onClose,
         closable: closable,
-        type: 'message'
+        type: 'message',
+        contentClassName: `${prefixCls}-${type}`
     });
 
     // 用于手动消除

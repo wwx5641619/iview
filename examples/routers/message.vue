@@ -12,7 +12,7 @@
         methods: {
             info () {
 //                this.$Message.info('这是一条普通提示');
-                this.$Message.success({
+                this.$Message.info({
                     content: '这是一条普通提示2',
                     duration: 500,
                     onClose () {
@@ -24,14 +24,22 @@
             success () {
                 this.$Message.success({
                     content: '这是一条成功的提示',
-                    duration: 4
+                    duration: 4,
+                    closable: true
                 });
             },
             warning () {
-                this.$Message.warning('这是一条警告的提示');
+                this.$Message.warning({
+                    content: '这是一条警告的提示',
+                    closable: true
+                });
             },
             error () {
-                this.$Message.error('对方不想说话，并且向你抛出了一个异常');
+                this.$Message.error({
+                    content: '对方不想说话，并且向你抛出了一个异常',
+                    duration: 500,
+                    closable: true
+                });
             },
             destroy () {
                 this.$Message.destroy();

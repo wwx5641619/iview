@@ -52,21 +52,32 @@
         }
     }
 
-    &-success .@{icon-prefix-cls} {
-        color: @success-color;
+    &-success,&-warning,&-error  {
+        background: @success-color;
+        color: #fff;
+        .@{icon-prefix-cls}{
+            color: #fff;
+        }
+        .@{message-prefix-cls}-notice-close{
+            color: #fff;
+
+            i.@{icon-prefix-cls}{
+                .close-base(-3px, 22px, #fff);
+            }
+        }
     }
 
-    &-error .@{icon-prefix-cls} {
-        color: @error-color;
+    &-error  {
+        background: @error-color;
     }
 
-    &-warning .@{icon-prefix-cls} {
-        color: @warning-color;
+    &-warning  {
+        background: @warning-color;
     }
 
     &-info .@{icon-prefix-cls},
     &-loading .@{icon-prefix-cls} {
-        color: @primary-color;
+        color: @info-color;
     }
 
     .@{icon-prefix-cls} {

@@ -2,13 +2,13 @@
     <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave">
         <div :class="classes" :style="styles">
             <template v-if="type === 'notice'">
-                <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
+                <div :class="contentClasses" ref="content" v-html="content"></div>
                 <a :class="[baseClass + '-close']" @click="close" v-if="closable">
                     <i class="ivu-icon ivu-icon-ios-close-empty"></i>
                 </a>
             </template>
             <template v-if="type === 'message'">
-                <div :class="[baseClass + '-content']" ref="content">
+                <div :class="contentClasses" ref="content">
                     <div :class="[baseClass + '-content-text']" v-html="content"></div>
                     <a :class="[baseClass + '-close']" @click="close" v-if="closable">
                         <i class="ivu-icon ivu-icon-ios-close-empty"></i>
@@ -51,6 +51,9 @@
             className: {
                 type: String
             },
+            contentClassName: { // Add By FEN 自定义 Notice 样式
+                type: String,
+            },
             name: {
                 type: String,
                 required: true
@@ -82,7 +85,7 @@
                 ];
             },
             contentClasses () {
-                return `${this.baseClass}-content`;
+                return [`${this.baseClass}-content`, this.contentClassName];
             }
         },
         methods: {
@@ -115,7 +118,7 @@
         },
         mounted () {
             this.clearCloseTimer();
-
+            console.log(this.closable);
             if (this.duration !== 0) {
                 this.closeTimer = setTimeout(() => {
                     this.close();
