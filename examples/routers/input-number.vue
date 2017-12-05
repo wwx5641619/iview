@@ -11,6 +11,8 @@
         <InputNumber :min="0" placeholder="hhhhh" :show-handler="true"/>
         <InputNumber placeholder="hhhhh" show-handler="hover" v-model="v3" />
         <InputNumber placeholder="hhhhh"  v-model="v3" />
+
+        <Button @click="handleClick">get value</Button>
     </div>
 </template>
 <script>
@@ -32,6 +34,11 @@
         },
         computed: {},
         methods: {
+          handleClick(){
+            console.log(this.v1)
+            console.log(this.v2)
+            console.log(this.v3)
+          },
             c () {
                 this.v1 = 5;
             },

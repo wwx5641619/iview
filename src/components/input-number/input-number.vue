@@ -264,6 +264,8 @@
             change (event) {
                 let val = event.target.value.trim();
 
+                if(val === '') this.setValue(null); // Add By FEN 当回退到空值的时候让输入框的值为空，而不是 0
+
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
                 const {min, max} = this;
