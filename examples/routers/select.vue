@@ -169,7 +169,7 @@
 
 <template>
     <Panel style="height: 600px">
-        <Select v-model="model1" style="width:200px" @on-extra-click="hhh">
+        <Select v-model="model1" style="width:200px" extra @on-extra-click="hhh">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <Split dashed large/>
