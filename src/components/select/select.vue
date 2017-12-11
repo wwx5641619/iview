@@ -1,49 +1,62 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div
-            :class="selectionCls"
-            ref="reference"
-            @click="toggleMenu">
+                :class="selectionCls"
+                ref="reference"
+                @click="toggleMenu">
             <slot name="input">
                 <input type="hidden" :name="name" :value="model">
                 <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in selectedMultiple">
                     <span class="ivu-tag-text">{{ item.label }}</span>
                     <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
                 </div>
-                <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
-                <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
+                <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder
+                    }}</span>
+                <span :class="[prefixCls + '-selected-value']"
+                      v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
                 <input
-                    :id="elementId"
-                    type="text"
-                    v-if="filterable"
-                    v-model="query"
-                    :disabled="disabled"
-                    :class="[prefixCls + '-input']"
-                    :placeholder="showPlaceholder ? localePlaceholder : ''"
-                    :style="inputStyle"
-                    autocomplete="off"
-                    spellcheck="false"
-                    @blur="handleBlur"
-                    @keydown="resetInputState"
-                    @keydown.delete="handleInputDelete"
-                    ref="input">
-                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
+                        :id="elementId"
+                        type="text"
+                        v-if="filterable"
+                        v-model="query"
+                        :disabled="disabled"
+                        :class="[prefixCls + '-input']"
+                        :placeholder="showPlaceholder ? localePlaceholder : ''"
+                        :style="inputStyle"
+                        autocomplete="off"
+                        spellcheck="false"
+                        @blur="handleBlur"
+                        @keydown="resetInputState"
+                        @keydown.delete="handleInputDelete"
+                        ref="input">
+                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon"
+                      @click.native.stop="clearSingleSelect"></Icon>
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
             </slot>
         </div>
         <transition :name="transitionName">
             <Drop
-                :class="dropdownCls"
-                v-show="dropVisible"
-                :placement="placement"
-                ref="dropdown"
-                @scroll="hh"
-                :data-transfer="transfer"
-                v-transfer-dom>
-                <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="dropdownListCls"><slot></slot></ul>
-                <div v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</div>  <!--by FEN ul -> div，与 html 规范不符合-->
-                <div v-if="extra" :class="[prefixCls + '__extra']"><Button long type="text" class="tal" @click="handleExtraClick"><Icon type="plus"></Icon> {{extraText ? extraText : t('i.select.add')}}</Button></div>
+                    :class="dropdownCls"
+                    v-show="dropVisible"
+                    :placement="placement"
+                    ref="dropdown"
+                    @scroll="hh"
+                    :data-transfer="transfer"
+                    v-transfer-dom>
+                <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']">
+                    <li>{{ localeNotFoundText }}</li>
+                </ul>
+                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="dropdownListCls">
+                    <slot></slot>
+                </ul>
+                <div v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</div>
+                <!--by FEN ul -> div，与 html 规范不符合-->
+                <div v-if="extra" :class="[prefixCls + '__extra']">
+                    <Button long type="text" class="tal" @click="handleExtraClick">
+                        <Icon type="plus"></Icon>
+                        {{extraText ? extraText : t('i.select.add')}}
+                    </Button>
+                </div>
             </Drop>
         </transition>
     </div>
@@ -53,18 +66,18 @@
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
-    import { oneOf, findComponentDownward } from '../../utils/assist';
+    import {oneOf, findComponentDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
-    import { debounce } from './utils';
+    import {debounce} from './utils';
 
     const prefixCls = 'ivu-select';
 
     export default {
         name: 'iSelect',
-        mixins: [ Emitter, Locale ],
-        components: { Icon, Drop },
-        directives: { clickoutside, TransferDom },
+        mixins: [Emitter, Locale],
+        components: {Icon, Drop},
+        directives: {clickoutside, TransferDom},
         props: {
             extra: {
                 type: Boolean,
@@ -216,7 +229,7 @@
                     if (!this.model.length) {
                         status = true;
                     }
-                } else if( this.model === null){
+                } else if (this.model === null) {
                     status = true;
                 }
 
@@ -278,7 +291,7 @@
         },
         methods: {
             hh (e) {
-                console.log(e)
+                console.log(e);
                 e.preventDefault();
             },
             handleExtraClick () { // by FEN 下拉框中新增按钮被点击
@@ -446,7 +459,6 @@
             toggleSingleSelected (value, init = false) {
                 if (!this.multiple) {
                     let label = '';
-
                     this.findChild((child) => {
                         if (child.value === value) {
                             child.selected = true;
@@ -634,7 +646,7 @@
                 if (!this.filterable) return;
                 this.query = query;
             },
-            modelToQuery() {
+            modelToQuery () {
                 if (!this.multiple && this.filterable && this.model !== undefined) {
                     this.findChild((child) => {
                         if (this.model === child.value) {
@@ -657,8 +669,8 @@
                     this.broadcast('iOption', 'on-query-change', val);
                 }
             },
-            debouncedAppendRemove(){
-                return debounce(function(){
+            debouncedAppendRemove () {
+                return debounce(function () {
                     if (!this.remote) {
                         this.modelToQuery();
                         this.$nextTick(() => this.broadcastQuery(''));
@@ -713,7 +725,7 @@
                 // TODO 没有判断多选的情况
                 const {value, optionData} = data;
                 this.currentData = optionData;
-              if (this.model === value) {
+                if (this.model === value) {
                     if (this.autoComplete) this.$emit('on-change', value, this.currentData);
                     this.hideMenu();
                 } else {
@@ -754,6 +766,7 @@
             value (val) {
                 this.model = val;
                 if (val === '') this.query = '';
+                if(this.filterable) this.query = val; // Add by FEN 实现当 filterable 的时候，外部动态添加选项并选中
             },
             label (val) {
                 this.currentLabel = val;

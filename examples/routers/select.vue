@@ -169,9 +169,10 @@
 
 <template>
     <Panel style="height: 600px">
-        <Select v-model="model1" style="width:200px" extra @on-extra-click="hhh">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        <Select v-model="model1" style="width:200px" filterable extra @on-extra-click="hhh">
+            <Option v-for="item in cityList" :value="item.valuev" :key="item.valuev">{{ item.labell }}</Option>
         </Select>
+        <Button @click="hhh">add</Button>
         <Split dashed large/>
         <Select
                 extra
@@ -198,73 +199,44 @@
                 list: ['a', 'b', 'c'],
                 cityList: [
                     {
-                        value: 'New York v',
-                        label: 'New York'
+                        valuev: '111',
+                        labell: 'New York'
                     },
                     {
-                        value: 'London',
-                        label: 'London'
+                        valuev: '222',
+                        labell: 'Los an'
                     },
-                    {
-                        value: 'Sydney',
-                        label: 'Sydney'
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    }
                 ],
-                model1: ''
-            }
+                model1: '111'
+            };
         },
         methods: {
             hhh () {
                 console.log('extra clicked!');
-                console.log(this.model1);
-                this.cityList.push({
-                    value: '1111',
-                    label: '23232'
-                })
-                this.model1 = '1111'
+                this.cityList.unshift({
+                    valuev: '1111',
+                    labell: '23232'
+                });
+                this.model1 = '1111';
 
             },
             remoteMethod2 (query) {
                 if (query !== '') {
-                    this.loading2 = true
+                    this.loading2 = true;
                     setTimeout(() => {
-                        this.loading2 = false
+                        this.loading2 = false;
                         const list = this.list.map(item => {
                             return {
                                 value: item,
                                 label: item
-                            }
-                        })
-                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1)
-                    }, 200)
+                            };
+                        });
+                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
+                    }, 200);
                 } else {
-                    this.options2 = []
+                    this.options2 = [];
                 }
             }
         }
-    }
+    };
 </script>
