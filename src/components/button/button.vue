@@ -42,6 +42,10 @@
             long: {
                 type: Boolean,
                 default: false
+            },
+            ghost: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -55,6 +59,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.type}`]: !!this.type,
+                        [`${prefixCls}-ghost`]: this.ghost,
                         [`${prefixCls}-long`]: this.long,
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,

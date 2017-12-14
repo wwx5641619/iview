@@ -62,6 +62,24 @@
 
     &-ghost {
         .btn-ghost;
+
+        &.@{btn-prefix-cls}{
+            &-primary{
+                .button-variant-ghost(@btn-primary-bg)
+            }
+            &-success{
+                .button-variant-ghost(@success-color)
+            }
+            &-error{
+                .button-variant-ghost(@error-color)
+            }
+            &-warning{
+                .button-variant-ghost(@warning-color)
+            }
+            &-info{
+                .button-variant-ghost(@info-color)
+            }
+        }
     }
 
     &-dashed{
