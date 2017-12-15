@@ -34,8 +34,8 @@
         }
         &.@{steps-prefix-cls}-status-process {
             .@{steps-prefix-cls}-head-inner {
-                border-color: @primary-color;
-                background-color: @primary-color;
+                border-color: @success-color;
+                background-color: @success-color;
                 > .@{steps-prefix-cls}-icon, span {
                     color: #fff;
                 }
@@ -53,14 +53,14 @@
         &.@{steps-prefix-cls}-status-finish {
             .@{steps-prefix-cls}-head-inner {
                 background-color: #fff;
-                border-color: @primary-color;
+                border-color: @success-color;
                 > .@{steps-prefix-cls}-icon, span {
-                    color: @primary-color;
+                    color: @success-color;
                 }
             }
             .@{steps-prefix-cls}-tail > i:after {
                 width: 100%;
-                background: @primary-color;
+                background: @success-color;
                 transition: all @transition-time @ease-in-out;
                 opacity: 1;
             }
@@ -113,7 +113,7 @@
             }
             &.@{steps-prefix-cls}-status-process {
                 .@{steps-prefix-cls}-head-inner > .@{steps-prefix-cls}-icon {
-                    color: @primary-color;
+                    color: @success-color;
                 }
             }
         }

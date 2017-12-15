@@ -1,8 +1,8 @@
 <template>
-<div>
+<Panel>
     <Steps :current="index">
         <!--<Step title="开始"></Step>-->
-        <Step v-for="(item, index) in activitiList" :title="item.approveUserName" :key="index" :content="item.startTime"></Step>
+        <Step v-for="(item,index) in activitiList" :title="item.approveUserName" :key="index" :content="item.startTime"></Step>
         <!--<Step title="结束"></Step>-->
     </Steps>
     <Button @click="change">change</Button>
@@ -17,7 +17,7 @@
     <Split size="large"/>
     <Steps>
         <Step title="等待中" status="wait">
-            <Button type="primary" size="small">{{item.startTime}}</Button>
+            <Button type="primary" size="small">232</Button>
         </Step>
         <Step title="进行中" status="error"></Step>
         <Step title="待进行" status="process"></Step>
@@ -84,7 +84,7 @@
             <!--<div style="font-size: 24px; color: green">这里是该步骤的描述信息4</div>-->
         <!--</Step>-->
     <!--</Steps>-->
-</div>
+</Panel>
 </template>
 <script>
     export default {
