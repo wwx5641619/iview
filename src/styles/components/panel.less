@@ -41,7 +41,7 @@
     right: -8px;
     top: -8px;
 
-    i{
+    i {
       font-size: 22px;
       color: #666;
       cursor: pointer;
@@ -73,7 +73,7 @@
     }
   }
 
-  &__number{
+  &__number {
     position: absolute;
     width: 20px;
     line-height: 20px;
@@ -87,7 +87,7 @@
 
   &--shadow {
     box-shadow: 0 0 6px rgba(0, 0, 0, .1);
-    border:1px solid #ddd;
+    border: 1px solid #ddd;
   }
 
   &--split {
@@ -100,7 +100,7 @@
   }
 
   &--gray {
-    background: @background-color-base ;
+    background: @background-color-base;
     border: 1px solid #eee;
     border-radius: 3px;
   }
@@ -154,8 +154,8 @@
       margin-left: @panel-padding-small;
       margin-right: @panel-padding-small;
 
-      .panel__title{
-        font-size:12px;
+      .panel__title {
+        font-size: 12px;
       }
     }
   }
@@ -167,8 +167,8 @@
       margin-left: @panel-padding-big;
       margin-right: @panel-padding-big;
 
-      .panel__title{
-        font-size:18px;
+      .panel__title {
+        font-size: 18px;
       }
     }
     & > .panel__body {
@@ -183,16 +183,16 @@
       margin-left: @panel-padding-large;
       margin-right: @panel-padding-large;
 
-      .panel__title{
-        font-size:18px;
+      .panel__title {
+        font-size: 18px;
       }
     }
     & > .panel__body {
       padding: @panel-padding-large;
-      padding-top:@panel-padding-large/1.5;
+      padding-top: @panel-padding-large/1.5;
     }
   }
-  
+
   &--no-header-bd {
     & > .panel {
       &__header {
@@ -222,4 +222,9 @@
       }
     }
   }
+
+  &--no-header&--large > &__body {
+    padding-top: @panel-padding-large;
+  }
+
 }

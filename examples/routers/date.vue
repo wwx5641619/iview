@@ -15,7 +15,7 @@
 
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
             <FormItem label="1" prop="date">
-                <Date-picker v-model="formValidate.date" type="date" placeholder="选择日期"
+                <Date-picker v-model="formValidate.date" type="time" placeholder="选择日期"
                              style="width: 200px"></Date-picker>
             </FormItem>
             <FormItem label="232" prop="num">

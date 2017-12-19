@@ -1,6 +1,6 @@
 <template>
     <Panel shadow>
-        <Form labelPosition="top" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" compact size="small"
+        <Form labelPosition="right" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" compact size="small"
               inline>
             <Form-item label="姓名" prop="name">
                 <Input v-model="formValidate.name" placeholder="请输入姓名" size="small"></Input>
@@ -30,12 +30,8 @@
                 <Form-item prop="date" label="选择日期">
                     <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date" size="small"></Date-picker>
                 </Form-item>
-                </Col>
-                <Col span="2" style="text-align: center">
-                -</Col>
-                <Col span="11">
-                <Form-item prop="time">
-                    <Time-picker type="time" placeholder="选择时间" v-model="formValidate.time" size="small"></Time-picker>
+                <Form-item >
+                    <Time-picker :timestamp="false" type="time" placeholder="选择时间" v-model="formValidate.time" size="small"></Time-picker>
                 </Form-item>
                 </Col>
             </Row>
@@ -62,7 +58,7 @@
                 <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
             </Form-item>
         </Form>
-        <Split large/>
+        <Split dashed large/>
         <Form text :label-width="60" labelPosition="left">
             <Row>
                 <i-col span="6">
@@ -77,7 +73,7 @@
                 </i-col>
             </Row>
         </Form>
-        <Split large/>
+        <Split dashed large/>
         <Form text labelPosition="top">
             <Row>
                 <i-col span="4">
@@ -105,8 +101,8 @@
                     gender: '',
                     interest: [],
                     test: [''],
-                    date: '',
-                    time: '',
+                    date: '2017-12-12',
+                    time: null,
                     desc: ''
                 },
                 ruleValidate: {
@@ -128,10 +124,10 @@
                         { type: 'array', max: 2, message: '最多选择两个爱好', trigger: 'change' }
                     ],
                     date: [
-                        { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
+                        { required: true, message: '请选择日期', trigger: 'change' }
                     ],
                     time: [
-                        { required: true, type: 'date', message: '请选择时间', trigger: 'change' }
+                        { required: true,  message: '请选择时间', trigger: 'change' }
                     ],
                     desc: [
                         { required: true, message: '请输入个人介绍', trigger: 'blur' },

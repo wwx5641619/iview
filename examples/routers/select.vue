@@ -217,8 +217,9 @@
                     valuev: '1111',
                     labell: '23232'
                 });
-                this.model1 = '1111';
-
+                this.$nextTick(function (){
+                    this.model1 = '1111';
+                })
             },
             remoteMethod2 (query) {
                 if (query !== '') {

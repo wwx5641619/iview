@@ -7,10 +7,10 @@
             <Button type="success">success</Button>
             <Button type="error">error</Button>
             <Button type="info">info</Button>
+            <Button type="dashed">info</Button>
             <Button ghost>ghost</Button>
             <Button type="text">text</Button>
             <Button type="link">link</Button>
-            <Button type="link" size="small">link</Button>
             <Split large dashed/>
             <Button type="primary">add</Button>
             <Button type="primary">remove</Button>
@@ -28,7 +28,7 @@
 
         <Panel title="ghost" transparent shadow size="large">
             <Button type="primary" ghost>primary</Button>
-            <Button ghost>primary</Button>
+            <Button ghost>default</Button>
             <Button type="warning" ghost>warning</Button>
             <Button type="success" ghost>success</Button>
             <Button type="error" ghost>error</Button>

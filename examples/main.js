@@ -9,7 +9,7 @@ import iView from '../src/index';
 import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
-Vue.use(iView, { locale });
+Vue.use(iView, {locale});
 
 // 开启debug模式
 Vue.config.debug = true;
@@ -202,32 +202,32 @@ const router = new VueRouter({
             component: require('./routers/scroll.vue')
         },
         {
-          path: '/split',
-          component: require('./routers/split.vue')
+            path: '/split',
+            component: require('./routers/split.vue')
         },
         {
-          path: '/panel',
-          component: require('./routers/panel.vue')
+            path: '/panel',
+            component: require('./routers/panel.vue')
         },
         {
-          path: '/list',
-          component: require('./routers/list.vue')
+            path: '/list',
+            component: require('./routers/list.vue')
         },
         {
-          path: '/editor',
-          component: require('./routers/editor.vue')
+            path: '/editor',
+            component: require('./routers/editor.vue')
         },
         {
-          path: '/file-export',
-          component: require('./routers/file-export.vue')
+            path: '/file-export',
+            component: require('./routers/file-export.vue')
         },
         {
-          path: '/textarea-format',
-          component: require('./routers/textarea-format.vue')
+            path: '/textarea-format',
+            component: require('./routers/textarea-format.vue')
         },
         {
-          path: '/merge-table',
-          component: require('./routers/merge-table.vue')
+            path: '/merge-table',
+            component: require('./routers/merge-table.vue')
         }
     ]
 });

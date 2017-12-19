@@ -1,5 +1,8 @@
 <template>
     <div>
+        <Upload>
+            <Button icon="checkmark-round" ghost type="primary" size="small">dfkj</Button>
+        </Upload>
         <div class="demo-upload-list" v-for="item in uploadList">
             <template v-if="item.status === 'finished'">
                 <img :src="item.url">

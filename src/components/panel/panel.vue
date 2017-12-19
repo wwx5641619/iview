@@ -10,7 +10,7 @@
         <div class="panel__body">
             <slot></slot>
         </div>
-        <div  v-if="closable" class="panel__close" @click="handleClosePanel">
+        <div v-if="closable" class="panel__close" @click="handleClosePanel">
             <Icon type="ios-close"></Icon>
         </div>
         <div class="panel__index" v-if="indexNumber"><span class="panel__number">{{indexNumber}}</span></div>
@@ -19,13 +19,13 @@
 
 
 <script>
-    const prefixCls = 'panel'
+    const prefixCls = 'panel';
     export default {
         name: 'panel',
         data () {
             return {
                 visible: true
-            }
+            };
         },
         props: {
             title: {
@@ -91,6 +91,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}--transparent`]: this.transparent,
+                        [`${prefixCls}--no-header`]: !this.title || !this.$slots.header,
                         [`${prefixCls}--split`]: this.split,
                         [`${prefixCls}--no-header-bd`]: this.noHeaderBorder,
                         [`${prefixCls}--no-padding`]: this.noPadding,
@@ -101,15 +102,15 @@
                         [`${prefixCls}--${this.size}`]: this.size,
                         [`${prefixCls}--shadow`]: this.shadow
                     }
-                ]
+                ];
             }
         },
         methods: {
             handleClosePanel (e) {
-                if(this.closeBySelf) this.visible = false;
+                if (this.closeBySelf) this.visible = false;
                 this.$emit('on-close', e);
             }
         }
-    }
+    };
 
 </script>
