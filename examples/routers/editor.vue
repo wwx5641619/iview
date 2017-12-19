@@ -1,7 +1,7 @@
 <template>
     <div>
         <Panel shadow size="large">
-            <Editor v-model="content" :disabled="disabled"></Editor>
+            <Editor v-model="content" :disabled="disabled" height="200"></Editor>
             <Split transparent></Split>
             <Button type="primary" @click="getContent">get html</Button>
             <Button @click="handleDisabled">disabled</Button>
