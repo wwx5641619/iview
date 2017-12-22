@@ -40,7 +40,6 @@
                     v-show="dropVisible"
                     :placement="placement"
                     ref="dropdown"
-                    @scroll="hh"
                     :data-transfer="transfer"
                     v-transfer-dom>
                 <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']">
@@ -290,10 +289,6 @@
             }
         },
         methods: {
-            hh (e) {
-                console.log(e);
-                e.preventDefault();
-            },
             handleExtraClick () { // by FEN 下拉框中新增按钮被点击
                 this.hideMenu();
                 this.$emit('on-extra-click');
@@ -766,7 +761,6 @@
             value (val) {
                 this.model = val;
                 if (val === '') this.query = '';
-                if(this.filterable) this.query = val; // Add by FEN 实现当 filterable 的时候，外部动态添加选项并选中
             },
             label (val) {
                 this.currentLabel = val;
