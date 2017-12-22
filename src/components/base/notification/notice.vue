@@ -3,7 +3,6 @@
         <div :class="classes" :style="styles">
             <template v-if="type === 'notice'">
                 <div :class="contentClasses" ref="content" v-html="content"></div>
-                <div :class="contentClasses" ref="content" v-html="content"></div>
                 <div :class="contentWithIcon">
                     <render-cell
                         :render="renderFunc"
