@@ -168,9 +168,10 @@
             },
             textareaClasses () {
                 return [
-                    `${prefixCls}`,
+                    `${prefixCls}`,`${prefixCls}-textarea`,
                     {
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-textarea-${this.size}`]: !!this.size, // add by FEN 解决 textarea 一行的时候高度和 input 不一致
                     }
                 ];
             }
@@ -260,7 +261,9 @@
                 this.append = false;
             }
             this.slotReady = true;
-            this.resizeTextarea();
+            this.$nextTick(function () {
+                this.resizeTextarea();
+            });
         }
     };
 </script>

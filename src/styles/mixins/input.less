@@ -38,6 +38,24 @@
     border-radius: @btn-border-radius-small;
 }
 
+.input-textarea-small() {
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+.input-textarea () {
+  padding-top:6px;
+  padding-bottom:6px;
+}
+
+.input-textarea-large() {
+    textarea&{
+        font-size: 14px;
+    };
+    padding-top:6px;
+    padding-bottom:6px;
+}
+
 .input() {
     display: inline-block;
     width: 100%;
@@ -84,6 +102,18 @@
 
     &-small {
         .input-small();
+    }
+
+    &-textarea {
+      .input-textarea();
+    }
+
+    &-textarea-small {
+        .input-textarea-small();
+    }
+
+    &-textarea-large {
+        .input-textarea-large();
     }
 }
 
