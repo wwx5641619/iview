@@ -8,17 +8,20 @@
         <Split transparent></Split>
         small
         <Split small></Split>
+        big
+        <Split big></Split>
         large
         <Split large></Split>
-        <Split large loss vertical></Split>
-        <Split large></Split>
+        <!--<Split large loss vertical></Split>-->
 
         111
-        <Split loss></Split>
+        <!--<Split loss></Split>-->
 222
         <span>total: 333 <Split small vertical/>  Volume: 324</span>
         <br>
         <span class="fs14">total: 333 <Split vertical/>  Volume: 324</span>
+        <br>
+        <span class="fs16">total: 333 <Split big vertical/>  Volume: 324</span>
         <br>
         <span class="fs16">total: 333 <Split large vertical/>  Volume: 324</span>
     </div>

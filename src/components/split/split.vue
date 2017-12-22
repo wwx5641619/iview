@@ -1,4 +1,3 @@
-
 <template>
     <div :class="classes" :style="styles"></div>
 </template>
@@ -8,14 +7,15 @@
     const size = {
         small: 4,
         default: 8,
-        large: 16
+        big: 16,
+        large: 24
     };
 
     const getType = function (props) {
-        const types = ['small', 'large'];
+        const types = ['small', 'big', 'large'];
         let type = 'default';
         types.forEach(item => {
-            if(props[item] === true){
+            if (props[item] === true) {
                 type = item;
             }
         });
@@ -39,6 +39,10 @@
                 type: Boolean,
                 default: false
             },
+            big: {
+                type: Boolean,
+                default: false
+            },
             dashed: {
                 type: Boolean,
                 default: false
@@ -57,7 +61,7 @@
             }
         },
         created () {
-            getNumber(this._props)
+            getNumber(this._props);
         },
         computed: {
             classes () {
