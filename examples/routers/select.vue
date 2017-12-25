@@ -170,9 +170,17 @@
 <template>
     <Panel style="height: 600px">
         <Select v-model="model1" style="width:200px" filterable extra @on-extra-click="hhh">
-            <Option v-for="item in cityList" :value="item.valuev" :key="item.valuev">{{ item.labell }}</Option>
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <Button @click="hhh">add</Button>
+        <Split dashed large/>
+        <Row>
+            <i-col span="3"><Select v-model="model14"  multiple size="small">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select></i-col>
+            <i-col span="8"><Input size="small"/></i-col>
+        </Row>
+
         <Split dashed large/>
         <Select
                 extra
@@ -199,12 +207,16 @@
                 list: ['a', 'b', 'c'],
                 cityList: [
                     {
-                        valuev: '111',
-                        labell: 'New York'
+                        value: '111',
+                        label: 'New York'
                     },
                     {
-                        valuev: '222',
-                        labell: 'Los an'
+                        value: '222',
+                        label: 'Los an'
+                    },
+                    {
+                        value: '22222222',
+                        label: 'Los a2121312n'
                     },
                 ],
                 model1: '111'
