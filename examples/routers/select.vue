@@ -180,6 +180,13 @@
             </Select></i-col>
             <i-col span="8"><Input size="small"/></i-col>
         </Row>
+        <Split dashed large/>
+        <Row>
+            <i-col span="8"><Select v-model="model14" filterable multiple size="small">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select></i-col>
+            <i-col span="8"><Input size="small"/></i-col>
+        </Row>
 
         <Split dashed large/>
         <Select
