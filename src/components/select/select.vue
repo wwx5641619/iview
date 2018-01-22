@@ -339,6 +339,11 @@
                     });
                     child.index = index++;
 
+//                    if(index === 1){
+//                        // add by fen 第一个选项聚焦
+//                        child.isFocus = true;
+//                    }
+
                     this.optionInstances.push(child);
                 });
 
@@ -699,6 +704,19 @@
                         this.selectedMultiple = [];
                     }
                 }
+            },
+            focusedAtFirstChild () {
+                // add by FEN 聚焦第一个选项
+                let FirstChildIndex = null;
+                this.filterable && this.findChild(child => {
+                    child.isFocus = false;
+                    if(!child.hidden && !child.disabled) {
+                        if(FirstChildIndex == null){
+                            FirstChildIndex = child.index;
+                            child.isFocus = true;
+                        }
+                    };
+                });
             }
         },
         mounted () {
@@ -845,6 +863,9 @@
                 }
                 this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');
+
+                this.focusedAtFirstChild();
+
             }
         }
     };

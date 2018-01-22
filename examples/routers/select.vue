@@ -172,6 +172,10 @@
         <Select v-model="model1" style="width:200px" filterable extra @on-extra-click="hhh">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+
+        <Select v-model="model1" style="width:200px" filterable >
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
         <Button @click="hhh">add</Button>
         <Split dashed large/>
         <Row>
@@ -190,9 +194,9 @@
 
         <Split dashed large/>
         <Select
-                extra
+
                 v-model="model14"
-                multiple
+
                 filterable
                 remote
                 :remote-method="remoteMethod2"
@@ -208,10 +212,25 @@
                 model13: '',
                 loading1: false,
                 options1: [],
-                model14: [],
+                model14: '',
                 loading2: false,
-                options2: [],
-                list: ['a', 'b', 'c'],
+                options2: [{
+                    value: '111',
+                    label: 'New York'
+                },
+                    {
+                        value: '222',
+                        label: 'Los an'
+                    },
+                    {
+                        value: '22222222',
+                        label: 'Los a2121312n'
+                    },
+                    {
+                        value: 'aa',
+                        label: 'Asa'
+                    },],
+                list: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New hampshire', 'New jersey', 'New mexico', 'New york', 'North carolina', 'North dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode island', 'South carolina', 'South dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West virginia', 'Wisconsin', 'Wyoming'],
                 cityList: [
                     {
                         value: '111',
@@ -225,8 +244,12 @@
                         value: '22222222',
                         label: 'Los a2121312n'
                     },
+                    {
+                        value: 'aa',
+                        label: 'Asa'
+                    },
                 ],
-                model1: '111'
+                model1: ''
             };
         },
         methods: {
