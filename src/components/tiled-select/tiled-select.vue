@@ -37,7 +37,7 @@
             },
             type: {
                 validator (value) {
-                    return oneOf(value, ['border', 'default']);
+                    return oneOf(value, ['solid', 'default', 'text']);
                 }
             },
         },

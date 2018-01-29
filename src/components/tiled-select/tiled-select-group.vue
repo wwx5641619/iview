@@ -63,11 +63,6 @@
                     `${prefixCls}-group`,
                 ];
             },
-            currentValue () {
-                return [
-                    `${prefixCls}-group`,
-                ];
-            },
         },
         mounted () {
             this.init();

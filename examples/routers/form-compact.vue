@@ -10,7 +10,7 @@
                 <TiledSelect label="asdkfj"></TiledSelect>
             </Form-item>
             <Form-item label="单选:">
-                <TiledSelectGroup v-model="formValidate.tiledSelectSingle" size="large" type="solid">
+                <TiledSelectGroup v-model="formValidate.tiledSelectSingle" >
                     <TiledSelect value="apple">苹果</TiledSelect>
                     <TiledSelect value="orage">橘子</TiledSelect>
                     <TiledSelect value="hhh">橘子</TiledSelect>
