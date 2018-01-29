@@ -23,7 +23,7 @@
             {{ testValue2 }}
         </div>
         <Checkbox-group v-model="fruit" size="large">
-            <Checkbox v-for="item in tags" :label="item.label" :key="item.label" true-value="true"></Checkbox>
+            <Checkbox v-for="item in tags" :label="item.value" :key="item.label" true-value="String">{{item.label}}</Checkbox>
         </Checkbox-group>
         <div>{{ fruit }}</div>
     </div>
@@ -33,7 +33,7 @@
         data () {
             return {
                 social: ['facebook', 'github'],
-                fruit: ['苹果'],
+                fruit: [],
                 tags: [],
                 testValue1: null,
                 testValue2: null
@@ -43,13 +43,13 @@
             setTimeout(() => {
                 this.tags = [
                     {
-                        label: '香蕉'
+                        label: '香蕉',value:'1'
                     },
                     {
-                        label: '苹果'
+                        label: '苹果',value:'2'
                     },
                     {
-                        label: '西瓜'
+                        label: '西瓜',value:'3'
                     }
                 ]
             }, 1000);

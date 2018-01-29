@@ -97,6 +97,9 @@ const lang = {
         },
         tree: {
             emptyText: '暂无数据'
+        },
+        tiledSelect:{
+            all: '全部'
         }
     }
 };

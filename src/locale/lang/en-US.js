@@ -97,6 +97,9 @@ const lang = {
         },
         tree: {
             emptyText: 'No Data'
+        },
+        tiledSelect:{
+            all: 'All'
         }
     }
 };

@@ -59,6 +59,8 @@ import Editor from './components/editor';
 import TextareaFormat from './components/textarea-format';
 import MergeTable from './components/merge-table';
 import {TableTd, TableTr} from './components/merge-table';
+import TiledSelect from './components/tiled-select';
+
 
 // add by shilei
 
@@ -143,7 +145,9 @@ const components = {
     FileExport,
     MergeTable,
     TableTd,
-    TableTr
+    TableTr,
+    TiledSelect,
+    TiledSelectGroup: TiledSelect.group,
 };
 
 const iview = {
