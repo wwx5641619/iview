@@ -77,4 +77,29 @@
     &-dragOver{
         border: 2px dashed @primary-color;
     }
+
+    &--single{
+        display: flex;
+        align-items:  center;
+
+        .@{upload-prefix-cls}{
+            &-list{
+                flex:1;
+                margin-top:0;
+                //margin-left:8px;
+                //background: #fff;
+                //border: 1px solid @border-color-split;
+                border-left:none;
+                //height:24px;
+                //border-top-right-radius: @btn-border-radius;
+                //border-bottom-right-radius: @btn-border-radius;
+
+                &-file{
+                    padding-top:3px;
+                    padding-left:8px;
+                    padding-bottom:3px;
+                }
+            }
+        }
+    }
 }

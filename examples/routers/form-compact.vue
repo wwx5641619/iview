@@ -11,9 +11,7 @@
             </Form-item>
             <Form-item label="单选:">
                 <TiledSelectGroup v-model="formValidate.tiledSelectSingle" >
-                    <TiledSelect value="apple">苹果</TiledSelect>
-                    <TiledSelect value="orage">橘子</TiledSelect>
-                    <TiledSelect value="hhh">橘子</TiledSelect>
+                    <TiledSelect v-for="item in tiledSelects" :value="item.value" :key="item.value">{{item.label}}</TiledSelect>
                 </TiledSelectGroup>
             </Form-item>
             <Form-item label="单选" prop="tiledSelectSingle1" ref="tesss">
@@ -23,12 +21,19 @@
                     <TiledSelect value="banana">Expression</TiledSelect>
                 </TiledSelectGroup>
             </Form-item>
+            <Form-item label="单选" prop="tiledSelectSingle1" >
+                <TiledSelectGroup v-model="formValidate.tiledSelectSingle1" size="big">
+                    <TiledSelect value="apple">苹果</TiledSelect>
+                    <TiledSelect value="orage">橘子</TiledSelect>
+                    <TiledSelect value="banana">Expression</TiledSelect>
+                </TiledSelectGroup>
+            </Form-item>
             <Button @click="set">set</Button>
             {{formValidate.tiledSelectSingle}}
             {{formValidate.tiledSelectSingle1}}
             <Form-item label="多选">
-                <TiledSelectGroup v-model="formValidate.tiledSelectMulti" disabled size="big" selectType="multi"
-                                  @on-change="handlecg" hasAll>
+                <TiledSelectGroup v-model="formValidate.tiledSelectMulti" size="large" selectType="multi"
+                                  @on-change="handlecg" >
                     <TiledSelect value="apple">苹果</TiledSelect>
                     <TiledSelect value="orage">橘子</TiledSelect>
                 </TiledSelectGroup>
@@ -70,16 +75,12 @@
             </Row>
             <Form-item label="性别" prop="gender" size="small">
                 <Radio-group v-model="formValidate.gender">
-                    <Radio label="male">男</Radio>
-                    <Radio label="female">女</Radio>
+                    <Radio v-for="item in radios" :label="item" :key="item"></Radio>
                 </Radio-group>
             </Form-item>
             <Form-item label="爱好" prop="interest" ref="tettt">
-                <Checkbox-group v-model="formValidate.interest">
-                    <Checkbox label="吃饭"></Checkbox>
-                    <Checkbox label="睡觉"></Checkbox>
-                    <Checkbox label="跑步"></Checkbox>
-                    <Checkbox label="看电影"></Checkbox>
+                <Checkbox-group v-model="formValidate.interest" type="button">
+                    <Checkbox v-for="item in radios" :label="item" :key="item"></Checkbox>
                 </Checkbox-group>
             </Form-item>
             <Form-item label="介绍" prop="desc">
@@ -145,17 +146,20 @@
                     name: '',
                     mail: '',
                     city: '',
-                    gender: '',
+                    gender: 'ftl',
                     interest: [],
                     test: [''],
                     date: '2017-12-12',
                     time: null,
                     desc: '',
-                    tiledSelect: ['dsdf', 'sdfasdf', 'hhhk', 'wolaile'],
-                    tiledSelectSingle: {},
-                    tiledSelectSingle1: {},
-                    tiledSelectMulti: {},
+                    tiledSelect: '',
+                    tiledSelectSingle: '',
+                    tiledSelectSingle1: 'apple',
+                    tiledSelectMulti: [],
+                    radio: 'ftl'
                 },
+                radios: ['ftl','ltl','expression'],
+                tiledSelects: [],
                 ruleValidate: {
                     name: [
                         {required: true, message: '姓名不能为空', trigger: 'blur'}
@@ -197,7 +201,10 @@
         },
         methods: {
             set () {
-                this.formValidate.tiledSelectSingle1 = {orange: true};
+                this.radios = ['hh','aa']
+                this.formValidate.gender = 'hh'
+                this.tiledSelects = [{value:'FTL',label:'整车'},{value:'LTL',label:'拼车'}];
+                this.formValidate.tiledSelectSingle = 'FTL'
             },
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {

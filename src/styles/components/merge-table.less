@@ -1,0 +1,40 @@
+.go-table {
+    width: 100%;
+    border: 1px solid @border-color-base;
+    border-spacing: 0;
+    border-collapse: collapse;
+    background: #fff;
+
+    &-wrapper {
+        position: relative;
+        background-color: #fff;
+
+        > .ivu-spin-fix {
+            border:1px solid #ddd;
+        }
+    }
+
+    &__no-data{
+        height: 280px;
+        line-height:280px;
+        border:1px solid @border-color-base;
+        border-top:none;
+        text-align: center;
+        color: #999;
+    }
+
+    td, th {
+        border: 1px solid @border-color-base;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        white-space: nowrap;
+        overflow: hidden;
+        background-color: @table-thead-bg;
+    }
+    td {
+        transition: background-color @transition-time @ease-in-out;
+    }
+}

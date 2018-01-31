@@ -1,40 +1,40 @@
 <template>
-    <div :class="[prefixCls]">
+    <div :class="uploadClasses">
         <div
-            :class="classes"
-            @drop.prevent="onDrop"
-            @dragover.prevent="dragOver = true"
-            @dragleave.prevent="dragOver = false">
+                :class="classes"
+                @drop.prevent="onDrop"
+                @dragover.prevent="dragOver = true"
+                @dragleave.prevent="dragOver = false">
             <input
-                ref="input"
-                type="file"
-                :class="[prefixCls + '-input']"
-                @change="handleChange"
-                :multiple="multiple"
-                :accept="accept">
+                    ref="input"
+                    type="file"
+                    :class="[prefixCls + '-input']"
+                    @change="handleChange"
+                    :multiple="multiple"
+                    :accept="accept">
             <span @click="handleClick"><slot></slot></span>
             <slot name="extra"></slot>
         </div>
         <slot name="tip"></slot>
         <upload-list
-            v-if="showUploadList"
-            :files="fileList"
-            @on-file-remove="handleRemove"
-            @on-file-preview="handlePreview"></upload-list>
+                v-if="showUploadList"
+                :files="fileList"
+                @on-file-remove="handleRemove"
+                @on-file-preview="handlePreview"></upload-list>
     </div>
 </template>
 <script>
     import UploadList from './upload-list.vue';
     import ajax from './ajax';
-    import { oneOf } from '../../utils/assist';
+    import {oneOf} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-upload';
 
     export default {
         name: 'Upload',
-        mixins: [ Emitter ],
-        components: { UploadList },
+        mixins: [Emitter],
+        components: {UploadList},
         props: {
             action: {
                 type: String,
@@ -47,6 +47,10 @@
                 }
             },
             multiple: {
+                type: Boolean,
+                default: false
+            },
+            single: {
                 type: Boolean,
                 default: false
             },
@@ -129,7 +133,7 @@
             },
             defaultFileList: {
                 type: Array,
-                default() {
+                default () {
                     return [];
                 }
             }
@@ -145,11 +149,18 @@
         computed: {
             classes () {
                 return [
-                    `${prefixCls}`,
                     {
                         [`${prefixCls}-select`]: this.type === 'select',
                         [`${prefixCls}-drag`]: this.type === 'drag',
-                        [`${prefixCls}-dragOver`]: this.type === 'drag' && this.dragOver
+                        [`${prefixCls}-dragOver`]: this.type === 'drag' && this.dragOver,
+                    }
+                ];
+            },
+            uploadClasses () {
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}--single`]: this.single,
                     }
                 ];
             },
@@ -256,6 +267,8 @@
                     showProgress: true
                 };
 
+                if (this.single) this.fileList.length = 0; // add by fen 单文件上传的时候
+
                 this.fileList.push(_file);
             },
             getFile (file) {
@@ -282,6 +295,10 @@
                     this.onSuccess(res, _file, this.fileList);
                     this.dispatch('FormItem', 'on-form-change', _file);  // fixed by FEN 先触发导致验证的时候有问题
 
+                    if (this.single) { // add by fen 消失过慢导致视觉上不舒服
+                        _file.showProgress = false;
+                        return;
+                    }
                     setTimeout(() => {
                         _file.showProgress = false;
                     }, 1000);
@@ -297,25 +314,25 @@
 
                 this.onError(err, response, file);
             },
-            handleRemove(file) {
+            handleRemove (file) {
                 const fileList = this.fileList;
                 fileList.splice(fileList.indexOf(file), 1);
                 this.onRemove(file, fileList);
                 this.dispatch('FormItem', 'on-form-change', file); // fixed by FEN 删除列表后的验证判断
             },
-            handlePreview(file) {
+            handlePreview (file) {
                 if (file.status === 'finished') {
                     this.onPreview(file);
                 }
             },
-            clearFiles() {
+            clearFiles () {
                 this.fileList = [];
             }
         },
         watch: {
             defaultFileList: {
                 immediate: true,
-                handler(fileList) {
+                handler (fileList) {
                     this.fileList = fileList.map(item => {
                         item.status = 'finished';
                         item.percentage = 100;

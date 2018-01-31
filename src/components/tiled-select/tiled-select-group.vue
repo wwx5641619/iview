@@ -18,12 +18,10 @@
         components: {Icon, TiledSelect},
         props: {
             value: {
-                type: Object,
-                default: function () {
-                    return {};
-                }
+                type: [String, Array],
+                default: '',
             },
-            hasAll: { // 是否需要全选
+            hasAll: { // TODO 多选的逻辑还未完成
                 type: Boolean,
                 default: false
             },
@@ -51,8 +49,8 @@
         },
         data () {
             return {
-                currentValue: {}, // 实际需要提交的数据
-                viewValue: {}, // 用于子组件状态显示的数据
+                currentValue: this.value, // 实际需要提交的数据
+                viewValue: '', // 用于子组件状态显示的数据
                 childrens: [],
                 allOptionName: 'all'
             };
@@ -65,38 +63,22 @@
             },
         },
         mounted () {
-            this.init();
+            this.update();
         },
         methods: {
-            init () {
-                const val = {};
+            setChildren () {
                 this.childrens = findComponentsDownward(this, 'TiledSelect');
                 this.initChildrenProps(this.childrens);
                 if (this.hasAll) {
                     this.childrens.splice(0, 1);
                 }
-                this.childrens.forEach(child => {
-                    val[child.value] = this.value[child.value] || child.selected;
-                });
-                this.viewValue = val;
-
-                if (this.hasAll && !this.hasTrue(val)) {
-                    const curVal = deepCopy(val);
-                    for (let key in curVal) {
-                        curVal[key] = true;
-                    }
-                    this.currentValue = curVal;
-                } else {
-                    this.currentValue = deepCopy(val);
-                }
-                this.update('init');
             },
-            initChildrenProps (childrens) {
+            initChildrenProps () {
                 // 把父级的各种状态赋给 children
-                childrens.forEach((child, index) => {
+                this.childrens.forEach(child => {
                     if (this.selectType === 'multi') {
                         // All 选项不需要 multi 的样式
-                        if (this.hasAll && index) child.isMultiSelectable = true;
+                        child.isMultiSelectable = true;
                     }
                     child.isGrouped = true;
                     child.isDisabled = this.disabled;
@@ -104,18 +86,18 @@
                     child.currentSize = this.size;
                 });
             },
-            hasTrue (obj) {
+            hasTrue (val) {
 //                对象中是否有 true 的字段
-                const ret = [];
-                for (let item in obj) {
-                    ret.push(obj[item]);
+                if (Array.isArray(val)) {
+                    return val.length > 0;
+                } else {
+                    return !!val && val !== this.allOptionName;
                 }
-                return ret.some(item => item);
             },
             setAllState () {
 //                All 选项的选中取消判断
                 if (this.hasAll) {
-                    const hasTrue = this.hasTrue(this.viewValue);
+                    const hasTrue = this.hasTrue(this.currentValue);
                     const allOption = this.$children[0];
                     if (hasTrue) {
                         allOption.isSelected = false;
@@ -125,81 +107,60 @@
                 }
             },
             update (source) { // init 的时候不带 source
-                const viewVal = this.viewValue;
-                const curVal = this.currentValue;
-                source === 'init' && this.setAllState(); // 只在初始化的时候去计算是否 All 选项需要选中
-
-                if (source && source !== 'init') {// 有 source 的说明都是从子组件触发的
-                    if (source !== this.allOptionName) {
-
-                        // 单选的时候需要把其他的选项设为 false
-                        if (this.selectType === 'single') {
-                            for (let source in viewVal) {
-                                viewVal[source] = false;
-                            }
-                        }
-
-                        viewVal[source] = !viewVal[source];
-
-                        if (this.hasAll) {
-                            const all = this.$children[0];
-                            all.isSelected = false;
-                        }
-                    }
-
-                    // 选择全部的时候把其他数据都设为 true
-                    if (this.hasAll && source === this.allOptionName) {
-                        const all = this.$children[0];
-                        for (let source in curVal) {
-                            curVal[source] = true;
-                            viewVal[source] = false;
-                        }
-
-//                        当本来就是选中状态的时候，防止再次提交 on-change 事件
-                        if (all.isSelected) {
-                            return;
-                        }
-
-                        all.isSelected = true;
-                    }
-
-                    this.$emit('on-change', curVal);
-                }
-
-                this.setChildrenSelect(source);
-                this.$emit('input', this.currentValue);
-
+                this.$nextTick(() => {
+                    this.setChildren();
+                    this.initChildrenProps();
+                    this.setChildrenSelect(source);
+                    this.setAllState(source); // 只在初始化的时候去计算是否 All 选项需要选中
+                });
             },
-            setChildrenSelect (source) {
+            setChildrenSelect () {
                 // 设置 children 的选中状态
+                const value = this.value;
                 this.childrens.forEach(child => {
-                    child.isSelected = this.viewValue[child.value];
-                    if (source !== 'init' && source !== this.allOptionName) {
-                        this.currentValue[child.value] = this.viewValue[child.value];
+                    if (this.selectType === 'single') {
+                        child.isSelected = value === child.value;
+                    } else {
+                        child.isSelected = value.some(val => val === child.value);
                     }
                 });
+            },
+            setCurrentValue (valueName) {
+
+                const setMutiValue = () => {
+                    const hasValue = this.currentValue.some(val => val === valueName);
+                    if (hasValue) {
+                        for (let i = 0, l = this.currentValue.length; i <= l; i++) {
+                            if (this.currentValue[i] === valueName) {
+                                this.currentValue.splice(i, 1);
+                                break;
+                            }
+                        }
+                    } else {
+                        this.currentValue.push(valueName);
+                    }
+                };
+
+                if (this.selectType === 'single') {
+                    this.currentValue = valueName;
+                } else {
+                    setMutiValue();
+                }
             },
             change (valueName) {
                 // 给子组件调用的事件
                 if (!this.disabled) {
+                    this.setCurrentValue(valueName);
                     this.update(valueName);
+                    this.$emit('input', this.currentValue);
                     this.dispatch('FormItem', 'on-form-change', this.currentValue);
                 }
             }
         },
-//        watch: {
-//            value: {
-//                handler () {
-//                    console.log(11111);
-//                    this.update('init');
-////                    this.$emit('on-change', this.currentValue);
-//                },
-//                deep: true
-//            }
-//        }
+        watch: {
+            value () {
+                this.update();
+            }
+        }
     };
 </script>
-
-<style lang="less">
-    @import "../../styles/custom";
-</style>

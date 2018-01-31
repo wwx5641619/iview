@@ -1,10 +1,10 @@
 <template>
     <ul :class="[prefixCls + '-list']">
         <li
-            v-for="file in files"
+            v-for="(file,index) in files"
             :class="fileCls(file)"
             @click="handleClick(file)">
-            <span @click="handlePreview(file)">
+            <span @click="handlePreview(file)" v-if="!file.showProgress">
                 <Icon :type="format(file)"></Icon> {{ file.name }}
             </span>
             <Icon

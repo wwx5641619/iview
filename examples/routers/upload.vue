@@ -1,8 +1,14 @@
 <template>
-    <div>
-        <Upload>
-            <Button icon="checkmark-round" ghost type="primary" size="small">dfkj</Button>
-        </Upload>
+    <row :gutter="16">
+        <i-col span="6">
+            <Upload
+                    action="//jsonplaceholder.typicode.com/posts/"
+                    single
+            >
+                <Button icon="upload" type="primary" size="small">上传文件</Button>
+            </Upload>
+        </i-col>
+
         <div class="demo-upload-list" v-for="item in uploadList">
             <template v-if="item.status === 'finished'">
                 <img :src="item.url">
@@ -35,7 +41,7 @@
             </div>
         </Upload>
         {{ visible }}
-    </div>
+    </row>
 </template>
 <script>
     export default {

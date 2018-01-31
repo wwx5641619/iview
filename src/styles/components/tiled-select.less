@@ -17,6 +17,14 @@
     user-select: none;
   //transition: all .4s ease;
 
+  & + & {
+    margin-left:4px;
+  }
+
+  &-group{
+    font-size:0;
+  }
+
   &:hover{
     //border-color: @primary-color;
     color: @primary-color;
@@ -73,7 +81,7 @@
     padding:0 16px;
 
     & + & {
-      margin-left:4px;
+      margin-left:8px;
     }
   }
 
@@ -84,7 +92,7 @@
     font-size:14px;
 
     & + & {
-      margin-left:6px;
+      margin-left:10px;
     }
   }
 
@@ -93,7 +101,7 @@
     line-height:32px;
   }
 
-  //.ivu-form-item-error &-group{
-  //  //background: @error-color;
-  //}
+  .ivu-form-item-error &-group + .ivu-form-item-error-tip{
+    margin-top:4px;
+  }
 }
