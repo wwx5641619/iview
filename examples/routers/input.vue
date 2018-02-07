@@ -29,6 +29,13 @@
             <i-col span="8"><Input size="large" placeholder="dkfjdkjf" v-model="obj.test" ></Input></i-col>
         </Row>
 
+    <div>
+        {{ value1 }}
+        <Input v-model="value1" clearable icon="ios-clock-outline" size="large" placeholder="large size"></Input>
+        <br>
+        <Input v-model="value2" clearable placeholder="default size"></Input>
+        <br>
+        <Input v-model="value3" clearable size="small" placeholder="small size"></Input>
     </div>
 </template>
 <script>
