@@ -168,7 +168,7 @@ const router = new VueRouter({
         },
         {
             path: '/form-compact',
-            component: require('./routers/form-compact.vue')
+            component: (resolve) => require(['./routers/form-compact.vue'], resolve)
         },
         {
             path: '/table',
@@ -204,35 +204,35 @@ const router = new VueRouter({
         },
         {
             path: '/scroll',
-            component: require('./routers/scroll.vue')
+            component: (resolve) => require(['./routers/scroll.vue'], resolve)
         },
         {
             path: '/split',
-            component: require('./routers/split.vue')
+            component: (resolve) => require(['./routers/split.vue'], resolve)
         },
         {
             path: '/panel',
-            component: require('./routers/panel.vue')
+            component: (resolve) => require(['./routers/panel.vue'], resolve)
         },
         {
             path: '/list',
-            component: require('./routers/list.vue')
+            component: (resolve) => require(['./routers/list.vue'], resolve)
         },
         {
             path: '/editor',
-            component: require('./routers/editor.vue')
+            component: (resolve) => require(['./routers/editor.vue'], resolve)
         },
         {
             path: '/file-export',
-            component: require('./routers/file-export.vue')
+            component: (resolve) => require(['./routers/file-export.vue'], resolve)
         },
         {
             path: '/textarea-format',
-            component: require('./routers/textarea-format.vue')
+            component: (resolve) => require(['./routers/textarea-format.vue'], resolve)
         },
         {
             path: '/merge-table',
-            component: require('./routers/merge-table.vue')
+            component: (resolve) => require(['./routers/merge-table.vue'], resolve)
         }
     ]
 });

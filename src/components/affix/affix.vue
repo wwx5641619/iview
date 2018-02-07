@@ -48,7 +48,7 @@
             },
             offsetBottom: {
                 type: Number
-            }
+            },
         },
         data () {
             return {
@@ -76,6 +76,7 @@
             }
         },
         mounted () {
+            this.handleScroll(); // add by fen 当是最底部的时候，
 //            window.addEventListener('scroll', this.handleScroll, false);
 //            window.addEventListener('resize', this.handleScroll, false);
             on(window, 'scroll', this.handleScroll);
