@@ -6,8 +6,8 @@
     //    const Editor = require('wangeditor')
     //    import Editor from 'wangeditor';
     import Quill from 'quill';
-    import 'quill/dist/quill.core.css';
-    import 'quill/dist/quill.snow.css';
+//    import 'quill/dist/quill.core.css';
+//    import 'quill/dist/quill.snow.css';
 
     export default {
         name: 'Editor',
@@ -89,9 +89,3 @@
         },
     };
 </script>
-
-<style lang="less">
-    .ql-editor {
-        height: 200px;
-    }
-</style>

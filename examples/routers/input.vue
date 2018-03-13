@@ -2,13 +2,18 @@
     <div style="width: 500px;">
         <Row :gutter="8">
             <i-col span="8"><Input v-model="obj.test" placeholder="hhh" type="textarea" :autosize="{minRows:1,maxRows:3}" :rows="1" size="small"></Input></i-col>
-            <i-col span="8"><Input placeholder="dkfjdkjf" v-model="obj.test" size="small"></Input></i-col>
+            <i-col span="8"><Input placeholder="sdf" v-model="obj.test" size="small">
+                <span slot="append">.com</span>
+                </Input></i-col>
         </Row>
         <Split transparent/>
 
         <Row :gutter="8">
             <i-col span="8"><Input v-model="obj.test" placeholder="hhh" type="textarea" :autosize="{minRows:1,maxRows:5}" ></Input></i-col>
-            <i-col span="8"><Input placeholder="dkfjdkjf" v-model="obj.test" ></Input></i-col>
+            <i-col span="8"><Input placeholder="hh" v-model="obj.test" >
+                <span slot="prepend">http://</span>
+                <span slot="append">.com</span>
+                </Input></i-col>
         </Row>
         <Split transparent/>
 

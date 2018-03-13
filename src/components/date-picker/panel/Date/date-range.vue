@@ -1,6 +1,12 @@
+
 <template>
-    <div :class="classes" @mousedown.prevent>
-        <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length">
+    <div :class="classes" @mousedown.prevent
+         :style="panelStyle"
+    >
+        <div
+            :class="[prefixCls + '-sidebar']"
+            :style="sidebarStyle"
+            v-if="shortcuts.length">
             <div
                 :class="[prefixCls + '-shortcut']"
                 v-for="shortcut in shortcuts"
@@ -10,26 +16,39 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']" v-show="!isTime">
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
-                        :class="iconBtnCls('prev', '-double')"
-                        @click="prevYear('left')"><Icon type="ios-arrow-left"></Icon></span>
+                        @click="prevYear('left')">
+                        <Tooltip :content="t('i.datepicker.prevYear')" placement="bottom" :class="iconBtnCls('prev', '-double')">
+                            <Icon type="ios-arrow-left"></Icon>
+                        </Tooltip>
+                    </span>
                     <span
                         v-if="leftPickerTable === 'date-table'"
-                        :class="iconBtnCls('prev')"
                         @click="prevMonth('left')"
-                        v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
+                        v-show="currentView === 'date'">
+                        <Tooltip :content="t('i.datepicker.prevMonth')" placement="bottom" :class="iconBtnCls('prev')">
+                            <Icon type="ios-arrow-left"></Icon>
+                        </Tooltip>
+                    </span>
                     <date-panel-label
                         :date-panel-label="leftDatePanelLabel"
                         :current-view="leftDatePanelView"
                         :date-prefix-cls="datePrefixCls"></date-panel-label>
                     <span
                         v-if="splitPanels || leftPickerTable !== 'date-table'"
-                        :class="iconBtnCls('next', '-double')"
-                        @click="nextYear('left')"><Icon type="ios-arrow-right"></Icon></span>
+                        @click="nextYear('left')">
+                        <Tooltip :content="t('i.datepicker.nextYear')" placement="bottom" :class="iconBtnCls('next', '-double')">
+                        <Icon type="ios-arrow-right"></Icon>
+                        </Tooltip>
+                    </span>
                     <span
                         v-if="splitPanels && leftPickerTable === 'date-table'"
-                        :class="iconBtnCls('next')"
                         @click="nextMonth('left')"
-                        v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
+                        v-show="currentView === 'date'">
+                        <Tooltip :content="t('i.datepicker.nextMonth')" placement="bottom" :class="iconBtnCls('next')">
+                            <Icon type="ios-arrow-right"></Icon>
+                        </Tooltip>
+                    </span>
+
                 </div>
                 <component
                     :is="leftPickerTable"
@@ -50,25 +69,37 @@
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
                         v-if="splitPanels || rightPickerTable !== 'date-table'"
-                        :class="iconBtnCls('prev', '-double')"
-                        @click="prevYear('right')"><Icon type="ios-arrow-left"></Icon></span>
+                        @click="prevYear('right')">
+                        <Tooltip :content="t('i.datepicker.prevYear')" placement="bottom" :class="iconBtnCls('prev', '-double')">
+                         <Icon type="ios-arrow-left"></Icon>
+                        </Tooltip>
+                    </span>
                     <span
                         v-if="splitPanels && rightPickerTable === 'date-table'"
-                        :class="iconBtnCls('prev')"
                         @click="prevMonth('right')"
-                        v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
+                        v-show="currentView === 'date'">
+                        <Tooltip :content="t('i.datepicker.prevMonth')" placement="bottom" :class="iconBtnCls('prev')">
+                            <Icon type="ios-arrow-left"></Icon>
+                        </Tooltip>
+                    </span>
                     <date-panel-label
                         :date-panel-label="rightDatePanelLabel"
                         :current-view="rightDatePanelView"
                         :date-prefix-cls="datePrefixCls"></date-panel-label>
                     <span
-                        :class="iconBtnCls('next', '-double')"
-                        @click="nextYear('right')"><Icon type="ios-arrow-right"></Icon></span>
+                        @click="nextYear('right')">
+                        <Tooltip :content="t('i.datepicker.nextYear')" placement="bottom" :class="iconBtnCls('next', '-double')">
+                            <Icon type="ios-arrow-right"></Icon>
+                        </Tooltip>
+                    </span>
                     <span
                         v-if="rightPickerTable === 'date-table'"
-                        :class="iconBtnCls('next')"
                         @click="nextMonth('right')"
-                        v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
+                        v-show="currentView === 'date'">
+                        <Tooltip :content="t('i.datepicker.nextMonth')" placement="bottom" :class="iconBtnCls('next')">
+                            <Icon type="ios-arrow-right"></Icon>
+                        </Tooltip>
+                    </span>
                 </div>
                 <component
                     :is="rightPickerTable"
@@ -143,6 +174,9 @@
                 type: Boolean,
                 default: false
             },
+            sidebarWidth: {
+                type: Number
+            }
         },
         data(){
             const [minDate, maxDate] = this.value.map(date => date || initTimeDate());
@@ -161,6 +195,22 @@
             };
         },
         computed: {
+//            add by fen 设置 sidebar 的宽度
+            panelStyle () {
+                const ret = {};
+                const _width = this.sidebarWidth;
+                if(_width) ret.paddingLeft = _width + 'px';
+                return ret;
+            },
+            sidebarStyle () {
+                const ret = {};
+                const _width = this.sidebarWidth;
+                if(_width) {
+                    ret.width = _width + 'px';
+                    ret.marginLeft = - _width + 'px';
+                }
+                return ret;
+            },
             classes(){
                 return [
                     `${prefixCls}-body-wrapper`,

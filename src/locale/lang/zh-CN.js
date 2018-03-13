@@ -17,6 +17,10 @@ const lang = {
             clearFilter: '全部'
         },
         datepicker: {
+            nextMonth: '下一月',
+            prevMonth: '上一月',
+            nextYear: '下一年',
+            prevYear: '上一年',
             selectDate: '选择日期',
             selectTime: '选择时间',
             startTime: '开始时间',

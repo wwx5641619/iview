@@ -17,6 +17,10 @@ const lang = {
             clearFilter: 'All'
         },
         datepicker: {
+            nextMonth: 'Next Month',
+            prevMonth: 'Prev Month',
+            nextYear: 'Next Year',
+            prevYear: 'Prev Year',
             selectDate: 'Select date',
             selectTime: 'Select time',
             startTime: 'Start Time',

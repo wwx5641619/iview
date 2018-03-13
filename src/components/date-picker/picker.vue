@@ -77,6 +77,31 @@
 
     const prefixCls = 'ivu-date-picker';
 
+    // add by FEN
+    //如果没有 v-model 绑定，就会返回 undefined, 需要默认给一个空值
+    const timestampToDate = (timestamp = '') => {
+        // TODO 简单判断时间戳为13位
+        if (timestamp && timestamp.toString().length === 13) {
+            const newDate = new Date();
+            newDate.setTime(timestamp);
+            return newDate;
+        }
+        return timestamp;
+    };
+    //  返回组件的 value 的指为时间戳格式
+    const getTime = val => {
+        // 有空数据的时候
+        return val && val.getTime ? val.getTime() : val
+    };
+    const getTimestamp = val => {
+        let _val = Array.isArray(val) ? val : [val];
+
+        _val.forEach((item, i) => {
+            _val[i] = getTime(item);
+        });
+        return _val;
+    };
+
     const isEmptyArray = val => val.reduce((isEmpty, str) => isEmpty && !str || (typeof str === 'string' && str.trim() === ''), true);
 
     export default {
@@ -85,10 +110,6 @@
         components: { iInput, Drop },
         directives: { clickoutside, TransferDom },
         props: {
-            sidebarWidth: {
-                type: Number,
-                default: 96
-            },
             timestamp: { // add by FEN 用来是否用时间戳来通信
                 type: Boolean,
                 default: true
@@ -169,7 +190,7 @@
                 default: () => []
             },
             value: {
-                type: [Date, String, Array]
+                type: [Date, String, Array, Number]
             },
             options: {
                 type: Object,
@@ -199,8 +220,9 @@
                 } else {
                     const isRange = this.type.includes('range');
                     let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
-
                     if (this.type.match(/^time/)) val = val.map(this.formatDate);
+                    // add bu fen
+                    getTimestamp(val);
                     return (isRange || this.multiple) ? val : val[0];
                 }
             },
@@ -322,6 +344,9 @@
                 });
             },
             parseDate(val) {
+                // add bu fen
+                val = Array.isArray(val) ? val.map(item => timestampToDate(item)) : timestampToDate(val);
+
                 const isRange = this.type.includes('range');
                 const type = this.type;
                 const parser = (
@@ -355,6 +380,9 @@
                 return (isRange || this.multiple) ? (val || []) : [val];
             },
             formatDate(value){
+                // add bu fen
+                value = timestampToDate(value);
+                // end
                 const format = DEFAULT_FORMATS[this.type];
 
                 if (this.multiple) {

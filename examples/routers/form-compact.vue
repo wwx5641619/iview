@@ -1,13 +1,9 @@
 <template>
     <Panel shadow>
-        <Form labelPosition="right" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80"
-              compact size="small">
+        <Form text labelPosition="right" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80"
+              compact >
             <Form-item label="打卡机:">
-                <TiledSelect :selected="true" disabled :value="1" label="全部"></TiledSelect>
-                <TiledSelect multiSelectable type="solid" selected label="adskf" disabled></TiledSelect>
-                <TiledSelect type="text" disabled multiSelectable label="adskf"></TiledSelect>
-                <TiledSelect type="text" label="asdkfj"></TiledSelect>
-                <TiledSelect label="asdkfj"></TiledSelect>
+                <Tag>dkj</Tag>
             </Form-item>
             <Form-item label="单选:">
                 <TiledSelectGroup v-model="formValidate.tiledSelectSingle" >
@@ -21,7 +17,7 @@
                     <TiledSelect value="banana">Expression</TiledSelect>
                 </TiledSelectGroup>
             </Form-item>
-            <Form-item label="单选" prop="tiledSelectSingle1" >
+            <Form-item label="单选" prop="tiledSelectSingle1" hasAll>
                 <TiledSelectGroup v-model="formValidate.tiledSelectSingle1" size="big">
                     <TiledSelect value="apple">苹果</TiledSelect>
                     <TiledSelect value="orage">橘子</TiledSelect>

@@ -19,7 +19,7 @@
         <Step title="等待中" status="wait">
             <Button type="primary" size="small">232</Button>
         </Step>
-        <Step title="进行中" status="error"></Step>
+        <Step title="添加" status="error" icon="plus-circled"></Step>
         <Step title="待进行" status="process"></Step>
         <Step title="待进行" status="finish"></Step>
     </Steps>
