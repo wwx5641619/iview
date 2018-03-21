@@ -1,5 +1,9 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div
+        tabindex="0"
+        @keydown.down="handleFocus"
+        :class="classes"
+        v-clickoutside="handleClose">
         <div
                 :class="selectionCls"
                 ref="reference"
@@ -34,7 +38,7 @@
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
             </slot>
         </div>
-        <transition :name="transitionName">
+        <transition name="transition-drop">
             <Drop
                     :class="dropdownCls"
                     v-show="dropVisible"
@@ -68,15 +72,15 @@
     import {oneOf, findComponentDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
-    import {debounce} from './utils';
+    import { debounce } from './utils';
 
     const prefixCls = 'ivu-select';
 
     export default {
         name: 'iSelect',
-        mixins: [Emitter, Locale],
-        components: {Icon, Drop},
-        directives: {clickoutside, TransferDom},
+        mixins: [ Emitter, Locale ],
+        components: { Icon, Drop },
+        directives: { clickoutside, TransferDom },
         props: {
             extra: {
                 type: Boolean,
@@ -195,7 +199,7 @@
                         [`${prefixCls}-multiple`]: this.multiple,
                         [`${prefixCls}-single`]: !this.multiple,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
-                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
             },
@@ -228,7 +232,7 @@
                     if (!this.model.length) {
                         status = true;
                     }
-                } else if (this.model === null) {
+                } else if( this.model === null){
                     status = true;
                 }
 
@@ -289,6 +293,10 @@
             }
         },
         methods: {
+            // open when focus on Select and press `down` key
+            handleFocus () {
+                if (!this.visible) this.toggleMenu();
+            },
             handleExtraClick () { // by FEN 下拉框中新增按钮被点击
                 this.hideMenu();
                 this.$emit('on-extra-click');
@@ -459,6 +467,7 @@
             toggleSingleSelected (value, init = false) {
                 if (!this.multiple) {
                     let label = '';
+
                     this.findChild((child) => {
                         if (child.value === value) {
                             child.selected = true;
@@ -647,7 +656,7 @@
                 if (!this.filterable) return;
                 this.query = query;
             },
-            modelToQuery () {
+            modelToQuery() {
                 if (!this.multiple && this.filterable && this.model !== undefined) {
                     this.findChild((child) => {
                         if (this.model === child.value) {
@@ -670,8 +679,8 @@
                     this.broadcast('iOption', 'on-query-change', val);
                 }
             },
-            debouncedAppendRemove () {
-                return debounce(function () {
+            debouncedAppendRemove(){
+                return debounce(function(){
                     if (!this.remote) {
                         this.modelToQuery();
                         this.$nextTick(() => this.broadcastQuery(''));

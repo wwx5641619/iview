@@ -30,7 +30,7 @@
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
-                :value="precisionValue">
+                :value="formatterValue">
         </div>
     </div>
 </template>
@@ -119,6 +119,12 @@
             },
             elementId: {
                 type: String
+            },
+            formatter: {
+                type: Function
+            },
+            parser: {
+                type: Function
             }
         },
         data () {
@@ -177,6 +183,13 @@
             precisionValue () {
                 // can not display 1.0
                 return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+            },
+            formatterValue () {
+                if (this.formatter && this.precisionValue !== null) {
+                    return this.formatter(this.precisionValue);
+                } else {
+                    return this.precisionValue;
+                }
             }
         },
         methods: {
@@ -263,6 +276,9 @@
             },
             change (event) {
                 let val = event.target.value.trim();
+                if (this.parser) {
+                    val = this.parser(val);
+                }
 
                 if(val === '') this.setValue(null); // Add By FEN 当回退到空值的时候让输入框的值为空，而不是 0
 
@@ -272,6 +288,10 @@
                 const isEmptyString = val.length === 0;
                 val = Number(val);
 
+                if(isEmptyString){
+                    this.setValue(null);
+                    return;
+                }
                 if (event.type == 'change'){
                     if (val === this.currentValue && val > min && val < max) return; // already fired change for input event
                 }
