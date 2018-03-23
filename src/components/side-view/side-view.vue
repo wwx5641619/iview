@@ -1,0 +1,282 @@
+<template>
+    <div v-transfer-dom :data-transfer="transfer" :style="{zIndex:zIndex,position:'relative'}">
+        <transition name="fade">
+            <div :class="maskClasses" v-show="visible" @click="mask"></div>
+        </transition>
+        <div :class="classes" :style="[mainStyles, visibleStyles]">
+            <div :class="[prefixCls + '-header']">
+                <slot name="header">
+                    <a :class="[prefixCls + '-close']" @click="close">
+                        <Icon type="ios-close-empty"></Icon>
+                    </a>
+                    <h2 :class="[prefixCls + '-title']">
+                        {{ title }}
+                    </h2>
+                    <div :class="[prefixCls + '-header-fn']">
+                        <i-button type="primary" :loading="buttonLoading" @click.native="ok">
+                            {{ localeOkText }}
+                        </i-button>
+                        <iDropDown class="ml8" trigger="click" v-if="moreMenu">
+                            <i-button size="small" type="text" title="more">
+                                <Icon type="android-more-vertical" size="24"></Icon>
+                            </i-button>
+                            <iDropDownMenu slot="list">
+                                <iDropDownItem v-for="menu in moreMenu" @on-click="menu.handler" :key="menu.label">
+                                    {{menu.label}}
+                                </iDropDownItem>
+                            </iDropDownMenu>
+                        </iDropDown>
+                    </div>
+                </slot>
+            </div>
+            <div :class="[prefixCls + '-body']">
+                <slot></slot>
+            </div>
+            <div :class="[prefixCls + '-footer']" v-if="$slots.footer">
+                <slot name="footer"></slot>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    import iButton from '../button/button.vue';
+    import iDropDown from '../dropdown';
+    import iTooltip from '../tooltip';
+    import TransferDom from '../../directives/transfer-dom';
+    import Locale from '../../mixins/locale';
+    import Emitter from '../../mixins/emitter';
+    import {findComponentUpward} from '../../utils/assist';
+
+    const iDropDownMenu = iDropDown.Menu;
+    const iDropDownItem = iDropDown.Item;
+
+    const prefixCls = 'go-side-view';
+
+    export default {
+        name: 'SideView',
+        mixins: [Locale, Emitter],
+        components: {iButton, iTooltip, iDropDown, iDropDownMenu, iDropDownItem},
+        directives: {TransferDom},
+        props: {
+            value: {
+                type: Boolean,
+                default: false
+            },
+            fromSideView: {
+                type: Boolean,
+                default: false
+            },
+            maskClosable: {
+                type: Boolean,
+                default: true
+            },
+            title: {
+                type: String
+            },
+            width: {
+                type: [Number, String],
+                default: 1200
+            },
+            top: {
+                type: [Number, String],
+                default: 0
+            },
+            okText: {
+                type: String
+            },
+            cancelText: {
+                type: String
+            },
+            loading: {
+                type: Boolean,
+                default: false
+            },
+            styles: {
+                type: Object
+            },
+            className: {
+                type: String
+            },
+            // for instance
+            footerHide: {
+                type: Boolean,
+                default: false
+            },
+            transfer: {
+                type: Boolean,
+                default: true
+            },
+            closable: {
+                type: Boolean,
+                default: true
+            },
+            moreMenu: {
+                type: Array,
+                default: null
+            },
+            beforeClose: {
+                type: Function,
+                default: function (next) {
+                    next();
+                }
+            }
+        },
+        data () {
+            return {
+                prefixCls: prefixCls,
+                buttonLoading: false,
+                visible: this.value,
+                visibleStyles: {},
+                parentSideView: null,
+                prevView: this.prevSideView
+            };
+        },
+        computed: {
+            maskClasses () {
+                return `${prefixCls}-mask`;
+            },
+            classes () {
+                return [`${prefixCls}`, {
+                    [`${prefixCls}--actived`]: this.visible
+                }];
+            },
+            zIndex () {
+                if (this.parentSideView) {
+                    return this.parentSideView.zIndex + 1;
+                }
+                return 900;
+            },
+            mainStyles () {
+
+                const width = parseInt(this.width);
+                const top = parseInt(this.top);
+                const style = {
+                    maxWidth: `${width}px`,
+                    top: `${top}px`,
+                };
+
+                return style;
+            },
+            localeOkText () {
+                if (this.okText === undefined) {
+                    return this.t('i.modal.okText');
+                } else {
+                    return this.okText;
+                }
+            },
+            localeCancelText () {
+                if (this.cancelText === undefined) {
+                    return this.t('i.modal.cancelText');
+                } else {
+                    return this.cancelText;
+                }
+            }
+        },
+        methods: {
+            close () {
+                const next = () => {
+                    this.visible = false;
+                    this.$emit('input', false);
+                    this.$emit('on-close');
+                };
+                this.beforeClose(next);
+            },
+            mask () {
+                if (this.maskClosable) {
+                    this.close();
+                }
+            },
+            cancel () {
+                this.close();
+            },
+            ok () {
+                if (this.loading) {
+                    this.buttonLoading = true;
+                } else {
+                    this.visible = false;
+                    this.$emit('input', false);
+                }
+                this.$emit('on-ok');
+            },
+            EscClose (e) {
+                if (this.visible && this.closable) {
+                    if (e.keyCode === 27) {
+                        this.close();
+                    }
+                }
+            },
+            /**
+             * 设置组件的 translate style
+             * @param type {string<x|y>}
+             * @param distance {number|string}
+             */
+            setTranslate (distance, type = 'x') {
+                if (type === 'x') {
+                    this.visibleStyles = {transform: `translate(${distance}px,0)`};
+                }
+                if (type === 'y') {
+                    this.visibleStyles = {transform: `translate(0,${distance}px)`};
+                }
+            },
+            setVisible () {
+                const _parent = this.parentSideView;
+                if (this.visible) {
+                    if (_parent && !_parent.frozen) {
+                        _parent.setTranslate(0);
+                        _parent.frozen = true;
+                        document.removeEventListener('keydown', _parent.EscClose);
+                    }
+                    !this.frozen && this.setTranslate(window.innerWidth - parseInt(this.width));
+                } else {
+                    if (_parent) {
+                        _parent.setTranslate(window.innerWidth - parseInt(_parent.width));
+                        _parent.frozen = false;
+                        document.addEventListener('keydown', _parent.EscClose);
+                    }
+                    this.setTranslate(window.innerWidth);
+                }
+            },
+            resize () {
+                this.setVisible();
+            },
+            setParent () {
+                if (this.fromSideView) {
+                    this.parentSideView = findComponentUpward(this, 'SideView');
+                }
+            }
+        },
+        created () {
+            this.setParent();
+        },
+        mounted () {
+            this.setVisible();
+            // ESC close
+            document.addEventListener('keydown', this.EscClose);
+            window.addEventListener('resize', this.resize);
+        },
+        beforeDestroy () {
+            document.removeEventListener('keydown', this.EscClose);
+            window.removeEventListener('resize', this.resize);
+        },
+        watch: {
+            value (val) {
+                this.visible = val;
+            },
+            visible (val) {
+                this.setVisible();
+
+                if (val === false) {
+                    this.buttonLoading = false;
+                }
+                this.broadcast('Table', 'on-visible-change', val);
+                this.broadcast('Slider', 'on-visible-change', val);  // #2852
+                this.$emit('on-visible-change', val);
+            },
+            loading (val) {
+                if (!val) {
+                    this.buttonLoading = false;
+                }
+            }
+        }
+    };
+</script>

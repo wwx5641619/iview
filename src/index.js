@@ -60,6 +60,7 @@ import TextareaFormat from './components/textarea-format';
 import MergeTable from './components/merge-table';
 import {TableTd, TableTr} from './components/merge-table';
 import TiledSelect from './components/tiled-select';
+import SideView from './components/side-view';
 
 
 // add by shilei
@@ -148,6 +149,7 @@ const components = {
     TableTr,
     TiledSelect,
     TiledSelectGroup: TiledSelect.group,
+    SideView
 };
 
 const iview = {

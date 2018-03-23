@@ -1,13 +1,19 @@
 <template>
     <Panel shadow>
-        <Form text labelPosition="right" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80"
-              compact >
+        <Button type="primary" @click="inShow1 = !inShow1">side view</Button>
+        <SideView v-model="inShow1" width="900" fromSideView>
+            in
+        </SideView>
+        <Form text labelPosition="right" ref="formValidate" :model="formValidate" :rules="ruleValidate"
+              :label-width="80"
+              compact>
             <Form-item label="打卡机:">
                 <Tag>dkj</Tag>
             </Form-item>
             <Form-item label="单选:">
-                <TiledSelectGroup v-model="formValidate.tiledSelectSingle" >
-                    <TiledSelect v-for="item in tiledSelects" :value="item.value" :key="item.value">{{item.label}}</TiledSelect>
+                <TiledSelectGroup v-model="formValidate.tiledSelectSingle">
+                    <TiledSelect v-for="item in tiledSelects" :value="item.value" :key="item.value">{{item.label}}
+                    </TiledSelect>
                 </TiledSelectGroup>
             </Form-item>
             <Form-item label="单选" prop="tiledSelectSingle1" ref="tesss">
@@ -29,7 +35,7 @@
             {{formValidate.tiledSelectSingle1}}
             <Form-item label="多选">
                 <TiledSelectGroup v-model="formValidate.tiledSelectMulti" size="large" selectType="multi"
-                                  @on-change="handlecg" >
+                                  @on-change="handlecg">
                     <TiledSelect value="apple">苹果</TiledSelect>
                     <TiledSelect value="orage">橘子</TiledSelect>
                 </TiledSelectGroup>
@@ -138,6 +144,7 @@
                 }
             };
             return {
+                inShow1: false,
                 formValidate: {
                     name: '',
                     mail: '',
@@ -154,7 +161,7 @@
                     tiledSelectMulti: [],
                     radio: 'ftl'
                 },
-                radios: ['ftl','ltl','expression'],
+                radios: ['ftl', 'ltl', 'expression'],
                 tiledSelects: [],
                 ruleValidate: {
                     name: [
@@ -197,10 +204,10 @@
         },
         methods: {
             set () {
-                this.radios = ['hh','aa']
-                this.formValidate.gender = 'hh'
-                this.tiledSelects = [{value:'FTL',label:'整车'},{value:'LTL',label:'拼车'}];
-                this.formValidate.tiledSelectSingle = 'FTL'
+                this.radios = ['hh', 'aa'];
+                this.formValidate.gender = 'hh';
+                this.tiledSelects = [{value: 'FTL', label: '整车'}, {value: 'LTL', label: '拼车'}];
+                this.formValidate.tiledSelectSingle = 'FTL';
             },
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {

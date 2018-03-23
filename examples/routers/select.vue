@@ -173,13 +173,13 @@
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
-        <Select v-model="model1" style="width:200px" filterable >
+        <Select v-model="model1" style="width:200px" filterable>
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <Button @click="hhh">add</Button>
         <Split dashed large/>
         <Row>
-            <i-col span="3"><Select v-model="model14"  multiple size="small">
+            <i-col span="3"><Select v-model="model14" multiple size="small">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select></i-col>
             <i-col span="8"><Input size="small"/></i-col>
@@ -195,71 +195,72 @@
         <Split dashed large/>
         <Select
 
-                v-model="model14"
+            v-model="model14"
 
-                filterable
-                remote
-                :remote-method="remoteMethod2"
-                :loading="loading2">
+            filterable
+            remote
+            :remote-method="remoteMethod2"
+            :loading="loading2">
             <Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>
         </Select>
+        <div>
+            <Select v-model="model1" size="small" style="width:200px;">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <Select v-model="model10" size="small" multiple style="width:260px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+
+            <br><br>
+
+            <Select v-model="model1" size="large" style="width:200px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <Select v-model="model10" size="large" multiple style="width:260px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+
+            <br><br>
+
+            <Select v-model="model1" style="width:200px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <Select v-model="model11" multiple style="width:260px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <Select v-model="model10" multiple style="width:260px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+
+            <br><br>
+
+            <br><br>
+
+            <br><br>
+            <br><br>
+            <br><br>
+            <br><br>
+            <br><br>
+            <br><br>
+            <Select v-model="model10" multiple style="width:260px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <br><br>
+
+            <br><br>
+
+            <br><br>
+            <br><br>
+            <br><br>
+            <br><br>
+            <br><br>
+            <br><br>
+            <Select v-model="model10" multiple style="width:260px">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+        </div>
     </Panel>
-    <div>
-        <Select v-model="model1" size="small" style="width:200px;">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <Select v-model="model10" size="small" multiple style="width:260px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
 
-        <br><br>
-
-        <Select v-model="model1" size="large" style="width:200px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <Select v-model="model10" size="large" multiple style="width:260px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-
-        <br><br>
-
-        <Select v-model="model1" style="width:200px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <Select v-model="model11" multiple style="width:260px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <Select v-model="model10" multiple style="width:260px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-
-        <br><br>
-
-        <br><br>
-
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <Select v-model="model10" multiple style="width:260px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <br><br>
-
-        <br><br>
-
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <Select v-model="model10" multiple style="width:260px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-    </div>
 </template>
 <script>
     export default {
@@ -317,7 +318,7 @@
                 model1: '',
                 model10: [],
                 model11: []
-            }
+            };
         }
-    }
+    };
 </script>

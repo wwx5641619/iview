@@ -1,10 +1,10 @@
 <template>
-    <Dropdown trigger="click" style="margin-left: 20px">
+    <Dropdown trigger="click" @on-click="test" style="margin-left: 20px">
         <a href="javascript:void(0)">
             click 触发
             <Icon type="arrow-down-b"></Icon>
         </a>
-        <DropdownMenu slot="list">
+        <DropdownMenu slot="list"  >
             <DropdownItem>驴打滚</DropdownItem>
             <DropdownItem>炸酱面</DropdownItem>
             <DropdownItem>豆汁儿</DropdownItem>
@@ -15,6 +15,10 @@
 </template>
 <script>
     export default {
-
+        methods:{
+            test(){
+                console.log(1111);
+            }
+        }
     }
 </script>
