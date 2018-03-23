@@ -52,6 +52,7 @@
                     }
                 }
                 $parent.$emit('on-click', this.name);
+                this.$emit('on-click', this.name); // add by fen,方便定义每个菜单的点击方法
             }
         }
     };
