@@ -14,6 +14,7 @@
                   loading
                   :moreMenu="menu"
                   :beforeClose="validate"
+                  defaultActions
         >
             <FormCompact/>
         </SideView>
@@ -26,7 +27,7 @@
         components: {FormCompact},
         data () {
             return {
-                show: false, inShow: false, inShow1: false,
+                show: true, inShow: false, inShow1: false,
                 menu: [{
                     label: 'woqu', handler (v) {
                         console.log(111);
