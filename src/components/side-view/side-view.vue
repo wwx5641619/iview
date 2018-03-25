@@ -1,9 +1,9 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer" :style="{zIndex:zIndex,position:'relative'}">
-        <transition name="fade">
+        <transition name="fade" v-if="noMask">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
-        <div :class="classes" :style="[mainStyles, visibleStyles]">
+        <div :class="classes" :style="[mainStyles, visibleStyles]" v-show="!hidden">
             <div :class="[prefixCls + '-header']">
                 <slot name="header">
                     <a :class="[prefixCls + '-close']" @click="close">
@@ -68,6 +68,10 @@
                 default: false
             },
             maskClosable: {
+                type: Boolean,
+                default: true
+            },
+            noMask: {
                 type: Boolean,
                 default: true
             },
@@ -273,12 +277,11 @@
                 if (val) {
                     this.timer = setTimeout(() => {
                         this.showContent = true;
-                    }, 200);
+                    }, 300);
                 } else {
                     clearTimeout(this.timer);
                     this.showContent = false;
                     this.buttonLoading = false;
-
                 }
 
                 this.broadcast('Table', 'on-visible-change', val);

@@ -26,7 +26,7 @@
                   ok-text="保存"
                   cancel-text="取消"
                   @on-ok="ok"
-                  :moreMenu="menu"
+                  :noMask="false"
                   defaultActions
         >
             2313123
