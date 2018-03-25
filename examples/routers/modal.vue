@@ -4,8 +4,10 @@
         <Button @click="instance('success')">Success</Button>
         <Button @click="instance('warning')">Warning</Button>
         <Button @click="instance('error')">Error</Button>
-        <Button @click="toggle">side view</Button>
-        <SideView v-model="show"
+        <Button @click="toggle('show')">side view</Button>
+        <Button @click="toggle('inShow')">sideview</Button>
+
+        <SideView v-model="inShow"
                   title="订单详情"
                   footerHide
                   ok-text="保存"
@@ -14,9 +16,20 @@
                   loading
                   :moreMenu="menu"
                   :beforeClose="validate"
-                  defaultActions
+
         >
             <FormCompact/>
+        </SideView>
+        <SideView v-model="show"
+                  title="订单详情"
+                  footerHide
+                  ok-text="保存"
+                  cancel-text="取消"
+                  @on-ok="ok"
+                  :moreMenu="menu"
+                  defaultActions
+        >
+            2313123
         </SideView>
     </div>
 </template>
@@ -27,7 +40,7 @@
         components: {FormCompact},
         data () {
             return {
-                show: true, inShow: false, inShow1: false,
+                show: false, inShow: false, inShow1: false,
                 menu: [{
                     label: 'woqu', handler (v) {
                         console.log(111);
@@ -57,8 +70,8 @@
             ok () {
                 setTimeout(() => this.show = false, 2000);
             },
-            toggle () {
-                this.show = !this.show;
+            toggle (v) {
+                this[v] = !this[v];
             },
             instance (type) {
                 const title = 'Title';
