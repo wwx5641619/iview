@@ -21,7 +21,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default', 'link']);
+                    return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default', 'link', 'secondary']);
                 }
             },
             shape: {
