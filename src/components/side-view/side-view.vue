@@ -102,11 +102,6 @@
             className: {
                 type: String
             },
-            // for instance
-            footerHide: {
-                type: Boolean,
-                default: false
-            },
             transfer: {
                 type: Boolean,
                 default: true
@@ -123,6 +118,27 @@
                 type: Function,
                 default: function (next) {
                     next();
+                }
+            },
+            afterClose: {
+                type: Function,
+                default: function () {
+                }
+            },
+            beforeVisible: {
+                type: Function,
+                default: function (next) {
+                    next();
+                }
+            },
+            afterVisible: {
+                type: Function,
+                default: function () {
+                }
+            },
+            afterRender: {
+                type: Function,
+                default: function () {
                 }
             },
             defaultActions: {
@@ -188,6 +204,9 @@
                     this.visible = false;
                     this.$emit('input', false);
                     this.$emit('on-close');
+                    setTimeout(() => {
+                        this.afterClose();
+                    }, 400);
                 };
                 this.beforeClose(next);
             },
@@ -203,7 +222,7 @@
                 if (this.loading) {
                     this.buttonLoading = true;
                 } else {
-                    this.visible = false;
+                    this.close();
                     this.$emit('input', false);
                 }
                 this.$emit('on-ok');
@@ -272,13 +291,19 @@
                 this.visible = val;
             },
             visible (val) {
-                this.setVisible();
 
                 if (val) {
-                    this.timer = setTimeout(() => {
-                        this.showContent = true;
-                    }, 300);
+                    const next = () => {
+                        this.setVisible();
+                        this.timer = setTimeout(() => {
+                            this.showContent = true;
+                            this.afterVisible();
+                            this.$nextTick(this.afterRender);
+                        }, 300);
+                    };
+                    this.beforeVisible(next);
                 } else {
+                    this.setVisible();
                     clearTimeout(this.timer);
                     this.showContent = false;
                     this.buttonLoading = false;

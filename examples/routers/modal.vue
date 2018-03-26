@@ -26,6 +26,11 @@
                   ok-text="保存"
                   cancel-text="取消"
                   @on-ok="ok"
+                  :beforeVisible="beforevisible"
+                  :afterVisible="aftervisible"
+                  :beforeClose = "validate"
+                  :afterClose = 'afterclose'
+                  :afterRender = 'afterrender'
                   :noMask="false"
                   defaultActions
         >
@@ -56,12 +61,25 @@
             console.log(this.$refs.hh);
         },
         methods: {
+            beforevisible (next) {
+                console.log('before visible');
+                setTimeout(() => next(), 1000);
+            },
+            aftervisible () {
+                console.log('visivled');
+            },
+            afterclose(){
+                console.log('closed');
+            },
+            afterrender(){
+                console.log('rendered');
+            },
             validate (next) {
                 this.$Modal.confirm({
                     title: '更改未保存',
                     content: '<p>你做的修改为保存！</p>',
-                    okText:'保存更改',
-                    cancelText:'舍弃更改',
+                    okText: '保存更改',
+                    cancelText: '舍弃更改',
                     onOk: () => {
                         next();
                     }
