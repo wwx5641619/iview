@@ -54,10 +54,6 @@
                 type: Boolean,
                 default: false
             },
-            inline: {
-                type: Boolean,
-                default: false
-            },
             data: {
                 type: Object
             },
@@ -164,7 +160,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}--inline`]: this.inline,
+                        [`${prefixCls}--single`]: this.single,
                     }
                 ];
             },
