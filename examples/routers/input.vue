@@ -26,9 +26,9 @@
         </Row>
 
         {{ value1 }}
-        <Input v-model="value1" clearable icon="ios-clock-outline" size="large" placeholder="large size"></Input>
+        <Input v-model="value1" upperCase clearable size="large" placeholder="large size"></Input>
         <br>
-        <Input v-model="value2" clearable placeholder="default size"></Input>
+        <Input v-model="value2" lowerCase clearable placeholder="default size"></Input>
         <br>
         <Input v-model="value3" clearable size="small" placeholder="small size"></Input>
         <div style="width: 200px;margin: 100px;">

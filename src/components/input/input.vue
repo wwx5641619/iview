@@ -1,11 +1,17 @@
 <template>
     <div :class="wrapClasses">
         <template v-if="type !== 'textarea'">
-            <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
-            <i class="ivu-icon" :class="['ivu-icon-ios-close', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable" @click="handleClear"></i>
-            <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
+            <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady">
+                <slot name="prepend"></slot>
+            </div>
+            <i class="ivu-icon"
+               :class="['ivu-icon-ios-close', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']"
+               v-if="clearable" @click="handleClear"></i>
+            <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']"
+               v-else-if="icon" @click="handleIconClick"></i>
             <transition name="fade">
-                <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
+                <i class="ivu-icon ivu-icon-load-c ivu-load-loop"
+                   :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
             <input
                 :id="elementId"
@@ -30,7 +36,9 @@
                 @blur="handleBlur"
                 @input="handleInput"
                 @change="handleChange">
-            <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
+            <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady">
+                <slot name="append"></slot>
+            </div>
         </template>
         <textarea
             v-else
@@ -60,7 +68,7 @@
     </div>
 </template>
 <script>
-    import { oneOf, findComponentUpward } from '../../utils/assist';
+    import {oneOf, findComponentUpward} from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
 
@@ -68,7 +76,7 @@
 
     export default {
         name: 'Input',
-        mixins: [ Emitter ],
+        mixins: [Emitter],
         props: {
             type: {
                 validator (value) {
@@ -142,7 +150,16 @@
                     return oneOf(value, ['hard', 'soft']);
                 },
                 default: 'soft'
-            }
+            },
+            // add by FEN
+            upperCase: {
+                type: Boolean,
+                default: false
+            },
+            lowerCase: {
+                type: Boolean,
+                default: false
+            },
         },
         data () {
             return {
@@ -174,13 +191,15 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.disabled,
+                        ['uppercase']: this.upperCase && this.currentValue,
+                        ['lowercase']: this.lowerCase && this.currentValue
                     }
                 ];
             },
             textareaClasses () {
                 return [
-                    `${prefixCls}`,`${prefixCls}-textarea`,
+                    `${prefixCls}`, `${prefixCls}-textarea`,
                     {
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-textarea-${this.size}`]: !!this.size, // add by FEN 解决 textarea 一行的时候高度和 input 不一致
@@ -195,7 +214,7 @@
             handleKeydown (event) {
                 this.$emit('on-keydown', event);
             },
-            handleKeypress(event) {
+            handleKeypress (event) {
                 this.$emit('on-keypress', event);
             },
             handleKeyup (event) {
@@ -228,7 +247,9 @@
                 this.$nextTick(() => {
                     this.resizeTextarea();
                 });
+
                 this.currentValue = value;
+
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-change', value);
                 }
@@ -259,7 +280,7 @@
                 }
             },
             handleClear () {
-                const e = { target: { value: '' } };
+                const e = {target: {value: ''}};
                 this.$emit('input', '');
                 this.setCurrentValue('');
                 this.$emit('on-change', e);
