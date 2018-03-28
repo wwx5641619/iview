@@ -30,7 +30,12 @@
                 type: Number,
                 default: 0
             },
-            className: String
+            className: String,
+            wrap: {
+                validator (value) {
+                    return oneOf(value, ['nowrap']);
+                }
+            }
         },
         computed: {
             classes () {
@@ -40,7 +45,8 @@
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-${this.type}-${this.align}`]: !!this.align,
                         [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify,
-                        [`${this.className}`]: !!this.className
+                        [`${this.className}`]: !!this.className,
+                        [`${prefixCls}-${this.type}-${this.wrap}`]: this.wrap,
                     }
                 ];
             },
