@@ -102,8 +102,16 @@ const lang = {
         tree: {
             emptyText: '暂无数据'
         },
-        tiledSelect:{
+        tiledSelect: {
             all: '全部'
+        },
+        sideView: {
+            confirm: {
+                title: '更改为保存',
+                content: '您有尚未保存的更改。如果离开，您所做的更改将会丢失。！确定要离开吗？',
+                buttonLeave: '舍弃更改',
+                buttonStay: '留在此页'
+            }
         }
     }
 };

@@ -215,7 +215,18 @@
                         this.afterClose();
                     }, 400);
                 };
-                this.beforeClose(next);
+                this.beforeClose(next, () => this.closeConfirm(next));
+            },
+            closeConfirm (ok) {
+                this.$Modal.confirm({
+                    title: this.t('i.sideView.confirm.title'),
+                    content: `<p>${this.t('i.sideView.confirm.content')}</p>`,
+                    okText: this.t('i.sideView.confirm.buttonLeave'),
+                    cancelText: this.t('i.sideView.confirm.buttonStay'),
+                    onOk: function () {
+                        ok();
+                    }
+                });
             },
             show () {
                 const next = () => {

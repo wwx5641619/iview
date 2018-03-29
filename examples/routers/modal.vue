@@ -76,16 +76,8 @@
             afterrender () {
                 console.log('rendered');
             },
-            validate (next) {
-                this.$Modal.confirm({
-                    title: '更改未保存',
-                    content: '<p>你做的修改为保存！</p>',
-                    okText: '保存更改',
-                    cancelText: '舍弃更改',
-                    onOk: () => {
-                        next();
-                    }
-                });
+            validate (next, confirm) {
+                confirm()
             },
             ok () {
                 setTimeout(() => this.show = false, 2000);

@@ -29,3 +29,5 @@ gulp.task('copyCustom', function () {
 });
 
 gulp.task('default', ['css', 'fonts', 'copyCustom']);
+
+module.exports = gulp;

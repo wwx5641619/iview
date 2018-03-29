@@ -104,6 +104,14 @@ const lang = {
         },
         tiledSelect:{
             all: 'All'
+        },
+        sideView: {
+            confirm: {
+                title: 'Unsaved Changes',
+                content: 'Are you sure you want to leave? There are unsaved changes. If you leave, your changes will be lost.',
+                buttonLeave: ' Discard Changes ',
+                buttonStay: ' Stay Here '
+            }
         }
     }
 };
