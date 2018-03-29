@@ -80,24 +80,34 @@
 
     &--single{
         display: flex;
-        align-items:  center;
 
         .@{upload-prefix-cls}{
             &-list{
                 flex:1;
                 margin-top:0;
+                width: 100%;
                 //margin-left:8px;
                 //background: #fff;
                 //border: 1px solid @border-color-split;
                 border-left:none;
+                overflow: hidden;
                 //height:24px;
                 //border-top-right-radius: @btn-border-radius;
                 //border-bottom-right-radius: @btn-border-radius;
 
                 &-file{
+                    display: flex;
                     padding-top:3px;
                     padding-left:8px;
                     padding-bottom:3px;
+
+                    > span{
+                        flex:1;
+                        display: block;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                    }
                 }
             }
         }
