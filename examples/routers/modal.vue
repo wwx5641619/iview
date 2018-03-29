@@ -13,26 +13,22 @@
                   ok-text="保存"
                   cancel-text="取消"
                   @on-ok="ok"
-                  loading
                   :moreMenu="menu"
-                  :beforeClose="validate"
 
         >
             <FormCompact/>
         </SideView>
         <SideView v-model="show"
                   title="订单详情"
-                  footerHide
                   ok-text="保存"
                   cancel-text="取消"
                   @on-ok="ok"
                   :beforeVisible="beforevisible"
                   :afterVisible="aftervisible"
-                  :beforeClose = "validate"
-                  :afterClose = 'afterclose'
-                  :afterRender = 'afterrender'
-                  :noMask="false"
-                  defaultActions
+                  :beforeClose="validate"
+                  :afterClose='afterclose'
+                  :afterRender='afterrender'
+                  :viewLoading='loading'
         >
             2313123
         </SideView>
@@ -54,7 +50,8 @@
                     label: '34534534', handler (v) {
                         console.log(222);
                     }
-                }]
+                }],
+                loading: false
             };
         },
         created () {
@@ -62,16 +59,21 @@
         },
         methods: {
             beforevisible (next) {
-                console.log('before visible');
-                setTimeout(() => next(), 1000);
+                this.loading = true;
+
+//                setTimeout(() => next(), 1000);
+                next();
             },
             aftervisible () {
+                setTimeout(() => {
+                    this.loading = false;
+                }, 6000);
                 console.log('visivled');
             },
-            afterclose(){
+            afterclose () {
                 console.log('closed');
             },
-            afterrender(){
+            afterrender () {
                 console.log('rendered');
             },
             validate (next) {

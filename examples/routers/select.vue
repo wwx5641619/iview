@@ -319,6 +319,35 @@
                 model10: [],
                 model11: []
             };
+        },
+        methods: {
+            hhh () {
+                console.log('extra clicked!');
+                this.cityList.unshift({
+                    valuev: '1111',
+                    labell: '23232'
+                });
+                this.$nextTick(function (){
+                    this.model1 = '1111';
+                })
+            },
+            remoteMethod2 (query) {
+                if (query !== '') {
+                    this.loading2 = true;
+                    setTimeout(() => {
+                        this.loading2 = false;
+                        const list = this.list.map(item => {
+                            return {
+                                value: item,
+                                label: item
+                            };
+                        });
+                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
+                    }, 200);
+                } else {
+                    this.options2 = [];
+                }
+            }
         }
     };
 </script>

@@ -35,11 +35,11 @@
             </div>
             <div :class="[prefixCls + '-body']">
                 <slot v-if="showContent"></slot>
-                <iSpin size="large" fix v-if="!showContent"></iSpin>
             </div>
             <div :class="[prefixCls + '-footer']" v-if="$slots.footer">
                 <slot name="footer"></slot>
             </div>
+            <iSpin size="large" fix v-if="showSpin"></iSpin>
         </div>
     </div>
 </template>
@@ -89,8 +89,9 @@
             okText: {
                 type: String
             },
-            cancelText: {
-                type: String
+            viewLoading: {
+                type: Boolean,
+                default: null
             },
             loading: {
                 type: Boolean,
@@ -154,7 +155,8 @@
                 visibleStyles: {},
                 hidden: true,
                 parentSideView: null,
-                showContent: false
+                showContent: false,
+                showSpin: false
             };
         },
         computed: {
@@ -202,6 +204,11 @@
             close () {
                 const next = () => {
                     this.visible = false;
+                    this.setVisible();
+                    clearTimeout(this.timer);
+                    this.showContent = false;
+                    this.showSpin = false;
+                    this.buttonLoading = false;
                     this.$emit('input', false);
                     this.$emit('on-close');
                     setTimeout(() => {
@@ -209,6 +216,21 @@
                     }, 400);
                 };
                 this.beforeClose(next);
+            },
+            show () {
+                const next = () => {
+                    this.setVisible();
+                    this.showSpin = true;
+                    this.timer = setTimeout(() => {
+                        if (this.viewLoading === null) {
+                            this.showSpin = false;
+                            this.showContent = true;
+                        }
+                        this.afterVisible();
+                        this.$nextTick(this.afterRender);
+                    }, 300);
+                };
+                this.beforeVisible(next);
             },
             mask () {
                 if (this.maskClosable) {
@@ -247,6 +269,7 @@
                     this.visibleStyles = {transform: `translate(0,${distance}px)`};
                 }
             },
+
             setVisible () {
                 const _parent = this.parentSideView;
                 if (this.visible) {
@@ -293,20 +316,9 @@
             visible (val) {
 
                 if (val) {
-                    const next = () => {
-                        this.setVisible();
-                        this.timer = setTimeout(() => {
-                            this.showContent = true;
-                            this.afterVisible();
-                            this.$nextTick(this.afterRender);
-                        }, 300);
-                    };
-                    this.beforeVisible(next);
+                    this.show();
                 } else {
-                    this.setVisible();
-                    clearTimeout(this.timer);
-                    this.showContent = false;
-                    this.buttonLoading = false;
+                    this.close();
                 }
 
                 this.broadcast('Table', 'on-visible-change', val);
@@ -316,6 +328,14 @@
             loading (val) {
                 if (!val) {
                     this.buttonLoading = false;
+                }
+            },
+            viewLoading (val) {
+                console.log(val);
+                if (val || val === false) {
+                    this.showSpin = val;
+                    this.showContent = !val;
+                    this.$emit('on-spin-change');
                 }
             }
         }
