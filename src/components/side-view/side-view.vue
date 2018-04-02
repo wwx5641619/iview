@@ -215,6 +215,11 @@
                         this.afterClose();
                     }, 400);
                 };
+                /**
+                 * 对外部提供 beforeClose 接口
+                 * 第一个参数用于继续关闭操作
+                 * 第二财参数用于弹出是否关闭的确认窗口
+                 */
                 this.beforeClose(next, () => this.closeConfirm(next));
             },
             closeConfirm (ok) {
@@ -280,7 +285,9 @@
                     this.visibleStyles = {transform: `translate(0,${distance}px)`};
                 }
             },
-
+            /**
+             * 设置组左右移动至显示或者隐藏，根据 this.visible 来判断
+             */
             setVisible () {
                 const _parent = this.parentSideView;
                 if (this.visible) {
