@@ -52,6 +52,9 @@
                 default: 'off'
             }
         },
+        provide() {
+            return { form : this };
+        },
         data () {
             return {
                 fields: []
