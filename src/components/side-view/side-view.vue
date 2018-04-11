@@ -290,20 +290,25 @@
              */
             setVisible () {
                 const _parent = this.parentSideView;
+                const _w = window.innerWidth;
                 if (this.visible) {
                     if (_parent && !_parent.frozen) {
                         _parent.setTranslate(0);
                         _parent.frozen = true;
                         document.removeEventListener('keydown', _parent.EscClose);
                     }
-                    !this.frozen && this.setTranslate(window.innerWidth - parseInt(this.width));
+                    if (!this.frozen) {
+                        const thisWidth = parseInt(this.width);
+                        _w >= thisWidth ? this.setTranslate(_w - thisWidth) : this.setTranslate(0);
+                    }
                 } else {
                     if (_parent) {
-                        _parent.setTranslate(window.innerWidth - parseInt(_parent.width));
+                        const parentWith = parseInt(_parent.width);
+                        _w >= parentWith ? _parent.setTranslate(_w - parentWith) : _parent.setTranslate(0);
                         _parent.frozen = false;
                         document.addEventListener('keydown', _parent.EscClose);
                     }
-                    this.setTranslate(window.innerWidth);
+                    this.setTranslate(_w);
                 }
             },
             resize () {
@@ -349,7 +354,6 @@
                 }
             },
             viewLoading (val) {
-                console.log(val);
                 if (val || val === false) {
                     this.showSpin = val;
                     this.showContent = !val;
