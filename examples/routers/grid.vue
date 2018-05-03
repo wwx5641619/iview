@@ -7,16 +7,16 @@
 </style>
 <template>
     <div>
-        <Row >
-            <i-col>111</i-col>
-            <i-col>111</i-col>
-            <i-col>111</i-col>
-            <i-col>111</i-col>
-            <i-col>111</i-col>
-            <i-col>111</i-col>
-            <i-col>111</i-col>
-            <i-col>111</i-col>
-            <i-col>111</i-col>
+        <Row :gutter="24">
+            <i-col span="8">
+                <Row>
+                    <i-col span="8" style="background: #000">111</i-col>
+                    <i-col span="8">111</i-col>
+                    <i-col span="8">111</i-col>
+                </Row>
+            </i-col>
+            <i-col span="8">111</i-col>
+            <i-col span="8">111</i-col>
         </Row>
         <Row type='flex' justify='center'>
             <i-col span='21' class="offset-header">

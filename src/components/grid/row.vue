@@ -64,7 +64,9 @@
         },
         methods: {
             updateGutter (val) {
-                const Cols = findComponentsDownward(this, 'iCol');
+//                const Cols = findComponentsDownward(this, 'iCol');
+                // by FEN 只需要管理到自身的 children 就可以了
+                const Cols = this.$children.map(child => child.$options.name === 'iCol' && child);
                 if (Cols.length) {
                     Cols.forEach((child) => {
                         if (val !== 0) {
