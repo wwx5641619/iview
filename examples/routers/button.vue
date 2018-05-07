@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button>Default</Button>
+        <Button><Icon type="arrow-right-half"></Icon>Default</Button>
         <Button type="primary">Primary</Button>
         <Button type="secondary">secondary</Button>
         <Button type="ghost">Ghost</Button>
