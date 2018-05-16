@@ -14,7 +14,6 @@
     vertical-align: middle;
     opacity: 1;
     overflow: hidden;
-    cursor: pointer;
     //transition: all @transition-time @ease-in-out;
 
     // for color and unchecked
@@ -152,7 +151,9 @@
         }
     }
 
-    &:hover {
+    // by FEN 正常情况下不需要有 hover 效果
+    &--handler:hover {
+        cursor: pointer;
         opacity: 0.85;
     }
 

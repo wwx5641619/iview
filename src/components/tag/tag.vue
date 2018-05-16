@@ -54,7 +54,8 @@
                         [`${prefixCls}-${this.color}`]: !!this.color && oneOf(this.color, initColorList),
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-closable`]: this.closable,
-                        [`${prefixCls}-checked`]: this.isChecked
+                        [`${prefixCls}-checked`]: this.isChecked,
+                        [`${prefixCls}--handler`]: this.checkable || this.closable // by FEN
                     }
                 ];
             },

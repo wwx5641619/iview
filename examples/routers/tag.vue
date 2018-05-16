@@ -14,10 +14,10 @@
         <Tag closable color="red" checkable>标签三</Tag>
         <Tag closable color="yellow" checkable>标签四</Tag>
         <br><br>
-        <Tag color="blue" checkable>标签一</Tag>
-        <Tag color="green" checkable>标签二</Tag>
-        <Tag color="red" checkable>标签三</Tag>
-        <Tag color="yellow" checkable>标签四</Tag>
+        <Tag color="blue" >标签一</Tag>
+        <Tag color="green" >标签二</Tag>
+        <Tag color="red" >标签三</Tag>
+        <Tag color="yellow" >标签四</Tag>
         <br><br>
         <Tag closable color="#EF6AFF" checkable>标签一</Tag>
         <Tag color="#EF6AFF" checkable>标签一</Tag>
