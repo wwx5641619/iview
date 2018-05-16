@@ -1,9 +1,12 @@
 <template>
     <Panel shadow>
         <Button type="primary" @click="inShow1 = !inShow1">side view</Button>
-        <SideView v-model="inShow1" width="900" fromSideView>
-            in
-        </SideView>
+        <!--<SideView v-model="inShow1" width="900" fromSideView>-->
+            <!--in-->
+        <!--</SideView>        -->
+        <Button type="primary" @click="component = 'SideView';inShow1 = !inShow1">side view</Button>
+        <component :is="component" v-model="inShow1">动态生成</component>
+
         <Form text labelPosition="right" ref="formValidate" :model="formValidate" :rules="ruleValidate"
               :label-width="80"
               compact>
@@ -11,19 +14,20 @@
                 <Tag>dkj</Tag>
             </Form-item>
             <Form-item label="单选:">
+                {{formValidate.tiledSelectSingle1}}
                 <TiledSelectGroup v-model="formValidate.tiledSelectSingle">
                     <TiledSelect v-for="item in tiledSelects" :value="item.value" :key="item.value">{{item.label}}
                     </TiledSelect>
                 </TiledSelectGroup>
             </Form-item>
             <Form-item label="单选" prop="tiledSelectSingle1" ref="tesss">
-                <TiledSelectGroup v-model="formValidate.tiledSelectSingle1" hasAll type="text">
+                <TiledSelectGroup v-model="formValidate.tiledSelectSingle1" unlimited >
                     <TiledSelect value="apple">FTL</TiledSelect>
                     <TiledSelect value="orage">LTL</TiledSelect>
                     <TiledSelect value="banana">Expression</TiledSelect>
                 </TiledSelectGroup>
             </Form-item>
-            <Form-item label="单选" prop="tiledSelectSingle1" hasAll>
+            <Form-item label="单选" prop="tiledSelectSingle1" unlimited>
                 <TiledSelectGroup v-model="formValidate.tiledSelectSingle1" size="big">
                     <TiledSelect value="apple">苹果</TiledSelect>
                     <TiledSelect value="orage">橘子</TiledSelect>
@@ -34,7 +38,7 @@
             {{formValidate.tiledSelectSingle}}
             {{formValidate.tiledSelectSingle1}}
             <Form-item label="多选">
-                <TiledSelectGroup v-model="formValidate.tiledSelectMulti" size="large" selectType="multi"
+                <TiledSelectGroup unlimited v-model="formValidate.tiledSelectMulti" size="large" selectType="multi"
                                   @on-change="handlecg">
                     <TiledSelect value="apple">苹果</TiledSelect>
                     <TiledSelect value="orage">橘子</TiledSelect>
@@ -130,7 +134,10 @@
     </Panel>
 </template>
 <script>
+    import FormSide from '../../src/components/side-view';
+
     export default {
+        components:{FormSide},
         data () {
             const validatePass = (rule, value, callback) => {
                 const ret = [];
@@ -144,6 +151,7 @@
                 }
             };
             return {
+                component: '',
                 inShow1: false,
                 formValidate: {
                     name: '',
@@ -157,7 +165,7 @@
                     desc: '',
                     tiledSelect: '',
                     tiledSelectSingle: '',
-                    tiledSelectSingle1: 'apple',
+                    tiledSelectSingle1: '',
                     tiledSelectMulti: [],
                     radio: 'ftl'
                 },
@@ -192,7 +200,7 @@
                         {type: 'string', min: 20, message: '介绍不能少于20字', trigger: 'blur'}
                     ],
                     tiledSelectSingle1: [
-                        {required: true, type: 'object', message: '请输入个人介绍', trigger: 'change'},
+                        {required: true, type: 'string', message: '请输入个人介绍', trigger: 'change'},
                         {validator: validatePass, trigger: 'change'},
                     ]
                 }

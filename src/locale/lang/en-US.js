@@ -103,7 +103,7 @@ const lang = {
             emptyText: 'No Data'
         },
         tiledSelect:{
-            all: 'All'
+            unlimited: 'Unlimited'
         },
         sideView: {
             confirm: {

@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <TiledSelect v-if="hasAll" :value="allOptionName" selected>{{t('i.tiledSelect.all')}}</TiledSelect>
+        <TiledSelect v-if="unlimited" :value="unlimitedOptionName" selected>{{t('i.tiledSelect.unlimited')}}</TiledSelect>
         <slot></slot>
     </div>
 </template>
@@ -21,7 +21,7 @@
                 type: [String, Array],
                 default: '',
             },
-            hasAll: { // TODO 多选的逻辑还未完成
+            unlimited: {
                 type: Boolean,
                 default: false
             },
@@ -52,7 +52,7 @@
                 currentValue: this.value, // 实际需要提交的数据
                 viewValue: '', // 用于子组件状态显示的数据
                 childrens: [],
-                allOptionName: 'all'
+                unlimitedOptionName: ''
             };
         },
         computed: {
@@ -62,23 +62,24 @@
                 ];
             },
         },
-        mounted () {
+        created () {
             this.update();
         },
         methods: {
             setChildren () {
+                // 获取 group 下面的 childrens 赋值给 data 中的 childrens，并初始化
                 this.childrens = findComponentsDownward(this, 'TiledSelect');
                 this.initChildrenProps(this.childrens);
-                if (this.hasAll) {
+                if (this.unlimited) {
                     this.childrens.splice(0, 1);
                 }
             },
             initChildrenProps () {
                 // 把父级的各种状态赋给 children
-                this.childrens.forEach(child => {
+                this.childrens.forEach((child, index) => {
                     if (this.selectType === 'multi') {
                         // All 选项不需要 multi 的样式
-                        child.isMultiSelectable = true;
+                        child.isMultiSelectable = !!index;
                     }
                     child.isGrouped = true;
                     child.isDisabled = this.disabled;
@@ -91,27 +92,26 @@
                 if (Array.isArray(val)) {
                     return val.length > 0;
                 } else {
-                    return !!val && val !== this.allOptionName;
+                    return !!val && val !== this.unlimitedOptionName;
                 }
             },
-            setAllState () {
-//                All 选项的选中取消判断
-                if (this.hasAll) {
+            setUnlimitedState () {
+//                unlimited 选项的选中取消判断
+                if (this.unlimited) {
                     const hasTrue = this.hasTrue(this.currentValue);
-                    const allOption = this.$children[0];
+                    const unlimitedOption = this.$children[0];
                     if (hasTrue) {
-                        allOption.isSelected = false;
+                        unlimitedOption.isSelected = false;
                     } else {
-                        allOption.isSelected = true;
+                        unlimitedOption.isSelected = true;
                     }
                 }
             },
-            update (source) { // init 的时候不带 source
+            update () {
                 this.$nextTick(() => {
                     this.setChildren();
-                    this.initChildrenProps();
-                    this.setChildrenSelect(source);
-                    this.setAllState(source); // 只在初始化的时候去计算是否 All 选项需要选中
+                    this.setChildrenSelect();
+                    this.setUnlimitedState(); // 只在初始化的时候去计算是否 All 选项需要选中
                 });
             },
             setChildrenSelect () {
@@ -128,6 +128,10 @@
             setCurrentValue (valueName) {
 
                 const setMutiValue = () => {
+                    if(valueName === ''){
+                        this.currentValue = [];
+                        return;
+                    }
                     const hasValue = this.currentValue.some(val => val === valueName);
                     if (hasValue) {
                         for (let i = 0, l = this.currentValue.length; i <= l; i++) {

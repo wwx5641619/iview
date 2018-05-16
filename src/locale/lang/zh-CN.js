@@ -103,7 +103,7 @@ const lang = {
             emptyText: '暂无数据'
         },
         tiledSelect: {
-            all: '全部'
+            unlimited: '不限'
         },
         sideView: {
             confirm: {
