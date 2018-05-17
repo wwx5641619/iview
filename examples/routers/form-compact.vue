@@ -38,7 +38,7 @@
             {{formValidate.tiledSelectSingle}}
             {{formValidate.tiledSelectSingle1}}
             <Form-item label="多选">
-                <TiledSelectGroup unlimited v-model="formValidate.tiledSelectMulti" size="large" selectType="multi"
+                <TiledSelectGroup unlimitedText="不限" unlimited v-model="formValidate.tiledSelectMulti" size="large" selectType="multi"
                                   @on-change="handlecg">
                     <TiledSelect value="apple">苹果</TiledSelect>
                     <TiledSelect value="orage">橘子</TiledSelect>

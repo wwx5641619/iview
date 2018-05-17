@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <TiledSelect v-if="unlimited" :value="unlimitedOptionName" selected>{{t('i.tiledSelect.unlimited')}}</TiledSelect>
+        <TiledSelect v-if="unlimited" :value="unlimitedOptionName" selected>{{unlimitedTextContent}}</TiledSelect>
         <slot></slot>
     </div>
 </template>
@@ -24,6 +24,9 @@
             unlimited: {
                 type: Boolean,
                 default: false
+            },
+            unlimitedText: {
+                type: String
             },
             selectType: {
                 type: String,
@@ -61,6 +64,9 @@
                     `${prefixCls}-group`,
                 ];
             },
+            unlimitedTextContent () {
+                return this.unlimitedText ? this.unlimitedText : this.t('i.tiledSelect.unlimited');
+            }
         },
         created () {
             this.update();
@@ -78,8 +84,9 @@
                 // 把父级的各种状态赋给 children
                 this.childrens.forEach((child, index) => {
                     if (this.selectType === 'multi') {
-                        // All 选项不需要 multi 的样式
-                        child.isMultiSelectable = !!index;
+                        // unlimited 选项不需要 multi 的样式
+                        // 当没有 unlimited 选项，又可以多选的时候，样式为全部可勾选状态
+                        child.isMultiSelectable = this.unlimited ? !!index : true;
                     }
                     child.isGrouped = true;
                     child.isDisabled = this.disabled;
@@ -163,6 +170,7 @@
         },
         watch: {
             value () {
+                console.log('change')
                 this.update();
             }
         }
