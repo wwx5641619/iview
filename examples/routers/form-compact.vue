@@ -107,9 +107,9 @@
                     <FormItem label="Tel:">13958302447</FormItem>
                 </i-col>
                 <i-col span="6">
-                    <FormItem label="Label:">hehe</FormItem>
-                    <FormItem label="Label:">hehe</FormItem>
-                    <FormItem label="Label:">hehe</FormItem>
+                    <FormItem label="船名">阿斯顿发斯蒂芬</FormItem>
+                    <FormItem label="航次">阿斯蒂芬是</FormItem>
+                    <FormItem label="提单号">阿斯顿发斯蒂芬</FormItem>
                 </i-col>
             </Row>
         </Form>
@@ -123,9 +123,9 @@
                     <FormItem label="Tel:">13958302447</FormItem>
                 </i-col>
                 <i-col span="4">
-                    <FormItem label="Label:">我是可爱的值</FormItem>
-                    <FormItem label="Label:">hehe</FormItem>
-                    <FormItem label="Label:">
+                    <FormItem label="呵呵">我是可爱的值</FormItem>
+                    <FormItem label="啊地方">阿萨撒旦发射点发</FormItem>
+                    <FormItem label="撒地方">
                         <textarea-format>{{formValidate.desc}}</textarea-format>
                     </FormItem>
                 </i-col>
