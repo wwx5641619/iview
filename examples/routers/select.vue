@@ -177,9 +177,9 @@
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <Button @click="hhh">add</Button>
-        <Split dashed large/>
+        <Split dashed large/>qqq
         <Row>
-            <i-col span="3"><Select v-model="model14" multiple size="small">
+            <i-col span="3"><Select v-model="model14" multiple size="small" :transfer="true">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select></i-col>
             <i-col span="8"><Input size="small"/></i-col>
@@ -280,7 +280,7 @@
                     },
                     {
                         value: '22222222',
-                        label: 'Los a2121312n'
+                        label: 'Los a2121312n adfasdfasd asdfasdfas asdfa sdfasdfas '
                     },
                     {
                         value: 'aa',
@@ -290,11 +290,27 @@
                 cityList: [
                     {
                         value: 'New York',
-                        label: 'New York'
+                        label: 'New York asdfsd asdfasdfasdfas dsafsdfasfd'
                     },
                     {
                         value: '中国',
                         label: '中国'
+                    },
+                    {
+                        value: 'Sydney',
+                        label: 'Sydney'
+                    },
+                    {
+                        value: 'Ottawa',
+                        label: 'Ottawa'
+                    },
+                    {
+                        value: 'Paris',
+                        label: 'Paris'
+                    },
+                    {
+                        value: 'Canberra',
+                        label: 'Canberra'
                     },
                     {
                         value: 'Sydney',
