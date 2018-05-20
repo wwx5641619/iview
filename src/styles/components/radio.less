@@ -245,9 +245,9 @@ span.@{radio-prefix-cls} + * {
         }
 
         &-checked {
-            background: @primary-color;
+            background: #fff;
             border-color: @primary-color;
-            color: #fff;
+            color: @primary-color;
             box-shadow: -1px 0 0 0 @primary-color;
             z-index: 1;
 
@@ -277,11 +277,8 @@ span.@{radio-prefix-cls} + * {
 
             &:hover {
                 border-color: tint(@primary-color, 20%);
-                box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
-                background: tint(@primary-color, 20%);
-                color: #fff;
                 //box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
-                //color: tint(@primary-color, 20%);
+                color: tint(@primary-color, 20%);
             }
 
             &:active {
