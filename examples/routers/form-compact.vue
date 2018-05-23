@@ -1,9 +1,11 @@
 <template>
     <Panel shadow>
         <Button type="primary" @click="inShow1 = !inShow1">side view</Button>
-        <!--<SideView v-model="inShow1" width="900" fromSideView>-->
-            <!--in-->
-        <!--</SideView>        -->
+        <!--<SideView v-model="inShow1" fromSideView url="http://www.qq.com"></SideView>-->
+        <SideView v-model="inShow1">
+            <Button type="primary" @click="inShow = !inShow">side view</Button>
+            <SideView v-model="inShow"  src="http://www.qq.com">asdfasdfasd</SideView>
+        </SideView>
         <Button type="primary" @click="component = 'SideView';inShow1 = !inShow1">side view</Button>
         <component :is="component" v-model="inShow1">动态生成</component>
 
@@ -152,6 +154,7 @@
             };
             return {
                 component: '',
+                inShow: false,
                 inShow1: false,
                 formValidate: {
                     name: '',

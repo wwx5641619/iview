@@ -34,7 +34,10 @@
                 </slot>
             </div>
             <div :class="[prefixCls + '-body']">
-                <slot v-if="showContent"></slot>
+                <template v-if="showContent">
+                    <slot v-if="!src"></slot>
+                    <iframe :class="[prefixCls + '-iframe']" v-if="src" :src="src" frameborder="0" allowtransparency="true"></iframe>
+                </template>
             </div>
             <div :class="[prefixCls + '-footer']" v-if="$slots.footer">
                 <slot name="footer"></slot>
@@ -145,6 +148,10 @@
             defaultActions: {
                 type: Boolean,
                 default: false
+            },
+            src: {
+                type: String,
+                default: null
             }
         },
         data () {
@@ -165,7 +172,8 @@
             },
             classes () {
                 return [`${prefixCls}`, {
-                    [`${prefixCls}--actived`]: this.visible
+                    [`${prefixCls}--actived`]: this.visible,
+                    [`${prefixCls}--has-iframe`]: this.src
                 }];
             },
             zIndex () {
