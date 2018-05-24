@@ -1,5 +1,6 @@
 <template>
     <button
+        ref="button"
         :type="htmlType"
         :class="classes"
         :disabled="disabled"
@@ -7,6 +8,7 @@
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" v-if="icon && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
+        <span :class="rippleClass"></span>
     </button>
 </template>
 <script>
@@ -14,6 +16,7 @@
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-btn';
+    const prefixKagouCls = 'go-ripple';
 
     export default {
         name: 'Button',
@@ -54,7 +57,11 @@
         },
         data () {
             return {
-                showSlot: true
+                showSlot: true,
+                repple_button: {
+                    animate: false,
+                    toggle: false
+                }
             };
         },
         computed: {
@@ -71,11 +78,35 @@
                         [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
                     }
                 ];
+            },
+            rippleClass () {
+                return [
+                    `${prefixKagouCls}`,
+                    {'animate': this.repple_button.animate}
+                ];
             }
         },
         methods: {
             handleClick (event) {
                 this.$emit('click', event);
+                this.reppleShow(event);
+            },
+            // 涟漪效果
+            reppleShow (e) {
+                this.repple_button.animate = true;
+                let button = this.$refs.button;
+                let ripple = button.querySelector('.go-ripple');
+                if (ripple) {
+                    let d = Math.max(button.offsetHeight, button.offsetWidth);
+                    let x = e.layerX - d / 2;
+                    let y = e.layerY - d / 2;
+                    ripple.setAttribute('style', 'height: ' + d + 'px; width: ' + d + 'px; top: ' + y + 'px; left: ' + x + 'px;');
+                }
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.repple_button.animate = false;
+                    }, 360);
+                });
             }
         },
         mounted () {
