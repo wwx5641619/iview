@@ -27,10 +27,12 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @input="change"
+                @mouseup="preventDefault"
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
-                :value="formatterValue">
+                :value="formatterValue"
+                :placeholder="placeholder">
         </div>
     </div>
 </template>
@@ -125,7 +127,11 @@
             },
             parser: {
                 type: Function
-            }
+            },
+            placeholder: {
+                type: String,
+                default: ''
+            },
         },
         data () {
             return {
@@ -182,6 +188,7 @@
             },
             precisionValue () {
                 // can not display 1.0
+                if(!this.currentValue) return this.currentValue;
                 return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             formatterValue () {
@@ -248,7 +255,7 @@
             },
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
-                if (!isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
+                if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
 
                 this.$nextTick(() => {
                     this.currentValue = val;
@@ -257,9 +264,9 @@
                     this.dispatch('FormItem', 'on-form-change', val);
                 });
             },
-            focus () {
+            focus (event) {
                 this.focused = true;
-                this.$emit('on-focus');
+                this.$emit('on-focus', event);
             },
             blur () {
                 this.focused = false;

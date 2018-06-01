@@ -11,6 +11,8 @@
                      style="width: 200px"></InputNumber>
         <InputNumber v-model="valueNull" @on-change="change" :formatter="formatter" :parser="parser"
                      style="width: 200px"></InputNumber>
+
+        <InputNumber v-model="valueNull" style="width: 200px" :min='0' :max='10000'  :precision='2' ></InputNumber>
     </div>
 </template>
 <script>
@@ -20,6 +22,8 @@
                 value1: 1800000,
                 value2: 55,
                 valueNull: null,
+                value3: 100,
+                valueNull:null,
                 formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                 parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
                 formatter2: (value) => `${value}%`,
@@ -33,6 +37,12 @@
             },
             changeMax () {
                 this.max++;
+            },
+            focus (e) {
+                e.target.select()
+            },
+            change (v) {
+                console.log(v)
             }
         }
     };
