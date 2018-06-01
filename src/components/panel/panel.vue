@@ -1,15 +1,18 @@
 <template>
     <div :class="classes" v-if="visible">
-        <div class="panel__header" v-if="title || $slots.header">
+        <div class="panel__header clearfix" v-if="title || $slots.header">
             <slot name="header"></slot>
             <div class="panel__title" v-if="title">{{title}}</div>
             <div class="panel__fn" v-if="$slots.fn">
                 <slot name="fn"></slot>
             </div>
         </div>
-        <div class="panel__body">
-            <slot></slot>
-        </div>
+        <transition name="slide-up"
+        >
+            <div class="panel__body" v-show="!hideBody">
+                <slot></slot>
+            </div>
+        </transition>
         <div v-if="closable" class="panel__close" @click="handleClosePanel">
             <Icon type="ios-close"></Icon>
         </div>
@@ -22,7 +25,7 @@
     const prefixCls = 'panel';
     export default {
         name: 'panel',
-        data () {
+        data() {
             return {
                 visible: true
             };
@@ -83,10 +86,22 @@
             closeBySelf: {
                 type: Boolean,
                 default: true
+            },
+            grayHeader: {
+                type: Boolean,
+                default: false
+            },
+            hideBody: {
+                type: Boolean,
+                default: false
+            },
+            actived: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
-            classes () {
+            classes() {
                 return [
                     `${prefixCls}`,
                     {
@@ -100,13 +115,16 @@
                         [`${prefixCls}--line`]: this.line,
                         [`${prefixCls}--gray`]: this.gray,
                         [`${prefixCls}--${this.size}`]: this.size,
-                        [`${prefixCls}--shadow`]: this.shadow
+                        [`${prefixCls}--shadow`]: this.shadow,
+                        [`${prefixCls}--gray-header`]: this.grayHeader,
+                        [`${prefixCls}--hide-body`]: this.hideBody,
+                        [`${prefixCls}--actived`]: this.actived,
                     }
                 ];
             }
         },
         methods: {
-            handleClosePanel (e) {
+            handleClosePanel(e) {
                 if (this.closeBySelf) this.visible = false;
                 this.$emit('on-close', e);
             }

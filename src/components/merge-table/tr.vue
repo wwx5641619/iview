@@ -8,7 +8,7 @@
 <script>
     export default {
         name: 'TableTr',
-        data () {
+        data() {
             return {};
         },
         props: {

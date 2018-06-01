@@ -1,6 +1,6 @@
 <template>
     <td :rowspan="data[renderKey].rowSpan" v-if="data[renderKey]">
-        <slot>{{data[renderKey].content}}</slot>
+        <slot>{{data[ renderKey ].content}}</slot>
     </td>
     <td v-else-if="!renderKey">
         <slot></slot>
@@ -11,8 +11,8 @@
 <script>
     export default {
         name: 'TableTd',
-        data () {
-            return {}
+        data() {
+            return {};
         },
         props: {
             renderKey: {
@@ -21,10 +21,10 @@
             }
         },
         computed: {
-            data () {
-                return this.$parent.rowData.rowData
+            data() {
+                return this.$parent.rowData.rowData;
             }
         }
-    }
+    };
 
 </script>
