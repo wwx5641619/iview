@@ -1,6 +1,11 @@
 <template>
     <div>
-        <Button><Icon type="arrow-right-half"></Icon>Default</Button>
+        <Button>
+            <Tooltip content="Left Bottom text" placement="left-end">
+                <Icon type="android-favorite-outline"></Icon>
+            </Tooltip>
+             Default
+        </Button>
         <Button type="primary">Primary</Button>
         <Button type="secondary">secondary</Button>
         <Button type="ghost">Ghost</Button>

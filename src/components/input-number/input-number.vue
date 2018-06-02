@@ -31,8 +31,7 @@
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
-                :value="formatterValue"
-                :placeholder="placeholder">
+                :value="formatterValue">
         </div>
     </div>
 </template>
@@ -71,7 +70,6 @@
         name: 'InputNumber',
         mixins: [ Emitter ],
         props: {
-            placeholder: [String],
             'show-handler': {
                 validator (value) {
                     return oneOf(value, [false, true, 'hover']);

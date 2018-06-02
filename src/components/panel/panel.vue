@@ -7,7 +7,7 @@
                 <slot name="fn"></slot>
             </div>
         </div>
-        <transition name="slide-up"
+        <transition name="transition-drop"
         >
             <div class="panel__body" v-show="!hideBody">
                 <slot></slot>

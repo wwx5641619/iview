@@ -65,7 +65,7 @@
                         :slot-options="slotOptions"
                     ></functional-options>
                 </ul>
-                <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
+                <div v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</div>
                 <!--by FEN ul -> div，与 html 规范不符合-->
                 <div v-if="extra" :class="[prefixCls + '__extra']">
                     <Button long type="text" class="tal" @click="handleExtraClick">
@@ -345,10 +345,6 @@
                     return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
                 }
             },
-            handleExtraClick () { // by FEN 下拉框中新增按钮被点击
-                this.hideMenu();
-                this.$emit('on-extra-click');
-            },
             canBeCleared(){
                 const uiStateMatch = this.hasMouseHoverHead || this.active;
                 const qualifiesForClear = !this.multiple && this.clearable;
@@ -423,6 +419,10 @@
             }
         },
         methods: {
+            handleExtraClick () { // by FEN 下拉框中新增按钮被点击
+                this.hideMenu();
+                this.$emit('on-extra-click');
+            },
             setQuery(query){ // PUBLIC API
                 if (query) {
                     this.onQueryChange(query);

@@ -8,7 +8,9 @@
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" v-if="icon && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
-        <span :class="rippleClass"></span>
+        <div :class="rippleClass" v-show="rippleShow">
+            <div :class="rippleItemClass"></div>
+        </div>
     </button>
 </template>
 <script>
@@ -58,10 +60,11 @@
         data () {
             return {
                 showSlot: true,
-                repple_button: {
+                ripple_button: {
                     animate: false,
                     toggle: false
-                }
+                },
+                rippleShow: false
             };
         },
         computed: {
@@ -81,21 +84,27 @@
             },
             rippleClass () {
                 return [
-                    `${prefixKagouCls}`,
-                    {'animate': this.repple_button.animate}
+                    `${prefixKagouCls}`
+                ];
+            },
+            rippleItemClass () {
+                return [
+                    `${prefixKagouCls}__item`,
+                    {'animate': this.ripple_button.animate}
                 ];
             }
         },
         methods: {
             handleClick (event) {
                 this.$emit('click', event);
-                this.reppleShow(event);
+                this.handlerRippleShow(event);
             },
             // 涟漪效果
-            reppleShow (e) {
-                this.repple_button.animate = true;
+            handlerRippleShow (e) {
+                this.rippleShow = true;
+                this.ripple_button.animate = true;
                 let button = this.$refs.button;
-                let ripple = button.querySelector('.go-ripple');
+                let ripple = button.querySelector(`.${prefixKagouCls}__item`);
                 if (ripple) {
                     let d = Math.max(button.offsetHeight, button.offsetWidth);
                     let x = e.layerX - d / 2;
@@ -104,7 +113,8 @@
                 }
                 this.$nextTick(() => {
                     setTimeout(() => {
-                        this.repple_button.animate = false;
+                        this.ripple_button.animate = false;
+                        this.rippleShow = false;
                     }, 360);
                 });
             }
