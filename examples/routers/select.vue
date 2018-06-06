@@ -73,12 +73,15 @@
                 :key="item.value">{{item.label}}
             </Option>
         </Select>
+        111
         <Select
-            v-model="model10"
-            multiple
+            v-model="model1"
+            remote
+            filterable
+            :remote-method="remoteMethod1"
             style="width:260px">
             <Option
-                v-for="item in cityList"
+                v-for="item in options"
                 :value="item.value"
                 :key="item.value">{{item.label}}
             </Option>
@@ -130,6 +133,7 @@
     export default {
         data() {
             return {
+                options: [],
                 cityList: [
                     {
                         value: 'New York',
@@ -159,6 +163,7 @@
                 model1: '',
                 model10: [],
                 model11: [],
+                list: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New hampshire', 'New jersey', 'New mexico', 'New york', 'North carolina', 'North dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode island', 'South carolina', 'South dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West virginia', 'Wisconsin', 'Wyoming']
             };
         },
         methods: {
@@ -175,7 +180,7 @@
                     this.model1 = '1111';
                 });
             },
-            remoteMethod2(query) {
+            remoteMethod1(query) {
                 if (query !== '') {
                     this.loading2 = true;
                     setTimeout(() => {
@@ -186,10 +191,10 @@
                                 label: item
                             };
                         });
-                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
+                        this.options = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
                     }, 200);
                 } else {
-                    this.options2 = [];
+                    this.options1 = []
                 }
             }
         },
