@@ -47,8 +47,14 @@
                 },
                 default: 'horizontal'
             },
+            // add by fen
             background: {
                 type: String
+            },
+            // add by fen 用于多行展示
+            col: {
+                type: Number,
+                default: null
             }
         },
         computed: {
@@ -70,6 +76,8 @@
 
                     if (this.direction === 'horizontal') {
                         child.total = total;
+                        // add by fen
+                        child.col = this.col;
                     }
 
                     // 如果已存在status,且在初始化时,则略过

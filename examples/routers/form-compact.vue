@@ -9,9 +9,9 @@
         <Button type="primary" @click="component = 'SideView';inShow1 = !inShow1">side view</Button>
         <component :is="component" v-model="inShow1">动态生成</component>
 
-        <Form text labelPosition="right" ref="formValidate" :model="formValidate" :rules="ruleValidate"
-              :label-width="80"
-              compact>
+        <Form text ref="formValidate" :model="formValidate" :rules="ruleValidate"
+              label-position="top"
+        >
             <Form-item label="打卡机:">
                 <Tag>dkj</Tag>
             </Form-item>
@@ -57,11 +57,6 @@
                     <span slot="append">@</span>
                     </Input>
                 </Form-item>
-                <Form-item prop="mail" size="small">
-                    <Input v-model="formValidate.mail" placeholder="请输入邮箱" size="small">
-                    <span slot="append">@</span>
-                    </Input>
-                </Form-item>
             </Form-item>
             <Form-item label="城市" prop="city">
                 <Select v-model="formValidate.city" placeholder="请选择所在地" size="small">
@@ -99,6 +94,54 @@
                 <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
                 <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
             </Form-item>
+        </Form>
+        <Split dashed large/>
+        <Form label-position="top" size="small" compact>
+            <Row :gutter="16">
+                <i-col span="6">
+                    <FormItem label="Name">
+                        <Input size="small"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="6">
+                    <FormItem label="Name">
+                        <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date" size="small" class="w100p"></Date-picker>
+                    </FormItem>
+                </i-col>
+                <i-col span="6">
+                    <FormItem label="Name">
+                        <Select size="small">
+                            <Option value="beijing">New York</Option>
+                            <Option value="shanghai" disabled>London</Option>
+                            <Option value="shenzhen">Sydney</Option>
+                        </Select>
+                    </FormItem>
+                </i-col>
+            </Row>
+        </Form>
+        <Split dashed/>
+        <Form label-position="top">
+            <Row :gutter="16">
+                <i-col span="6">
+                    <FormItem label="Name">
+                        <Input />
+                    </FormItem>
+                </i-col>
+                <i-col span="6">
+                    <FormItem label="Name">
+                        <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date" class="w100p"></Date-picker>
+                    </FormItem>
+                </i-col>
+                <i-col span="6">
+                    <FormItem label="Name">
+                        <Select>
+                            <Option value="beijing">New York</Option>
+                            <Option value="shanghai" disabled>London</Option>
+                            <Option value="shenzhen">Sydney</Option>
+                        </Select>
+                    </FormItem>
+                </i-col>
+            </Row>
         </Form>
         <Split dashed large/>
         <Form text :label-width="60" labelPosition="left">

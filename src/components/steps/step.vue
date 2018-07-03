@@ -48,7 +48,8 @@
                 stepNumber: '',
                 nextError: false,
                 total: 1,
-                currentStatus: ''
+                currentStatus: '',
+                col: null// add by fen 用于多行展示
             };
         },
         computed: {
@@ -84,9 +85,18 @@
                 ];
             },
             styles () {
-                return {
-                    width: `${1/this.total*100}%`
-                };
+                // add by fen 用于多行展示
+                let ret = {};
+                if(this.col === null){
+                    ret = {
+                        width: `${1/this.total*100}%`
+                    };
+                }else {
+                    ret = {
+                        width: `${1/this.col*100}%`
+                    };
+                }
+                return ret;
             },
             steps () {
                 let parent = this.$parent;
