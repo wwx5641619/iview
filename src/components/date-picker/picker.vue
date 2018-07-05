@@ -271,9 +271,10 @@
                     return this.internalValue.slice();
                 } else {
                     const isRange = this.type.includes('range');
-                    let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+// old                   let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+                    let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date === null ? null : ''));
                     if (this.type.match(/^time/)) val = val.map(this.formatDate);
-                    // add bu fen
+                    // add by fen
                     getTimestamp(val);
                     return (isRange || this.multiple) ? val : val[0];
                 }
@@ -734,6 +735,7 @@
         mounted () {
             const initialValue = this.value;
             const parsedValue = this.publicVModelValue;
+            console.log(parsedValue);
             if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
                 this.$emit('input', this.publicVModelValue); // to update v-model
             }
