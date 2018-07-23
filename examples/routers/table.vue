@@ -1,8 +1,8 @@
 <style>
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
 </style>
 
 <template>
@@ -27,9 +27,9 @@ table {
         <div class="layout-demo-con">
             <Button @click="change">修改Sider绑定的变量来控制收缩</Button>
             <Layout :style="{minHeight: '80vh'}">
-                <Sider 
+                <Sider
                     v-model="isCollapsed"
-                    collapsed-width="0" 
+                    collapsed-width="0"
                     hide-trigger
                     breakpoint="sm"
                     @on-collapse="changed"
@@ -61,23 +61,34 @@ table {
                     <!-- <div slot="trigger"><Icon type="document-text"></Icon></div> -->
                 </Sider>
                 <Layout class-name="test-class">
-                    <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
+                    <Header :style="{background: '#eee'}">
+                        <Button @click="toggleCollapse">菜单</Button>
+                    </Header>
                     <Content :style="{background:'#FFCF9E'}">
                         <!-- <Table border  :columns="columns1" height="500" :data="data1"></Table> -->
                         <!-- <br> -->
                         <!-- <Table border :columns="columns5" :data="data5"></Table> -->
-                        <Table border :columns="columns8"  height="240" :data="data7"></Table>
+                        <Table border :columns="columns8" height="240" :data="data7"></Table>
                     </Content>
                     <Footer>sdfsdsdfsdfs</Footer>
                 </Layout>
             </Layout>
         </div>
+        {{hh}}
+        <select name="" id="">
+            <option value="">dasdfs</option>
+            <option value="">dasdfs</option>
+            <option value="">dasdfs</option>
+            <option value="">dasdfs</option>
+            <option value="">dasdfs</option>
+        </select>
     </div>
 </template>
 <script>
     export default {
-        data () {
+        data() {
             return {
+                hh: '',
                 isCollapsed: false,
                 columns1: [
                     {
@@ -98,7 +109,7 @@ table {
                             }
                         ],
                         filterMultiple: false,
-                        filterMethod (value, row) {
+                        filterMethod(value, row) {
                             if (value === 1) {
                                 return row.name === 'Joe';
                             } else if (value === 2) {
@@ -383,7 +394,7 @@ table {
                             }
                         ],
                         filterMultiple: false,
-                        filterMethod (value, row) {
+                        filterMethod(value, row) {
                             if (value === 1) {
                                 return row.age > 25;
                             } else if (value === 2) {
@@ -409,33 +420,33 @@ table {
                                 value: 'Sydney'
                             }
                         ],
-                        filterMethod (value, row) {
+                        filterMethod(value, row) {
                             return row.address.indexOf(value) > -1;
                         }
                     }
                 ],
-                
+
                 columns7: [
                     {
                         title: 'Date',
                         key: 'date',
                         sortable: true,
-                        width:200,
+                        width: 200,
                     },
                     {
                         title: 'Name',
                         key: 'name',
-                        width:200,
+                        width: 200,
                     },
                     {
                         title: 'Age',
                         key: 'age',
-                        width:200,
+                        width: 200,
                     },
                     {
                         title: 'Address',
                         key: 'address',
-                        width:200,
+                        width: 200,
                     }
                 ],
                 data7: [
@@ -464,37 +475,39 @@ table {
                         date: '2016-10-04'
                     }
                 ],
-                
+
                 columns8: [
                     {
                         title: 'Address',
                         key: 'address',
-                        minWidth:200,
+                        minWidth: 200,
                         //maxWidth:300,
                     },
                     {
                         title: 'Date',
                         key: 'date',
                         sortable: true,
-                        minWidth:100,
-                        maxWidth:150,
+                        minWidth: 100,
+                        maxWidth: 150,
                     },
                     {
                         title: 'Name',
                         key: 'name',
-                        minWidth:100,
-                        maxWidth:200,
+                        minWidth: 100,
+                        maxWidth: 200,
                     },
                     {
                         title: 'Age',
                         key: 'age',
-                        minWidth:60,
-                        maxWidth:100,
+                        minWidth: 60,
+                        maxWidth: 100,
+
+
                     },
                 ],
-            }
+            };
         },
-        mounted () {
+        mounted() {
             const data = [];
             for (let i = 0; i < 20; i++) {
                 data.push({
@@ -512,20 +525,24 @@ table {
             this.data1 = data;
         },
         methods: {
-            toggleCollapse () {
+            updateValue: function (value, index) {
+                this.$emit('input', event.target.value)
+                console.log(this.data7[index].age);
+            },
+            toggleCollapse() {
                 this.$refs.side.toggleCollapse();
             },
-            change () {
+            change() {
                 this.isCollapsed = !this.isCollapsed;
             },
-            changed (res) {
-                console.log(res)
+            changed(res) {
+                console.log(res);
             }
         },
         watch: {
-            isCollapsed (val) {
+            isCollapsed(val) {
                 // console.log(val)
             }
         }
-    }
+    };
 </script>

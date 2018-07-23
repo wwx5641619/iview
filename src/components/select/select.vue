@@ -582,8 +582,6 @@
                     const keysThatCanOpenSelect = [ 'ArrowUp', 'ArrowDown' ];
                     if (keysThatCanOpenSelect.includes(e.key)) this.toggleMenu(null, true);
                 }
-
-
             },
             navigateOptions(direction) {
                 const optionsLength = this.flatOptions.length - 1;

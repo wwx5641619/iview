@@ -735,7 +735,6 @@
         mounted () {
             const initialValue = this.value;
             const parsedValue = this.publicVModelValue;
-            console.log(parsedValue);
             if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
                 this.$emit('input', this.publicVModelValue); // to update v-model
             }

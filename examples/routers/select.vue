@@ -76,7 +76,6 @@
         111
         <Select
             v-model="model1"
-            remote
             filterable
             :remote-method="remoteMethod1"
             style="width:260px">

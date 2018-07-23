@@ -26,6 +26,7 @@
         "transform-es5-property-mutators",
         "transform-object-rest-spread",
         "transform-runtime",
+        "jsx-v-model",
         "transform-vue-jsx"
     ],
     "env": {
