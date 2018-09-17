@@ -7,9 +7,9 @@
 @primary-color          : #E85541; //#2d8cf0;
 @primary-color-extra    : #2d8cf0;
 @info-color             : #2db7f5;
-@success-color          : #46BE8A; // #19be6b;
+@success-color          : #19be6b;
 @warning-color          : #ff9900;
-@error-color            : #f04134; //#ed3f14;
+@error-color            : #ed3f14;
 @link-color             : #2D8cF0;
 @link-hover-color       : tint(@link-color, 20%);
 @link-active-color      : shade(@link-color, 5%);
@@ -22,13 +22,14 @@
 
 
 // Base
-@body-background        : #fff; // #fff
+@body-background        : #fff;
 @font-family            : "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 @code-family            : Consolas,Menlo,Courier,monospace;
 @title-color            : #1c2438;
 @text-color             : #495060;
 @font-size-base         : 14px;
 @font-size-small        : 12px;
+@font-size-large        : 16px;
 @line-height-base       : 1.5;
 @line-height-computed   : floor((@font-size-base * @line-height-base));
 @border-radius-base     : 4px;
@@ -36,8 +37,10 @@
 @cursor-disabled        : not-allowed;
 
 // Border color
-@border-color-base      : #dddee1;  // outside
-@border-color-split     : #e9eaec;  // inside
+@border-color-base      : #dcdee2;  // outside
+@border-color-split     : #e8eaec;  // inside
+@border-width-base      : 1px;            // width of the border for a component
+@border-style-base      : solid;          // style of a components border
 
 // Background color
 @background-color-base        : #f7f7f7;  // base
@@ -65,9 +68,9 @@
 
 // Button
 @btn-font-weight        : normal;
-@btn-padding-base       : 6px 20px;
-@btn-padding-large      : 6px 28px 7px 28px;
-@btn-padding-small      : 2px 8px;
+@btn-padding-base       : 6px 15px;
+@btn-padding-large      : 6px 15px 7px 15px;
+@btn-padding-small      : 2px 7px;
 @btn-font-size          : 12px;
 @btn-font-size-large    : 14px;
 @btn-border-radius      : 3px;
@@ -129,6 +132,7 @@
 @input-color                 : @text-color;
 @input-border-color          : @border-color-base;
 @input-bg                    : #fff;
+@input-group-bg              : #f8f8f9;
 
 @input-hover-border-color    : @primary-color-extra ;
 @input-focus-border-color    : @primary-color-extra ;
@@ -194,6 +198,10 @@
 @avatar-bg: #ccc;
 @avatar-color: #fff;
 @avatar-border-radius: @border-radius-small;
+
+// Anchor
+@anchor-border-width: 2px;
+
 
 //add by FEN
 //panel

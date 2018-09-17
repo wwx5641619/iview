@@ -13,11 +13,11 @@ let messageInstance;
 let name = 1;
 
 const iconTypes = {
-    'info': 'information-circled',
-    'success': 'checkmark-circled',
-    'warning': 'android-alert',
-    'error': 'close-circled',
-    'loading': 'load-c'
+    'info': 'ios-information-circle',
+    'success': 'ios-checkmark-circle',
+    'warning': 'ios-alert',
+    'error': 'ios-close-circle',
+    'loading': 'ios-loading'
 };
 
 function getMessageInstance () {
@@ -38,22 +38,22 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
     const loadCls = type === 'loading' ? ' ivu-load-loop' : '';
 
     let instance = getMessageInstance();
+
     instance.notice({
         name: `${prefixKey}${name}`,
         duration: duration,
         styles: {},
         transitionName: 'move-up',
         content: `
-            <div class="${prefixCls}-custom-content">
-                <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}${loadCls}"></i>
+            <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
+                <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType} ${loadCls}"></i>
                 <span>${content}</span>
             </div>
         `,
         render: render,
         onClose: onClose,
         closable: closable,
-        type: 'message',
-        contentClassName: `${prefixCls}-${type}`
+        type: 'message'
     });
 
     // 用于手动消除

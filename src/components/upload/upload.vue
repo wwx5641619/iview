@@ -1,10 +1,12 @@
 <template>
     <div :class="uploadClasses">
         <div
-                :class="classes"
-                @drop.prevent="onDrop"
-                @dragover.prevent="dragOver = true"
-                @dragleave.prevent="dragOver = false">
+            :class="classes"
+            @click="handleClick"
+            @drop.prevent="onDrop"
+            @paste="handlePaste"
+            @dragover.prevent="dragOver = true"
+            @dragleave.prevent="dragOver = false">
             <input
                     ref="input"
                     type="file"
@@ -17,24 +19,24 @@
         </div>
         <slot name="tip"></slot>
         <upload-list
-                v-if="showUploadList"
-                :files="fileList"
-                @on-file-remove="handleRemove"
-                @on-file-preview="handlePreview"></upload-list>
+            v-if="showUploadList"
+            :files="fileList"
+            @on-file-remove="handleRemove"
+            @on-file-preview="handlePreview"></upload-list>
     </div>
 </template>
 <script>
     import UploadList from './upload-list.vue';
     import ajax from './ajax';
-    import {oneOf} from '../../utils/assist';
+    import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-upload';
 
     export default {
         name: 'Upload',
-        mixins: [Emitter],
-        components: {UploadList},
+        mixins: [ Emitter ],
+        components: { UploadList },
         props: {
             action: {
                 type: String,
@@ -133,9 +135,13 @@
             },
             defaultFileList: {
                 type: Array,
-                default () {
+                default() {
                     return [];
                 }
+            },
+            paste: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -182,6 +188,11 @@
             onDrop (e) {
                 this.dragOver = false;
                 this.uploadFiles(e.dataTransfer.files);
+            },
+            handlePaste (e) {
+                if (this.paste) {
+                    this.uploadFiles(e.clipboardData.files);
+                }
             },
             uploadFiles (files) {
                 let postFiles = Array.prototype.slice.call(files);
@@ -292,8 +303,8 @@
                     _file.status = 'finished';
                     _file.response = res;
 
+                    this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
-                    this.dispatch('FormItem', 'on-form-change', _file);  // fixed by FEN 先触发导致验证的时候有问题
 
                     if (this.single) { // add by fen 消失过慢导致视觉上不舒服
                         _file.showProgress = false;
@@ -314,25 +325,25 @@
 
                 this.onError(err, response, file);
             },
-            handleRemove (file) {
+            handleRemove(file) {
                 const fileList = this.fileList;
                 fileList.splice(fileList.indexOf(file), 1);
                 this.onRemove(file, fileList);
                 this.dispatch('FormItem', 'on-form-change', file); // fixed by FEN 删除列表后的验证判断
             },
-            handlePreview (file) {
+            handlePreview(file) {
                 if (file.status === 'finished') {
                     this.onPreview(file);
                 }
             },
-            clearFiles () {
+            clearFiles() {
                 this.fileList = [];
             }
         },
         watch: {
             defaultFileList: {
                 immediate: true,
-                handler (fileList) {
+                handler(fileList) {
                     this.fileList = fileList.map(item => {
                         item.status = 'finished';
                         item.percentage = 100;

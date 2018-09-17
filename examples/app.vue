@@ -16,8 +16,10 @@ nav {
     <div class="container">
         <nav>
             <ul>
+                <li><router-link to="/split">Split</router-link></li>
                 <li><router-link to="/layout">Layout</router-link></li>
                 <li><router-link to="/affix">Affix</router-link></li>
+                <li><router-link to="/anchor">Anchor</router-link></li>
                 <li><router-link to="/grid">Grid</router-link></li>
                 <li><router-link to="/button">Button</router-link></li>
                 <li><router-link to="/input">Input</router-link></li>
@@ -63,6 +65,9 @@ nav {
                 <li><router-link to="/color-picker">ColorPicker</router-link></li>
                 <li><router-link to="/auto-complete">AutoComplete</router-link></li>
                 <li><router-link to="/scroll">Scroll</router-link></li>
+                <li><router-link to="/divider">Divider</router-link></li>
+                <li><router-link to="/time">Time</router-link></li>
+                <li><router-link to="/cell">Cell</router-link></li>
                 <li><router-link to="/split">Split</router-link></li>
                 <li><router-link to="/panel">Panel</router-link></li>
                 <li><router-link to="/list">List</router-link></li>
@@ -70,6 +75,7 @@ nav {
                 <li><router-link to="/file-export">FileExport</router-link></li>
                 <li><router-link to="/textarea-format">textarea format</router-link></li>
                 <li><router-link to="/merge-table">merge table</router-link></li>
+                <li><router-link to="/kplist">k-split</router-link></li>
 
             </ul>
         </nav>
@@ -80,8 +86,7 @@ nav {
     module.exports = {
         data: function() {
             return {
-
-            }
+            };
         },
         mounted: function() {
 
@@ -92,5 +97,5 @@ nav {
         methods: {
 
         }
-    }
+    };
 </script>

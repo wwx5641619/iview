@@ -84,7 +84,7 @@
     import Drop from './dropdown.vue';
     import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
-    import {oneOf} from '../../utils/assist';
+    import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
     import SelectHead from './select-head.vue';
@@ -97,8 +97,8 @@
     const findChild = (instance, checkFn) => {
         let match = checkFn(instance);
         if (match) return instance;
-        for (let i = 0, l = instance.$children.length; i < l; i++) {
-            const child = instance.$children[ i ];
+        for (let i = 0, l = instance.$children.length; i < l; i++){
+            const child = instance.$children[i];
             match = findChild(child, checkFn);
             if (match) return match;
         }
@@ -106,11 +106,11 @@
 
     const findOptionsInVNode = (node) => {
         const opts = node.componentOptions;
-        if (opts && opts.tag.match(optionRegexp)) return [ node ];
+        if (opts && opts.tag.match(optionRegexp)) return [node];
         if (!node.children && (!opts || !opts.children)) return [];
-        const children = [ ...(node.children || []), ...(opts && opts.children || []) ];
+        const children = [...(node.children || []), ...(opts && opts.children || [])];
         const options = children.reduce(
-            (arr, el) => [ ...arr, ...findOptionsInVNode(el) ], []
+            (arr, el) => [...arr, ...findOptionsInVNode(el)], []
         ).filter(Boolean);
         return options.length > 0 ? options : [];
     };
@@ -134,7 +134,7 @@
 
     const getNestedProperty = (obj, path) => {
         const keys = path.split('.');
-        return keys.reduce((o, key) => o && o[ key ] || null, obj);
+        return keys.reduce((o, key) => o && o[key] || null, obj);
     };
 
     const getOptionLabel = option => {
@@ -150,7 +150,7 @@
     export default {
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
-        components: { FunctionalOptions, Drop, Icon, SelectHead },
+        components: { FunctionalOptions, Drop, SelectHead },
         directives: { clickOutside, TransferDom },
         props: {
             extra: {
@@ -162,12 +162,12 @@
                 default: ''
             },
             value: {
-                type: [ String, Number, Array ],
+                type: [String, Number, Array],
                 default: ''
             },
             // 使用时，也得设置 value 才行
             label: {
-                type: [ String, Number, Array ],
+                type: [String, Number, Array],
                 default: ''
             },
             multiple: {
@@ -203,8 +203,11 @@
                 type: String
             },
             size: {
-                validator(value) {
-                    return oneOf(value, [ 'small', 'large', 'default' ]);
+                validator (value) {
+                    return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             labelInValue: {
@@ -215,14 +218,16 @@
                 type: String
             },
             placement: {
-                validator(value) {
-                    return oneOf(value, [ 'top', 'bottom' ]);
+                validator (value) {
+                    return oneOf(value, ['top', 'bottom']);
                 },
                 default: 'bottom'
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             // Use for AutoComplete
             autoComplete: {
@@ -236,22 +241,20 @@
                 type: String
             }
         },
-        mounted() {
+        mounted(){
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if (!this.remote && this.selectOptions.length > 0) {
+            if (!this.remote && this.selectOptions.length > 0){
                 this.values = this.getInitialValue().map(value => {
                     if (typeof value !== 'number' && !value) return null;
                     return this.getOptionData(value);
                 }).filter(Boolean);
             }
 
-            if (this.values.length > 0 && this.selectOptions.length === 0) {
-                this.hasExpectedValue = this.values;
-            }
+            this.checkUpdateStatus();
         },
-        data() {
+        data () {
 
             return {
                 prefixCls: prefixCls,
@@ -272,7 +275,7 @@
             };
         },
         computed: {
-            classes() {
+            classes () {
                 return [
                     `${prefixCls}`,
                     {
@@ -285,7 +288,7 @@
                     }
                 ];
             },
-            dropdownCls() {
+            dropdownCls () {
                 return {
                     [prefixCls + '-dropdown-transfer']: this.transfer,
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
@@ -298,36 +301,36 @@
                     `${prefixCls}-dropdown-list`
                 ];
             },
-            selectionCls() {
+            selectionCls () {
                 return {
                     [`${prefixCls}-selection`]: !this.autoComplete,
                     [`${prefixCls}-selection-focused`]: this.isFocused
                 };
             },
-            queryStringMatchesSelectedOption() {
-                const selectedOptions = this.values[ 0 ];
+            queryStringMatchesSelectedOption(){
+                const selectedOptions = this.values[0];
                 if (!selectedOptions) return false;
-                const [ query, label ] = [ this.query, selectedOptions.label ].map(str => (str || '').trim());
+                const [query, label] = [this.query, selectedOptions.label].map(str => (str || '').trim());
                 return !this.multiple && this.unchangedQuery && query === label;
             },
-            localeNotFoundText() {
+            localeNotFoundText () {
                 if (typeof this.notFoundText === 'undefined') {
                     return this.t('i.select.noMatch');
                 } else {
                     return this.notFoundText;
                 }
             },
-            localeLoadingText() {
+            localeLoadingText () {
                 if (typeof this.loadingText === 'undefined') {
                     return this.t('i.select.loading');
                 } else {
                     return this.loadingText;
                 }
             },
-            transitionName() {
+            transitionName () {
                 return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
             },
-            dropVisible() {
+            dropVisible () {
                 let status = true;
                 const noOptions = !this.selectOptions || this.selectOptions.length === 0;
                 if (!this.loading && this.remote && this.query === '' && noOptions) status = false;
@@ -336,18 +339,18 @@
 
                 return this.visible && status;
             },
-            showNotFoundLabel() {
-                const { loading, remote, selectOptions } = this;
+            showNotFoundLabel () {
+                const {loading, remote, selectOptions} = this;
                 return selectOptions && selectOptions.length === 0 && (!remote || (remote && !loading));
             },
-            publicValue() {
-                if (this.labelInValue) {
-                    return this.multiple ? this.values : this.values[ 0 ];
+            publicValue(){
+                if (this.labelInValue){
+                    return this.multiple ? this.values : this.values[0];
                 } else {
-                    return this.multiple ? this.values.map(option => option.value) : (this.values[ 0 ] || {}).value;
+                    return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
                 }
             },
-            canBeCleared() {
+            canBeCleared(){
                 const uiStateMatch = this.hasMouseHoverHead || this.active;
                 const qualifiesForClear = !this.multiple && this.clearable;
                 return uiStateMatch && qualifiesForClear && this.reset; // we return a function
@@ -357,7 +360,7 @@
                 const slotOptions = (this.slotOptions || []);
                 let optionCounter = -1;
                 const currentIndex = this.focusIndex;
-                const selectedValues = this.values.filter(Boolean).map(({ value }) => value);
+                const selectedValues = this.values.filter(Boolean).map(({value}) => value);
                 if (this.autoComplete) {
                     const copyChildren = (node, fn) => {
                         return {
@@ -366,7 +369,7 @@
                         };
                     };
                     const autoCompleteOptions = extractOptions(slotOptions);
-                    const selectedSlotOption = autoCompleteOptions[ currentIndex ];
+                    const selectedSlotOption = autoCompleteOptions[currentIndex];
 
                     return slotOptions.map(node => {
                         if (node === selectedSlotOption || getNestedProperty(node, 'componentOptions.propsData.value') === this.value) return applyProp(node, 'isFocused', true);
@@ -376,18 +379,18 @@
                         });
                     });
                 }
-
+                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
                     if (!cOptions) continue;
-                    if (cOptions.tag.match(optionGroupRegexp)) {
+                    if (cOptions.tag.match(optionGroupRegexp)){
                         let children = cOptions.children;
 
                         // remove filtered children
-                        if (this.filterable) {
+                        if (this.filterable){
                             children = children.filter(
-                                ({ componentOptions }) => this.validateOption(componentOptions)
+                                ({componentOptions}) => this.validateOption(componentOptions)
                             );
                         }
 
@@ -397,11 +400,13 @@
                         });
 
                         // keep the group if it still has children
-                        if (cOptions.children.length > 0) selectOptions.push({ ...option });
+                        if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
-                        if (!optionPassesFilter) continue;
+                        if (!hasDefaultSelected) {
+                            const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
+                            if (!optionPassesFilter) continue;
+                        }
 
                         optionCounter = optionCounter + 1;
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
@@ -410,13 +415,13 @@
 
                 return selectOptions;
             },
-            flatOptions() {
+            flatOptions(){
                 return extractOptions(this.selectOptions);
             },
-            selectTabindex() {
+            selectTabindex(){
                 return this.disabled || this.filterable ? -1 : 0;
             },
-            remote() {
+            remote(){
                 return typeof this.remoteMethod === 'function';
             }
         },
@@ -435,13 +440,13 @@
                     this.values = [];
                 }
             },
-            clearSingleSelect() { // PUBLIC API
+            clearSingleSelect(){ // PUBLIC API
                 this.$emit('on-clear');
                 this.hideMenu();
                 if (this.clearable) this.reset();
             },
-            getOptionData(value) {
-                const option = this.flatOptions.find(({ componentOptions }) => componentOptions.propsData.value === value);
+            getOptionData(value){
+                const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;
                 const label = getOptionLabel(option);
                 return {
@@ -449,15 +454,19 @@
                     label: label,
                 };
             },
-            getInitialValue() {
-                const { multiple, value } = this;
-                let initialValue = Array.isArray(value) ? value : [ value ];
-                if (!multiple && (typeof initialValue[ 0 ] === 'undefined' || (String(initialValue[ 0 ]).trim() === '' && !Number.isFinite(initialValue[ 0 ])))) initialValue = [];
+            getInitialValue(){
+                const {multiple, remote, value} = this;
+                let initialValue = Array.isArray(value) ? value : [value];
+                if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) initialValue = [];
+                if (remote && !multiple && value) {
+                    const data = this.getOptionData(value);
+                    this.query = data ? data.label : String(value);
+                }
                 return initialValue.filter((item) => {
                     return Boolean(item) || item === 0;
                 });
             },
-            processOption(option, values, isFocused) {
+            processOption(option, values, isFocused){
                 if (!option.componentOptions) return option;
                 const optionValue = option.componentOptions.propsData.value;
                 const disabled = option.componentOptions.propsData.disabled;
@@ -479,7 +488,7 @@
                 };
             },
 
-            validateOption({ children, elm, propsData }) {
+            validateOption({children, elm, propsData}){
                 if (this.queryStringMatchesSelectedOption) return true;
 
                 const value = propsData.value;
@@ -488,27 +497,27 @@
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = JSON.stringify([ value, label, textContent ]);
+                const stringValues = JSON.stringify([value, label, textContent]);
                 const query = this.query.toLowerCase().trim();
                 return stringValues.toLowerCase().includes(query);
             },
 
-            toggleMenu(e, force) {
+            toggleMenu (e, force) {
                 if (this.disabled) {
                     return false;
                 }
 
                 this.visible = typeof force !== 'undefined' ? force : !this.visible;
-                if (this.visible) {
+                if (this.visible){
                     this.dropDownWidth = this.$el.getBoundingClientRect().width;
                     this.broadcast('Drop', 'on-update-popper');
                 }
             },
-            hideMenu() {
+            hideMenu () {
                 this.toggleMenu(null, false);
                 setTimeout(() => this.unchangedQuery = true, ANIMATION_TIMEOUT);
             },
-            onClickOutside(event) {
+            onClickOutside(event){
                 if (this.visible) {
                     if (event.type === 'mousedown') {
                         event.preventDefault();
@@ -516,7 +525,7 @@
                     }
 
                     if (this.transfer) {
-                        const { $el } = this.$refs.dropdown;
+                        const {$el} = this.$refs.dropdown;
                         if ($el === event.target || $el.contains(event.target)) {
                             return;
                         }
@@ -541,20 +550,20 @@
                     this.isFocused = false;
                 }
             },
-            reset() {
+            reset(){
                 this.query = '';
                 this.focusIndex = -1;
                 this.unchangedQuery = true;
                 this.values = [];
             },
-            handleKeydown(e) {
-                if (e.key === 'Backspace') {
+            handleKeydown (e) {
+                if (e.key === 'Backspace'){
                     return; // so we don't call preventDefault
                 }
 
                 if (this.visible) {
                     e.preventDefault();
-                    if (e.key === 'Tab') {
+                    if (e.key === 'Tab'){
                         e.stopPropagation();
                     }
 
@@ -574,16 +583,18 @@
                     // enter
                     if (e.key === 'Enter') {
                         if (this.focusIndex === -1) return this.hideMenu();
-                        const optionComponent = this.flatOptions[ this.focusIndex ];
+                        const optionComponent = this.flatOptions[this.focusIndex];
                         const option = this.getOptionData(optionComponent.componentOptions.propsData.value);
                         this.onOptionClick(option);
                     }
                 } else {
-                    const keysThatCanOpenSelect = [ 'ArrowUp', 'ArrowDown' ];
+                    const keysThatCanOpenSelect = ['ArrowUp', 'ArrowDown'];
                     if (keysThatCanOpenSelect.includes(e.key)) this.toggleMenu(null, true);
                 }
+
+
             },
-            navigateOptions(direction) {
+            navigateOptions(direction){
                 const optionsLength = this.flatOptions.length - 1;
 
                 let index = this.focusIndex + direction;
@@ -591,18 +602,18 @@
                 if (index > optionsLength) index = 0;
 
                 // find nearest option in case of disabled options in between
-                if (direction > 0) {
+                if (direction > 0){
                     let nearestActiveOption = -1;
-                    for (let i = 0; i < this.flatOptions.length; i++) {
-                        const optionIsActive = !this.flatOptions[ i ].componentOptions.propsData.disabled;
+                    for (let i = 0; i < this.flatOptions.length; i++){
+                        const optionIsActive = !this.flatOptions[i].componentOptions.propsData.disabled;
                         if (optionIsActive) nearestActiveOption = i;
                         if (nearestActiveOption >= index) break;
                     }
                     index = nearestActiveOption;
                 } else {
                     let nearestActiveOption = this.flatOptions.length;
-                    for (let i = optionsLength; i >= 0; i--) {
-                        const optionIsActive = !this.flatOptions[ i ].componentOptions.propsData.disabled;
+                    for (let i = optionsLength; i >= 0; i--){
+                        const optionIsActive = !this.flatOptions[i].componentOptions.propsData.disabled;
                         if (optionIsActive) nearestActiveOption = i;
                         if (nearestActiveOption <= index) break;
                     }
@@ -612,15 +623,15 @@
                 this.focusIndex = index;
             },
             onOptionClick(option) {
-                if (this.multiple) {
+                if (this.multiple){
 
                     // keep the query for remote select
                     if (this.remote) this.lastRemoteQuery = this.lastRemoteQuery || this.query;
                     else this.lastRemoteQuery = '';
 
-                    const valueIsSelected = this.values.find(({ value }) => value === option.value);
-                    if (valueIsSelected) {
-                        this.values = this.values.filter(({ value }) => value !== option.value);
+                    const valueIsSelected = this.values.find(({value}) => value === option.value);
+                    if (valueIsSelected){
+                        this.values = this.values.filter(({value}) => value !== option.value);
                     } else {
                         this.values = this.values.concat(option);
                     }
@@ -628,7 +639,7 @@
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
                     this.query = String(option.label).trim();
-                    this.values = [ option ];
+                    this.values = [option];
                     this.lastRemoteQuery = '';
                     this.hideMenu();
                 }
@@ -638,7 +649,7 @@
                     return opt.componentOptions.propsData.value === option.value;
                 });
 
-                if (this.filterable) {
+                if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
@@ -649,14 +660,19 @@
                 this.query = query;
                 this.unchangedQuery = this.visible;
             },
-            toggleHeaderFocus({ type }) {
+            toggleHeaderFocus({type}){
                 if (this.disabled) {
                     return;
                 }
                 this.isFocused = type === 'focus';
             },
-            updateSlotOptions() {
+            updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
+            },
+            checkUpdateStatus() {
+                if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
+                    this.hasExpectedValue = true;
+                }
             },
             focusedAtFirstChild(query) {
                 // add by FEN 聚焦第一个选项
@@ -664,20 +680,22 @@
             },
         },
         watch: {
-            value(value) {
-                const { getInitialValue, getOptionData, publicValue } = this;
+            value(value){
+                const {getInitialValue, getOptionData, publicValue} = this;
+
+                this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
                 else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                 }
             },
-            values(now, before) {
+            values(now, before){
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 // v-model is always just the value, event with labelInValue === true
                 const vModelValue = (this.publicValue && this.labelInValue) ?
-                    (this.multiple ? this.publicValue.map(({ value }) => value) : this.publicValue.value) :
+                    (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
                     this.publicValue;
                 const shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
                 if (shouldEmitInput) {
@@ -686,18 +704,18 @@
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
-            query(query) {
+            query (query) {
                 this.$emit('on-query-change', query);
-                const { remoteMethod, lastRemoteQuery } = this;
+                const {remoteMethod, lastRemoteQuery} = this;
                 const hasValidQuery = query !== '' && (query !== lastRemoteQuery || !lastRemoteQuery);
                 const shouldCallRemoteMethod = remoteMethod && hasValidQuery && !this.preventRemoteCall;
                 this.preventRemoteCall = false; // remove the flag
 
-                if (shouldCallRemoteMethod) {
+                if (shouldCallRemoteMethod){
                     this.focusIndex = -1;
                     const promise = this.remoteMethod(query);
                     this.initialLabel = '';
-                    if (promise && promise.then) {
+                    if (promise && promise.then){
                         promise.then(options => {
                             if (options) this.options = options;
                         });
@@ -707,18 +725,18 @@
 
                 this.focusedAtFirstChild(query);
             },
-            loading(state) {
-                if (state === false) {
+            loading(state){
+                if (state === false){
                     this.updateSlotOptions();
                 }
             },
-            isFocused(focused) {
+            isFocused(focused){
                 const el = this.filterable ? this.$el.querySelector('input[type="text"]') : this.$el;
-                el[ this.isFocused ? 'focus' : 'blur' ]();
+                el[this.isFocused ? 'focus' : 'blur']();
 
                 // restore query value in filterable single selects
-                const [ selectedOption ] = this.values;
-                if (selectedOption && this.filterable && !this.multiple && !focused) {
+                const [selectedOption] = this.values;
+                if (selectedOption && this.filterable && !this.multiple && !focused){
                     const selectedLabel = String(selectedOption.label || selectedOption.value).trim();
                     if (selectedLabel && this.query !== selectedLabel) {
                         this.preventRemoteCall = true;
@@ -726,11 +744,11 @@
                     }
                 }
             },
-            focusIndex(index) {
-                if (index < 0 || this.autoComplete || this.flatOptions.length === 0) return;
+            focusIndex(index){
+                if (index < 0 || this.autoComplete) return;
                 // update scroll
-                const optionValue = this.flatOptions[ index ].componentOptions.propsData.value;
-                const optionInstance = findChild(this, ({ $options }) => {
+                const optionValue = this.flatOptions[index].componentOptions.propsData.value;
+                const optionInstance = findChild(this, ({$options}) => {
                     return $options.componentName === 'select-item' && $options.propsData.value === optionValue;
                 });
 
@@ -743,20 +761,23 @@
                     this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
                 }
             },
-            dropVisible(open) {
+            dropVisible(open){
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             },
-            selectOptions() {
-                if (this.hasExpectedValue) {
+            selectOptions(){
+                if (this.hasExpectedValue && this.selectOptions.length > 0){
+                    if (this.values.length === 0) {
+                        this.values = this.getInitialValue();
+                    }
                     this.values = this.values.map(this.getOptionData).filter(Boolean);
                     this.hasExpectedValue = false;
                 }
 
-                if (this.slotOptions && this.slotOptions.length === 0) {
+                if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
             },
-            visible(state) {
+            visible(state){
                 this.$emit('on-open-change', state);
             }
         }

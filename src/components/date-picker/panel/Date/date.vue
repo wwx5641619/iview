@@ -14,38 +14,25 @@
         <div :class="[prefixCls + '-body']">
             <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                 <span
-                    @click="changeYear(-1)">
-                    <Tooltip :content="t('i.datepicker.prevYear')" placement="bottom" :class="iconBtnCls('prev', '-double')"
-                    >
-                        <Icon type="ios-arrow-left"></Icon>
-                    </Tooltip>
-                </span>
+                    :class="iconBtnCls('prev', '-double')"
+                    @click="changeYear(-1)"><Icon type="ios-arrow-back"></Icon></span>
                 <span
                     v-if="pickerTable === 'date-table'"
+                    :class="iconBtnCls('prev')"
                     @click="changeMonth(-1)"
-                    v-show="currentView === 'date'">
-                    <Tooltip :content="t('i.datepicker.prevMonth')" placement="bottom" :class="iconBtnCls('prev')">
-                        <Icon type="ios-arrow-left"></Icon>
-                    </Tooltip>
-                </span>
+                    v-show="currentView === 'date'"><Icon type="ios-arrow-back"></Icon></span>
                 <date-panel-label
                     :date-panel-label="datePanelLabel"
                     :current-view="pickerTable.split('-').shift()"
                     :date-prefix-cls="datePrefixCls"></date-panel-label>
                 <span
-                    @click="changeYear(+1)">
-                    <Tooltip :content="t('i.datepicker.nextYear')" placement="bottom" :class="iconBtnCls('next', '-double')">
-                        <Icon type="ios-arrow-right"></Icon>
-                    </Tooltip>
-                </span>
+                    :class="iconBtnCls('next', '-double')"
+                    @click="changeYear(+1)"><Icon type="ios-arrow-forward"></Icon></span>
                 <span
                     v-if="pickerTable === 'date-table'"
+                    :class="iconBtnCls('next')"
                     @click="changeMonth(+1)"
-                    v-show="currentView === 'date'">
-                    <Tooltip :content="t('i.datepicker.nextMonth')" placement="bottom" :class="iconBtnCls('next')">
-                        <Icon type="ios-arrow-right"></Icon>
-                    </Tooltip>
-                </span>
+                    v-show="currentView === 'date'"><Icon type="ios-arrow-forward"></Icon></span>
             </div>
             <div :class="[prefixCls + '-content']">
                 <component

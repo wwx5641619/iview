@@ -1,12 +1,26 @@
 <template>
+    <a
+        v-if="to"
+        :class="classes"
+        :disabled="disabled"
+        :href="linkUrl"
+        :target="target"
+        @click.exact="handleClickLink($event, false)"
+        @click.ctrl="handleClickLink($event, true)"
+        @click.meta="handleClickLink($event, true)">
+        <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
+        <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
+        <span v-if="showSlot" ref="slot"><slot></slot></span>
+    </a>
     <button
+        v-else
         ref="button"
         :type="htmlType"
         :class="classes"
         :disabled="disabled"
-        @click="handleClick">
-        <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
-        <Icon :type="icon" v-if="icon && !loading"></Icon>
+        @click="handleClickLink">
+        <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
+        <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
         <div :class="rippleClass" v-show="rippleShow">
             <div :class="rippleItemClass"></div>
@@ -15,39 +29,52 @@
 </template>
 <script>
     import Icon from '../icon';
-    import { oneOf } from '../../utils/assist';
+    import {oneOf} from '../../utils/assist';
+    import mixinsLink from '../../mixins/link';
 
     const prefixCls = 'ivu-btn';
     const prefixKagouCls = 'go-ripple';
 
     export default {
         name: 'Button',
+        mixins: [ mixinsLink ],
         components: { Icon },
         props: {
             type: {
-                validator (value) {
-                    return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default', 'link', 'secondary']);
-                }
+                validator(value) {
+                    return oneOf(value, [ 'primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default', 'link', 'secondary' ]);
+                },
+                default: 'default'
             },
             shape: {
-                validator (value) {
-                    return oneOf(value, ['circle', 'circle-outline']);
+                validator(value) {
+                    return oneOf(value, [ 'circle', 'circle-outline' ]);
                 }
             },
             size: {
-                validator (value) {
-                    return oneOf(value, ['small', 'large', 'default']);
+                validator(value) {
+                    return oneOf(value, [ 'small', 'large', 'default' ]);
+                },
+                default() {
+                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             loading: Boolean,
             disabled: Boolean,
             htmlType: {
                 default: 'button',
-                validator (value) {
-                    return oneOf(value, ['button', 'submit', 'reset']);
+                validator(value) {
+                    return oneOf(value, [ 'button', 'submit', 'reset' ]);
                 }
             },
-            icon: String,
+            icon: {
+                type: String,
+                default: ''
+            },
+            customIcon: {
+                type: String,
+                default: ''
+            },
             long: {
                 type: Boolean,
                 default: false
@@ -56,8 +83,9 @@
                 type: Boolean,
                 default: false
             }
+
         },
-        data () {
+        data() {
             return {
                 showSlot: true,
                 ripple_button: {
@@ -68,39 +96,42 @@
             };
         },
         computed: {
-            classes () {
+            classes() {
                 return [
                     `${prefixCls}`,
+                    `${prefixCls}-${this.type}`,
                     {
-                        [`${prefixCls}-${this.type}`]: !!this.type,
-                        [`${prefixCls}-ghost`]: this.ghost,
                         [`${prefixCls}-long`]: this.long,
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
-                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-${this.size}`]: this.size !== 'default',
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
-                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
+                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || !!this.customIcon || this.loading),
+                        [`${prefixCls}-ghost`]: this.ghost
                     }
                 ];
             },
-            rippleClass () {
+            rippleClass() {
                 return [
                     `${prefixKagouCls}`
                 ];
             },
-            rippleItemClass () {
+            rippleItemClass() {
                 return [
                     `${prefixKagouCls}__item`,
-                    {'animate': this.ripple_button.animate}
+                    { 'animate': this.ripple_button.animate }
                 ];
             }
         },
         methods: {
-            handleClick (event) {
+            // Ctrl or CMD and click, open in new window when use `to`
+            handleClickLink(event, new_window = false) {
                 this.$emit('click', event);
+
+                this.handleCheckClick(event, new_window);
                 this.handlerRippleShow(event);
             },
             // 涟漪效果
-            handlerRippleShow (e) {
+            handlerRippleShow(e) {
                 this.rippleShow = true;
                 this.ripple_button.animate = true;
                 let button = this.$refs.button;
@@ -119,7 +150,7 @@
                 });
             }
         },
-        mounted () {
+        mounted() {
             this.showSlot = this.$slots.default !== undefined;
         }
     };

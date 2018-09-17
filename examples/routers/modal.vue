@@ -92,8 +92,7 @@
                     case 'info':
                         this.$Modal.info({
                             title: title,
-                            content: content,
-                            closable: true
+                            content: content
                         });
                         break;
                     case 'success':

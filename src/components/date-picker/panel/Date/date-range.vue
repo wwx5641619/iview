@@ -1,4 +1,3 @@
-
 <template>
     <div :class="classes" @mousedown.prevent
          :style="panelStyle"
@@ -7,6 +6,7 @@
             :class="[prefixCls + '-sidebar']"
             :style="sidebarStyle"
             v-if="shortcuts.length">
+
             <div
                 :class="[prefixCls + '-shortcut']"
                 v-for="shortcut in shortcuts"
@@ -16,39 +16,26 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']" v-show="!isTime">
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
-                        @click="prevYear('left')">
-                        <Tooltip :content="t('i.datepicker.prevYear')" placement="bottom" :class="iconBtnCls('prev', '-double')">
-                            <Icon type="ios-arrow-left"></Icon>
-                        </Tooltip>
-                    </span>
+                        :class="iconBtnCls('prev', '-double')"
+                        @click="prevYear('left')"><Icon type="ios-arrow-back"></Icon></span>
                     <span
                         v-if="leftPickerTable === 'date-table'"
+                        :class="iconBtnCls('prev')"
                         @click="prevMonth('left')"
-                        v-show="currentView === 'date'">
-                        <Tooltip :content="t('i.datepicker.prevMonth')" placement="bottom" :class="iconBtnCls('prev')">
-                            <Icon type="ios-arrow-left"></Icon>
-                        </Tooltip>
-                    </span>
+                        v-show="currentView === 'date'"><Icon type="ios-arrow-back"></Icon></span>
                     <date-panel-label
                         :date-panel-label="leftDatePanelLabel"
                         :current-view="leftDatePanelView"
                         :date-prefix-cls="datePrefixCls"></date-panel-label>
                     <span
                         v-if="splitPanels || leftPickerTable !== 'date-table'"
-                        @click="nextYear('left')">
-                        <Tooltip :content="t('i.datepicker.nextYear')" placement="bottom" :class="iconBtnCls('next', '-double')">
-                        <Icon type="ios-arrow-right"></Icon>
-                        </Tooltip>
-                    </span>
+                        :class="iconBtnCls('next', '-double')"
+                        @click="nextYear('left')"><Icon type="ios-arrow-forward"></Icon></span>
                     <span
                         v-if="splitPanels && leftPickerTable === 'date-table'"
+                        :class="iconBtnCls('next')"
                         @click="nextMonth('left')"
-                        v-show="currentView === 'date'">
-                        <Tooltip :content="t('i.datepicker.nextMonth')" placement="bottom" :class="iconBtnCls('next')">
-                            <Icon type="ios-arrow-right"></Icon>
-                        </Tooltip>
-                    </span>
-
+                        v-show="currentView === 'date'"><Icon type="ios-arrow-forward"></Icon></span>
                 </div>
                 <component
                     :is="leftPickerTable"
@@ -71,37 +58,25 @@
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
                         v-if="splitPanels || rightPickerTable !== 'date-table'"
-                        @click="prevYear('right')">
-                        <Tooltip :content="t('i.datepicker.prevYear')" placement="bottom" :class="iconBtnCls('prev', '-double')">
-                         <Icon type="ios-arrow-left"></Icon>
-                        </Tooltip>
-                    </span>
+                        :class="iconBtnCls('prev', '-double')"
+                        @click="prevYear('right')"><Icon type="ios-arrow-back"></Icon></span>
                     <span
                         v-if="splitPanels && rightPickerTable === 'date-table'"
+                        :class="iconBtnCls('prev')"
                         @click="prevMonth('right')"
-                        v-show="currentView === 'date'">
-                        <Tooltip :content="t('i.datepicker.prevMonth')" placement="bottom" :class="iconBtnCls('prev')">
-                            <Icon type="ios-arrow-left"></Icon>
-                        </Tooltip>
-                    </span>
+                        v-show="currentView === 'date'"><Icon type="ios-arrow-back"></Icon></span>
                     <date-panel-label
                         :date-panel-label="rightDatePanelLabel"
                         :current-view="rightDatePanelView"
                         :date-prefix-cls="datePrefixCls"></date-panel-label>
                     <span
-                        @click="nextYear('right')">
-                        <Tooltip :content="t('i.datepicker.nextYear')" placement="bottom" :class="iconBtnCls('next', '-double')">
-                            <Icon type="ios-arrow-right"></Icon>
-                        </Tooltip>
-                    </span>
+                        :class="iconBtnCls('next', '-double')"
+                        @click="nextYear('right')"><Icon type="ios-arrow-forward"></Icon></span>
                     <span
                         v-if="rightPickerTable === 'date-table'"
+                        :class="iconBtnCls('next')"
                         @click="nextMonth('right')"
-                        v-show="currentView === 'date'">
-                        <Tooltip :content="t('i.datepicker.nextMonth')" placement="bottom" :class="iconBtnCls('next')">
-                            <Icon type="ios-arrow-right"></Icon>
-                        </Tooltip>
-                    </span>
+                        v-show="currentView === 'date'"><Icon type="ios-arrow-forward"></Icon></span>
                 </div>
                 <component
                     :is="rightPickerTable"
@@ -195,7 +170,7 @@
                 leftPickerTable: `${this.selectionMode}-table`,
                 rightPickerTable: `${this.selectionMode}-table`,
                 leftPanelDate: leftPanelDate,
-                rightPanelDate: new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate())
+                rightPanelDate: new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, 1)
             };
         },
         computed: {
