@@ -84,10 +84,6 @@
                 type: Boolean,
                 default: true
             },
-            captureFocus: {
-                type: Boolean,
-                default: false
-            },
             closable: {
                 type: Boolean,
                 default: false
@@ -379,11 +375,11 @@
             updateVisibility(index){
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (index === i) {
-                        [...el.children].forEach(child => child.style.visibility = 'visible');
-                        if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
+                        [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'visible');
+                        setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
                         setTimeout(() => {
-                            [...el.children].forEach(child => child.style.visibility = 'hidden');
+                            [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'hidden');
                         }, transitionTime);
                     }
                 });
