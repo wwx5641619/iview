@@ -253,6 +253,10 @@ const router = new VueRouter({
         {
             path: '/merge-table',
             component: (resolve) => require(['./routers/merge-table.vue'], resolve)
+        },
+        {
+            path: '/form-compact',
+            component: (resolve) => require(['./routers/form-compact.vue'], resolve)
         }
     ]
 });

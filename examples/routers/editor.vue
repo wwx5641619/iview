@@ -2,10 +2,10 @@
     <div>
         <Panel shadow size="large">
             <Editor v-model="content" :disabled="disabled" height="200"></Editor>
-            <Split transparent></Split>
+            <KSplit transparent></KSplit>
             <Button type="primary" @click="getContent">get html</Button>
             <Button @click="handleDisabled">disabled</Button>
-            <Split transparent large></Split>
+            <KSplit transparent large></KSplit>
             <Editor v-model="defaultContent" :toolbar="customToolbar" placeholder="请输入" disabled></Editor>
         </Panel>
     </div>

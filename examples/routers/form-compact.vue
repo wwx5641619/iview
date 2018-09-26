@@ -9,7 +9,7 @@
         <Button type="primary" @click="component = 'SideView';inShow1 = !inShow1">side view</Button>
         <component :is="component" v-model="inShow1">动态生成</component>
 
-        <Form text ref="formValidate" :model="formValidate" :rules="ruleValidate"
+        <Form compact ref="formValidate" :model="formValidate" :rules="ruleValidate"
               label-position="top"
         >
             <Form-item label="打卡机:">
@@ -95,7 +95,7 @@
                 <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
             </Form-item>
         </Form>
-        <Split dashed large/>
+        <KSplit dashed large/>
         <Form label-position="top" size="small" compact>
             <Row :gutter="16">
                 <i-col span="6">
@@ -119,7 +119,7 @@
                 </i-col>
             </Row>
         </Form>
-        <Split dashed/>
+        <KSplit dashed/>
         <Form label-position="top">
             <Row :gutter="16">
                 <i-col span="6">
@@ -143,7 +143,7 @@
                 </i-col>
             </Row>
         </Form>
-        <Split dashed large/>
+        <KSplit dashed large/>
         <Form text :label-width="60" labelPosition="left">
             <Row>
                 <i-col span="6">
@@ -159,7 +159,7 @@
             </Row>
         </Form>
 
-        <Split dashed large/>
+        <KSplit dashed large/>
         <Form text labelPosition="top">
             <Row>
                 <i-col span="4">

@@ -27,7 +27,7 @@ import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
 import Scroll from './components/scroll';
-import Split from './components/k-split';
+import Split from './components/split';
 import Layout from './components/layout';
 import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
@@ -150,7 +150,7 @@ const components = {
     Tree,
     Upload,
     // add by FEN
-    Split,
+    KSplit,
     Panel,
     List,
     ListItem: List.Item,

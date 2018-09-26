@@ -75,7 +75,7 @@ nav {
                 <li><router-link to="/file-export">FileExport</router-link></li>
                 <li><router-link to="/textarea-format">textarea format</router-link></li>
                 <li><router-link to="/merge-table">merge table</router-link></li>
-                <li><router-link to="/kplist">k-split</router-link></li>
+                <li><router-link to="/ksplit">k-split</router-link></li>
 
             </ul>
         </nav>

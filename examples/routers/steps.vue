@@ -7,7 +7,7 @@
     </Steps>
     <Button @click="change">change</Button>
     <br><br><br><br>
-    <Split size="large"/>
+    <KSplit size="large"/>
     <Steps :current="1" size="small" :col="5" >
         <Step title="已完成" ><Button type="primary" size="small">232</Button></Step>
         <Step title="进行中" content="这里是该步骤的描述信息"></Step>
@@ -18,7 +18,7 @@
         <Step title="待进行" content="这里是该步骤的描述信息"></Step>
         <Step title="待进行" content="这里是该步骤的描述信息"></Step>
     </Steps>
-    <Split size="large"/>
+    <KSplit size="large"/>
     <Steps :current="1" :col="5" >
         <Step title="已完成">
             2018-12-23
@@ -32,7 +32,7 @@
         <Step title="待进行" content="2018-12-23"></Step>
         <Step title="待进行" content="2018-12-23"></Step>
     </Steps>
-    <Split size="large"/>
+    <KSplit size="large"/>
     <Steps>
         <Step title="等待中" status="wait">
             <Button type="primary" size="small">232</Button>
