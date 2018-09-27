@@ -15,7 +15,16 @@ export const toDate = function(date) {
 };
 
 export const clearHours = function (time) {
-    const cloneDate = new Date(time);
+    // start 为了解决美国时区问题（日期选择后，显示的时间比实际少一天） by shannon
+    let utcTime = time
+    if (time) {
+        let localOffset = time.getTimezoneOffset()*60000 + 1
+        utcTime = time.getTime() + localOffset;
+    }
+    const cloneDate = new Date(utcTime);
+    // end
+
+    // const cloneDate = new Date(time);
     cloneDate.setHours(0, 0, 0, 0);
     return cloneDate.getTime();
 };
