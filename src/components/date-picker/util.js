@@ -14,6 +14,21 @@ export const toDate = function(date) {
     return _date;
 };
 
+/**
+ * 为了解决美国时区问题（日期选择后，显示的时间比实际少一天） by shannon
+ * @param time
+ * @returns {Date}
+ */
+export const toUTC = function (time) {
+    let utcTime = time
+    if (time) {
+        let localOffset = time.getTimezoneOffset()*60000
+        utcTime = time.getTime() + localOffset;
+    }
+    const cloneDate = new Date(utcTime);
+    return cloneDate;
+}
+
 export const clearHours = function (time) {
     const cloneDate = new Date(time);
     cloneDate.setHours(0, 0, 0, 0);
