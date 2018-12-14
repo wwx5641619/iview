@@ -10,6 +10,10 @@
         <Select v-model="model2" multiple style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+
+        <Select v-model="model3" filterable style="width:200px">
+            <Option v-for="(item, index) in customerList" :value="item.shortName" :key="index" :optionData="item">{{ item.shortName }}</Option>
+        </Select>
     </div>
 </template>
 <script>
@@ -43,7 +47,30 @@
                     }
                 ],
                 model1: '',
-                model2: []
+                model2: [],
+                model3: '',
+                customerList: [
+                    {
+                        code: 'A001',
+                        shortName: 'test001',
+                        name: 'test 001'
+                    },
+                    {
+                        code: 'A002',
+                        shortName: 'test002',
+                        name: 'test 002'
+                    },
+                    {
+                        code: 'A003002',
+                        shortName: 'test003',
+                        name: 'test 003'
+                    },
+                    {
+                        code: 'A004',
+                        shortName: 'test004',
+                        name: 'test 004'
+                    }
+                ],
             }
         },
         methods: {
