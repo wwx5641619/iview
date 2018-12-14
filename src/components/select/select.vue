@@ -484,11 +484,12 @@
 
                 const value = propsData.value;
                 const label = propsData.label || '';
+                const optionData = propsData.optionData;
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = JSON.stringify([ value, label, textContent ]);
+                const stringValues = JSON.stringify([ value, label, optionData, textContent ]);
                 const query = this.query.toLowerCase().trim();
                 return stringValues.toLowerCase().includes(query);
             },

@@ -1,9 +1,9 @@
 {
-  "name": "kagou",
-  "version": "1.9.6",
-  "title": "Kagou UI",
+  "name": "cargo-ant",
+  "version": "1.9.8",
+  "title": "CargoAnt UI",
   "description": "A high quality  UI components Library with Vue.js",
-  "homepage": "http://www.cargopm.com",
+  "homepage": "http://cms.huotusoft.com",
   "keywords": [
     "iview",
     "vue",
