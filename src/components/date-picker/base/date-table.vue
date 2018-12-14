@@ -17,7 +17,7 @@
     </div>
 </template>
 <script>
-    import { clearHours, isInRange } from '../util';
+    import { clearHours, isInRange, toUTC } from '../util';
     import Locale from '../../../mixins/locale';
     import jsCalendar from 'js-calendar';
 
@@ -74,6 +74,7 @@
                 const disabledTestFn = typeof this.disabledDate === 'function' && this.disabledDate;
 
                 return this.calendar(tableYear, tableMonth, (cell) => {
+                    cell.date = toUTC(cell.date); // add by shannon
                     const time = cell.date && clearHours(cell.date);
                     const dateIsInCurrentMonth = cell.date && tableMonth === cell.date.getMonth();
                     return {
