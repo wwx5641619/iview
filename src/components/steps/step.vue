@@ -108,7 +108,7 @@
             bgStyles () {
                 return {
                     background: this.steps.background
-                }
+                };
             }
         },
         watch: {

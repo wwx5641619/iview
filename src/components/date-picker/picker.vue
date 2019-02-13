@@ -102,7 +102,7 @@
     //  返回组件的 value 的指为时间戳格式
     const getTime = val => {
         // 有空数据的时候
-        return val && val.getTime ? val.getTime() : val
+        return val && val.getTime ? val.getTime() : val;
     };
     const getTimestamp = val => {
         let _val = Array.isArray(val) ? val : [val];

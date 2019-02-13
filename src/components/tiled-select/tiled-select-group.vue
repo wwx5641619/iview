@@ -170,7 +170,7 @@
         },
         watch: {
             value () {
-                console.log('change')
+                console.log('change');
                 this.update();
             }
         }
