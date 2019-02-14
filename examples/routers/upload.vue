@@ -1,14 +1,5 @@
 <template>
-    <row :gutter="16">
-        <i-col span="6">
-            <Upload
-                    action="//jsonplaceholder.typicode.com/posts/"
-                    single
-            >
-                <Button icon="upload" type="primary" size="small">上传文件</Button>
-            </Upload>
-        </i-col>
-
+    <div>
         <div class="demo-upload-list" v-for="item in uploadList">
             <template v-if="item.status === 'finished'">
                 <img :src="item.url">
@@ -20,6 +11,16 @@
             <template v-else>
                 <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info></i-progress>
             </template>
+            <Upload
+                multiple
+                type="drag"
+                paste
+                action="//jsonplaceholder.typicode.com/posts/">
+                <div style="padding: 20px 0">
+                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                    <p>Click or drag files here to upload</p>
+                </div>
+            </Upload>
         </div>
         <Upload
                 ref="upload"
@@ -40,18 +41,8 @@
                 <Icon type="camera" size="20"></Icon>
             </div>
         </Upload>
-        <Upload
-            multiple
-            type="drag"
-            paste
-            action="//jsonplaceholder.typicode.com/posts/">
-            <div style="padding: 20px 0">
-                <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                <p>Click or drag files here to upload</p>
-            </div>
-        </Upload>
         {{ visible }}
-    </row>
+    </div>
 </template>
 <script>
     export default {

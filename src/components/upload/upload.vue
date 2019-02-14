@@ -303,8 +303,8 @@
                     _file.status = 'finished';
                     _file.response = res;
 
-                    this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
+                    this.dispatch('FormItem', 'on-form-change', _file);
 
                     if (this.single) { // add by fen 消失过慢导致视觉上不舒服
                         _file.showProgress = false;

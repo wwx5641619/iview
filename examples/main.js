@@ -227,6 +227,10 @@ const router = new VueRouter({
             component: (resolve) => require(['./routers/cell.vue'], resolve)
         },
         {
+            path: '/drawer',
+            component: (resolve) => require(['./routers/drawer.vue'], resolve)
+        },
+        {
             path: '/ksplit',
             component: (resolve) => require(['./routers/ksplit.vue'], resolve)
         },

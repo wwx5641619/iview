@@ -15,9 +15,9 @@
     }
 
     &-icon {
-        font-size: @font-size-base;
-        top: 8px;
-        left: 16px;
+        font-size: @font-size-large;
+        top: 6px;
+        left: 12px;
         position: absolute;
     }
 
@@ -30,8 +30,9 @@
     }
 
     &-success {
-        border: 1px solid tint(@success-color, 80%);
-        background-color: tint(@success-color, 90%);
+        border: @border-width-base @border-style-base ~`colorPalette("@{success-color}", 3)`;
+        //background-color: tint(@success-color, 90%);
+        background-color: ~`colorPalette("@{success-color}", 1)`;
         .@{alert-prefix-cls}-icon {
             color: @success-color;
         }
@@ -39,24 +40,27 @@
 
     // by FEN 由 primary 变更为 info
     &-info {
-        border: 1px solid tint(@info-color, 80%);
-        background-color: tint(@info-color, 90%);
+        border: @border-width-base @border-style-base ~`colorPalette("@{info-color}", 3)`;
+        //background-color: tint(@primary-color, 90%);
+        background-color: ~`colorPalette("@{info-color}", 1)`;
         .@{alert-prefix-cls}-icon {
             color: @info-color;
         }
     }
 
     &-warning {
-        border: 1px solid tint(@warning-color, 80%);
-        background-color: tint(@warning-color, 90%);
+        border: @border-width-base @border-style-base ~`colorPalette("@{warning-color}", 3)`;
+        //background-color: tint(@warning-color, 90%);
+        background-color: ~`colorPalette("@{warning-color}", 1)`;
         .@{alert-prefix-cls}-icon {
             color: @warning-color;
         }
     }
 
     &-error {
-        border: 1px solid tint(@error-color, 80%);
-        background-color: tint(@error-color, 90%);
+        border: @border-width-base @border-style-base ~`colorPalette("@{error-color}", 3)`;
+        //background-color: tint(@error-color, 90%);
+        background-color: ~`colorPalette("@{error-color}", 1)`;
         .@{alert-prefix-cls}-icon {
             color: @error-color;
         }
@@ -92,7 +96,7 @@
     &-with-desc &-icon {
         top: 50%;
         left: 24px;
-        margin-top: -21px;
+        margin-top: -24px;
         font-size: 28px;
     }
 
@@ -100,6 +104,7 @@
         border-radius: 0;
     }
 
+    // add by FEN
     &-inline{
         display: inline-block;
         margin-bottom: 0;

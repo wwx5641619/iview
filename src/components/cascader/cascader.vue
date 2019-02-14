@@ -26,6 +26,7 @@
                 :class="{ [prefixCls + '-transfer']: transfer }"
                 ref="drop"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom>
                 <div>
                     <Caspanel
@@ -100,7 +101,7 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 },
                 default () {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             trigger: {
@@ -132,7 +133,7 @@
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             },
             name: {
@@ -293,8 +294,11 @@
                 this.$refs.input.currentValue = '';
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = item.value.split(',');
-                this.emitValue(this.currentValue, oldVal);
-                this.handleClose();
+                // use setTimeout for #4786, can not use nextTick, because @on-find-selected use nextTick
+                setTimeout(() => {
+                    this.emitValue(this.currentValue, oldVal);
+                    this.handleClose();
+                }, 0);
             },
             handleFocus () {
                 this.$refs.input.focus();

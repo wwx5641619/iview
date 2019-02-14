@@ -77,6 +77,10 @@ nav {
                 <li><router-link to="/merge-table">merge table</router-link></li>
                 <li><router-link to="/ksplit">k-split</router-link></li>
 
+                <li><router-link to="/divider">Divider</router-link></li>
+                <li><router-link to="/time">Time</router-link></li>
+                <li><router-link to="/cell">Cell</router-link></li>
+                <li><router-link to="/drawer">Drawer</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>
@@ -86,7 +90,8 @@ nav {
     module.exports = {
         data: function() {
             return {
-            };
+
+            }
         },
         mounted: function() {
 
@@ -97,5 +102,5 @@ nav {
         methods: {
 
         }
-    };
+    }
 </script>

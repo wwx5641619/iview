@@ -39,6 +39,7 @@
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom>
                 <div>
                     <component
@@ -202,7 +203,7 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 },
                 default () {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             placeholder: {
@@ -218,7 +219,7 @@
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             },
             name: {
@@ -276,8 +277,8 @@
                     return this.internalValue.slice();
                 } else {
                     const isRange = this.type.includes('range');
-// old                   let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
-                    let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date === null ? null : ''));
+                    let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+
                     if (this.type.match(/^time/)) val = val.map(this.formatDate);
                     // add by fen
                     getTimestamp(val);
@@ -349,7 +350,9 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                this.visible = true;
+                if(!this.disabled){
+                    this.visible = true;
+                }
             },
             handleBlur (e) {
                 if (this.internalFocus){
@@ -597,8 +600,9 @@
             handleInputMouseleave () {
                 this.showClose = false;
             },
-            handleIconClick () {
+            handleIconClick (e) {
                 if (this.showClose) {
+                    if (e) e.stopPropagation();
                     this.handleClear();
                 } else if (!this.disabled) {
                     this.handleFocus();
@@ -690,6 +694,7 @@
                     const timeStamps = allDates.map(date => date.getTime()).filter((ts, i, arr) => arr.indexOf(ts) === i && i !== indexOfPickedDate); // filter away duplicates
                     this.internalValue = timeStamps.map(ts => new Date(ts));
                 } else {
+                    dates = this.parseDate(dates);
                     this.internalValue = Array.isArray(dates) ? dates : [dates];
                 }
 
@@ -711,6 +716,9 @@
             },
             focus() {
                 this.$refs.input && this.$refs.input.focus();
+            },
+            updatePopper () {
+                this.$refs.drop.update();
             }
         },
         watch: {
@@ -747,6 +755,7 @@
 
             // to handle focus from confirm buttons
             this.$on('focus-input', () => this.focus());
+            this.$on('update-popper', () => this.updatePopper());
         }
     };
 </script>

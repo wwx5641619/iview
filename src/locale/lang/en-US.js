@@ -99,6 +99,15 @@ const lang = {
             star: 'Star',
             stars: 'Stars'
         },
+        time: {
+            before: ' ago',
+            after: ' after',
+            just: 'just now',
+            seconds: ' seconds',
+            minutes: ' minutes',
+            hours: ' hours',
+            days: ' days'
+        },
         tree: {
             emptyText: 'No Data'
         },

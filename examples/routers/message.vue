@@ -12,22 +12,10 @@
     export default {
         methods: {
             info () {
-//                this.$Message.info('这是一条普通提示');
                 this.$Message.info({
-                    content: '这是一条普通提示2',
-                    duration: 500,
-                    onClose () {
-//                        console.log(123)
-                    },
-                    closable: true,
-                    render (h) {
-                        return h('Button',{
-                            props: {
-                                type: 'primary'
-                            }
-                        }, '这是render出来的');
-                    }
-                })
+                    content: '这是一条普通的提示',
+                    duration: 1000
+                });
             },
             success () {
                 this.$Message.success('This is a success tip');

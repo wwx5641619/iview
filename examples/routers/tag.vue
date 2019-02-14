@@ -38,10 +38,6 @@
         <Tag color="success" checkable>标签二</Tag>
         <Tag color="error" checkable>标签三</Tag>
         <Tag color="warning" checkable>标签四</Tag>
-        <Tag color="blue" >标签一</Tag>
-        <Tag color="green" >标签二</Tag>
-        <Tag color="red" >标签三</Tag>
-        <Tag color="yellow" >标签四</Tag>
         <br><br>
         <Tag closable color="#EF6AFF" checkable>标签一</Tag>
         <Tag color="#EF6AFF" checkable>标签一</Tag>
@@ -66,6 +62,15 @@
         <br><br>
         <Tag v-for="item in count" :key="item" :name="item" closable @on-close="handleClose2">标签{{ item + 1 }}</Tag>
         <Button icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加标签</Button>
+
+        <br><br><hr><br>
+        <Tag :checked="checked" checkable>test</Tag>
+        <Button @click="toggle">
+            Toggle
+          </Button>
+        <span>{{ checked }}</span>
+        <br><br>
+        <Tag type="dot" color="gold">标签四</Tag>
     </div>
 </template>
 <script>
@@ -73,7 +78,8 @@
         data () {
             return {
                 show: true,
-                count: [0, 1, 2]
+                count: [0, 1, 2],
+                checked: true
             };
         },
         methods: {
@@ -90,6 +96,9 @@
             handleClose2 (event, name) {
                 const index = this.count.indexOf(name);
                 this.count.splice(index, 1);
+            },
+            toggle() {
+                this.checked = !this.checked;
             }
         }
     };

@@ -107,7 +107,7 @@
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             },
             size: {
@@ -156,8 +156,8 @@
         watch: {
             total (val) {
                 let maxPage = Math.ceil(val / this.currentPageSize);
-                if (maxPage < this.currentPage && maxPage > 0) {
-                    this.currentPage = maxPage;
+                if (maxPage < this.currentPage ) {
+                    this.currentPage = (maxPage === 0 ? 1 : maxPage);
                 }
             },
             current (val) {

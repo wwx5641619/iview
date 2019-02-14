@@ -138,6 +138,11 @@
                     this.$emit('on-change', checked, this.name);
                 }
             }
+        },
+        watch: {
+            checked (val) {
+                this.isChecked = val;
+            }
         }
     };
 </script>

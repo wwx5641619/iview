@@ -114,6 +114,11 @@
         name: 'Table',
         mixins: [ Locale ],
         components: { tableHead, tableBody, Spin },
+        provide () {
+            return {
+                tableRoot: this
+            };
+        },
         props: {
             data: {
                 type: Array,
@@ -132,7 +137,7 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 },
                 default () {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             width: {
@@ -529,6 +534,10 @@
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
+                
+                if(this.height){
+                    this.$nextTick(()=>this.fixedBody());
+                }
             },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {
@@ -549,6 +558,8 @@
                 const selection = this.getSelection();
                 if (status) {
                     this.$emit('on-select-all', selection);
+                } else {
+                    this.$emit('on-select-all-cancel', selection);
                 }
                 this.$emit('on-selection-change', selection);
             },
@@ -822,7 +833,7 @@
             // 修改列，设置一个隐藏的 id，便于后面的多级表头寻找对应的列，否则找不到
             makeColumnsId (columns) {
                 return columns.map(item => {
-                    if ('children' in item) item.children = this.makeColumnsId(item.children);
+                    if ('children' in item) this.makeColumnsId(item.children);
                     item.__id = getRandomStr(6);
                     return item;
                 });
@@ -837,6 +848,7 @@
                 columns.forEach((column, index) => {
                     column._index = index;
                     column._columnKey = columnKey++;
+                    column.width = parseInt(column.width);
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;

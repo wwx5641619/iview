@@ -30,6 +30,9 @@
                 @keydown="handleKeydown"
                 @focus="handleFocus"
                 @blur="handleBlur"
+                @compositionstart="handleComposition"
+                @compositionupdate="handleComposition"
+                @compositionend="handleComposition"
                 @input="handleInput"
                 @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
@@ -62,6 +65,9 @@
             @keydown="handleKeydown"
             @focus="handleFocus"
             @blur="handleBlur"
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
             @input="handleInput">
         </textarea>
     </div>
@@ -92,7 +98,7 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 },
                 default () {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             placeholder: {
@@ -188,7 +194,8 @@
                 slotReady: false,
                 textareaStyles: {},
                 showPrefix: false,
-                showSuffix: false
+                showSuffix: false,
+                isOnComposition: false
             };
         },
         computed: {
@@ -213,9 +220,10 @@
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-disabled`]: this.disabled,
+                        // add by FEN
                         ['uppercase']: this.upperCase && this.currentValue,
                         ['lowercase']: this.lowerCase && this.currentValue,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        // --- end ---
                         [`${prefixCls}-with-prefix`]: this.showPrefix,
                         [`${prefixCls}-with-suffix`]: this.showSuffix || (this.search && this.enterButton === false)
                     }
@@ -257,9 +265,20 @@
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }
             },
+            handleComposition(event) {
+                if (event.type === 'compositionstart') {
+                    this.isOnComposition = true;
+                }
+                if (event.type === 'compositionend') {
+                    this.isOnComposition = false;
+                    this.handleInput(event);
+                }
+            },
             handleInput (event) {
+                if (this.isOnComposition) return;
+
                 let value = event.target.value;
-                if (this.number) value = Number.isNaN(Number(value)) ? value : Number(value);
+                if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
                 this.$emit('input', value);
                 this.setCurrentValue(value);
                 this.$emit('on-change', event);

@@ -1,35 +1,13 @@
 <template>
-    <a
-        v-if="to"
-        :class="classes"
-        :disabled="disabled"
-        :href="linkUrl"
-        :target="target"
-        @click.exact="handleClickLink($event, false)"
-        @click.ctrl="handleClickLink($event, true)"
-        @click.meta="handleClickLink($event, true)">
+    <component :is="tagName" :class="classes" :disabled="disabled" @click="handleClickLink" v-bind="tagProps">
         <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
-    </a>
-    <button
-        v-else
-        ref="button"
-        :type="htmlType"
-        :class="classes"
-        :disabled="disabled"
-        @click="handleClickLink">
-        <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
-        <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
-        <span v-if="showSlot" ref="slot"><slot></slot></span>
-        <div :class="rippleClass" v-show="rippleShow">
-            <div :class="rippleItemClass"></div>
-        </div>
-    </button>
+    </component>
 </template>
 <script>
     import Icon from '../icon';
-    import {oneOf} from '../../utils/assist';
+    import { oneOf } from '../../utils/assist';
     import mixinsLink from '../../mixins/link';
 
     const prefixCls = 'ivu-btn';
@@ -47,24 +25,24 @@
                 default: 'default'
             },
             shape: {
-                validator(value) {
-                    return oneOf(value, [ 'circle', 'circle-outline' ]);
+                validator (value) {
+                    return oneOf(value, ['circle', 'circle-outline']);
                 }
             },
             size: {
-                validator(value) {
-                    return oneOf(value, [ 'small', 'large', 'default' ]);
+                validator (value) {
+                    return oneOf(value, ['small', 'large', 'default']);
                 },
-                default() {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             loading: Boolean,
             disabled: Boolean,
             htmlType: {
                 default: 'button',
-                validator(value) {
-                    return oneOf(value, [ 'button', 'submit', 'reset' ]);
+                validator (value) {
+                    return oneOf(value, ['button', 'submit', 'reset']);
                 }
             },
             icon: {
@@ -83,9 +61,8 @@
                 type: Boolean,
                 default: false
             }
-
         },
-        data() {
+        data () {
             return {
                 showSlot: true,
                 ripple_button: {
@@ -96,11 +73,12 @@
             };
         },
         computed: {
-            classes() {
+            classes () {
                 return [
                     `${prefixCls}`,
                     `${prefixCls}-${this.type}`,
                     {
+                        [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-long`]: this.long,
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: this.size !== 'default',
@@ -120,15 +98,34 @@
                     `${prefixKagouCls}__item`,
                     { 'animate': this.ripple_button.animate }
                 ];
+            },
+            // Point out if it should render as <a> tag
+            isHrefPattern() {
+                const {to} = this;
+                return !!to;
+            },
+            tagName() {
+                const {isHrefPattern} = this;
+                return isHrefPattern ? 'a' : 'button';
+            },
+            tagProps() {
+                const {isHrefPattern} = this;
+                if(isHrefPattern) {
+                    const {linkUrl,target}=this;
+                    return {href: linkUrl, target};
+                } else {
+                    const {htmlType} = this;
+                    return {type: htmlType};
+                }
             }
         },
         methods: {
             // Ctrl or CMD and click, open in new window when use `to`
-            handleClickLink(event, new_window = false) {
+            handleClickLink (event) {
                 this.$emit('click', event);
+                const openInNewWindow = event.ctrlKey || event.metaKey;
 
-                this.handleCheckClick(event, new_window);
-                this.handlerRippleShow(event);
+                this.handleCheckClick(event, openInNewWindow);
             },
             // 涟漪效果
             handlerRippleShow(e) {
@@ -150,7 +147,7 @@
                 });
             }
         },
-        mounted() {
+        mounted () {
             this.showSlot = this.$slots.default !== undefined;
         }
     };

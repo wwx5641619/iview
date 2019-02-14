@@ -169,6 +169,7 @@
             this.$nextTick(() => {
                 this.computeOffset();
             });
+
             window.addEventListener('resize', ()=>{
                 this.computeOffset();
             });

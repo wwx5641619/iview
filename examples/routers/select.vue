@@ -1,13 +1,12 @@
 <template>
-    <div>
-        <Select v-model="model1" style="width:200px" extra @on-extra-click="hhh">
+    <div style="margin: 200px;">
+        <Select size="small" v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="model1" style="width:200px">
+        <Select v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-
-        <Select v-model="model2" multiple style="width:200px">
+        <Select size="large" v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
     </div>
@@ -23,7 +22,7 @@
                     },
                     {
                         value: 'London',
-                        label: 'London'
+                        label: 'LondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondon'
                     },
                     {
                         value: 'Sydney',
@@ -42,41 +41,8 @@
                         label: 'Canberra'
                     }
                 ],
-                model1: '',
-                model2: []
+                model10: ['New York', 'London']
             }
-        },
-        methods: {
-            onClear() {
-                console.log('onClear');
-            },
-            hhh() {
-                console.log('extra clicked!');
-                this.cityList.unshift({
-                    value: '1111',
-                    label: '23232'
-                });
-                this.$nextTick(function () {
-                    this.model1 = '1111';
-                });
-            },
-            remoteMethod1(query) {
-                if (query !== '') {
-                    this.loading2 = true;
-                    setTimeout(() => {
-                        this.loading2 = false;
-                        const list = this.list.map(item => {
-                            return {
-                                value: item,
-                                label: item
-                            };
-                        });
-                        this.options = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
-                    }, 200);
-                } else {
-                    this.options1 = []
-                }
-            }
-        },
+        }
     }
 </script>
