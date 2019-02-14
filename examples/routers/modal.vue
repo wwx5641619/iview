@@ -79,6 +79,17 @@
         components: {FormCompact},
         data () {
             return {
+                show: false, inShow: false, inShow1: false,
+                menu: [{
+                    label: 'woqu', handler (v) {
+                        console.log(111);
+                    }
+                }, {
+                    label: '34534534', handler (v) {
+                        console.log(222);
+                    }
+                }],
+                loading: false,
                 modal1: false,
                 cityList: [
                     {

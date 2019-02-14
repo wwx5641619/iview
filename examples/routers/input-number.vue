@@ -89,7 +89,6 @@
                 parser2: (value) => value.replace('%', ''),
                 value9: 1000,
                 value10: 100
-                parser2: (value) => value.replace('%', '')
             };
         },
         methods: {

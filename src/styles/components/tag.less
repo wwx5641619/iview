@@ -104,7 +104,7 @@
             .@{tag-close-prefix-cls} {
                 margin-left: 18px !important;
                 left: 4px;
-                top: -1px;
+                top: -2px; // by FEN 由于视觉上偏下，把 -1 调成了 -2
             }
         }
 
@@ -152,6 +152,10 @@
                 color: @error-color !important;
             }
         }
+    }
+
+    &:hover {
+        opacity: 0.85;
     }
 
     // by FEN 正常情况下不需要有 hover 效果
