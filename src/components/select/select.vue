@@ -493,11 +493,12 @@
             validateOption({children, elm, propsData}){
                 const value = propsData.value;
                 const label = propsData.label || '';
+                const optionData = propsData.optionData;
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = JSON.stringify([value, label, textContent]);
+                const stringValues = JSON.stringify([value, label, optionData, textContent]);
                 const query = this.query.toLowerCase().trim();
                 return stringValues.toLowerCase().includes(query);
             },
@@ -774,7 +775,9 @@
             focusIndex(index){
                 if (index < 0 || this.autoComplete) return;
                 // update scroll
-                const optionValue = this.flatOptions[index].componentOptions.propsData.value;
+                const option = this.flatOptions[index];
+                if (!option) return;
+                const optionValue = option.componentOptions.propsData.value;
                 const optionInstance = findChild(this, ({$options}) => {
                     return $options.componentName === 'select-item' && $options.propsData.value === optionValue;
                 });
