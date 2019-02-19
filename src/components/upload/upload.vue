@@ -2,7 +2,6 @@
     <div :class="uploadClasses">
         <div
             :class="classes"
-            @click="handleClick"
             @drop.prevent="onDrop"
             @paste="handlePaste"
             @dragover.prevent="dragOver = true"
