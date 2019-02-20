@@ -44,6 +44,7 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
         duration: duration,
         styles: {},
         transitionName: 'move-up',
+        contentClassName:`${prefixCls}-${type}`, // Add by FEN
         content: `
             <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
                 <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType} ${loadCls}"></i>

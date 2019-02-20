@@ -18,7 +18,11 @@
                 });
             },
             success () {
-                this.$Message.success('This is a success tip');
+                this.$Message.success({
+                    content:'This is a success tip',
+                    duration: 1000
+
+            });
             },
             warning () {
                 this.$Message.warning('This is a warning tip');
