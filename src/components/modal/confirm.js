@@ -30,7 +30,8 @@ Modal.newInstance = properties => {
             if (this.showCancel) {
                 footerVNodes.push(h(Button, {
                     props: {
-                        type: 'ghost'
+                        type: 'text',
+                        size: 'large'
                     },
                     on: {
                         click: this.cancel
@@ -40,6 +41,7 @@ Modal.newInstance = properties => {
             footerVNodes.push(h(Button, {
                 props: {
                     type: 'primary',
+                    size: 'large',
                     loading: this.buttonLoading
                 },
                 on: {
