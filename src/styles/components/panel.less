@@ -74,6 +74,27 @@
         }
     }
 
+    &__index__actived {
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+
+        &:before {
+            position: absolute;
+            top: -24px;
+            left: -24px;
+            display: block;
+            width: 48px;
+            height: 48px;
+            background: #f6bbb3;
+            border-radius: 50%;
+            content: ' ';
+        }
+    }
+
     &__number {
         position: absolute;
         width: 20px;

@@ -16,7 +16,7 @@
         <div v-if="closable" class="panel__close" @click="handleClosePanel">
             <Icon type="ios-close"></Icon>
         </div>
-        <div class="panel__index" v-if="indexNumber"><span class="panel__number">{{indexNumber}}</span></div>
+        <div :class="panelIndexClass" v-if="indexNumber"><span class="panel__number">{{indexNumber}}</span></div>
     </div>
 </template>
 
@@ -25,7 +25,7 @@
     const prefixCls = 'panel';
     export default {
         name: 'panel',
-        data() {
+        data () {
             return {
                 visible: true
             };
@@ -101,7 +101,10 @@
             }
         },
         computed: {
-            classes() {
+            panelIndexClass () {
+                return this.actived ? `${prefixCls}__index__actived` : `${prefixCls}__index`;
+            },
+            classes () {
                 return [
                     `${prefixCls}`,
                     {
@@ -124,7 +127,7 @@
             }
         },
         methods: {
-            handleClosePanel(e) {
+            handleClosePanel (e) {
                 if (this.closeBySelf) this.visible = false;
                 this.$emit('on-close', e);
             }
