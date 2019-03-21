@@ -141,6 +141,10 @@
             paste: {
                 type: Boolean,
                 default: false
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -173,6 +177,7 @@
         },
         methods: {
             handleClick () {
+                if (this.disabled) return;
                 this.$refs.input.click();
             },
             handleChange (e) {
@@ -186,9 +191,11 @@
             },
             onDrop (e) {
                 this.dragOver = false;
+                if (this.disabled) return;
                 this.uploadFiles(e.dataTransfer.files);
             },
             handlePaste (e) {
+                if (this.disabled) return;
                 if (this.paste) {
                     this.uploadFiles(e.clipboardData.files);
                 }

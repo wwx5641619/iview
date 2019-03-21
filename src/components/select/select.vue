@@ -248,7 +248,10 @@
             },
             elementId: {
                 type: String
-            }
+            },
+            transferClassName: {
+                type: String
+            },
         },
         mounted () {
             this.$on('on-select-selected', this.onOptionClick);
@@ -304,6 +307,7 @@
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
                     ['ivu-auto-complete']: this.autoComplete,
                     [`${prefixCls}-dropdown--extra`]: this.extra,
+                    [this.transferClassName]: this.transferClassName
                 };
             },
             dropdownListCls () {
@@ -753,11 +757,11 @@
                 const shouldCallRemoteMethod = remoteMethod && hasValidQuery && !this.preventRemoteCall;
                 this.preventRemoteCall = false; // remove the flag
 
-                if (shouldCallRemoteMethod) {
+                if (shouldCallRemoteMethod){
                     this.focusIndex = -1;
                     const promise = this.remoteMethod(query);
                     this.initialLabel = '';
-                    if (promise && promise.then) {
+                    if (promise && promise.then){
                         promise.then(options => {
                             if (options) this.options = options;
                         });
@@ -768,18 +772,18 @@
                 // add by FEN
                 this.focusedAtFirstChild(query);
             },
-            loading (state) {
-                if (state === false) {
+            loading(state){
+                if (state === false){
                     this.updateSlotOptions();
                 }
             },
-            isFocused (focused) {
+            isFocused(focused){
                 const el = this.filterable ? this.$el.querySelector('input[type="text"]') : this.$el;
                 el[this.isFocused ? 'focus' : 'blur']();
 
                 // restore query value in filterable single selects
                 const [selectedOption] = this.values;
-                if (selectedOption && this.filterable && !this.multiple && !focused) {
+                if (selectedOption && this.filterable && !this.multiple && !focused){
                     const selectedLabel = String(selectedOption.label || selectedOption.value).trim();
                     if (selectedLabel && this.query !== selectedLabel) {
                         this.preventRemoteCall = true;

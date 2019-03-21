@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.1
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -76,6 +76,16 @@ export declare interface Table extends Vue {
      */
     "no-filtered-data-text"?: string;
     /**
+     * 是否开启拖拽调整行顺序，需配合 @on-drag-drop 事件使用
+     * @default false
+     */
+    "draggable"?: boolean;
+    /**
+     * 列使用 tooltip 时，配置它的主题，可选值为 dark 或 light
+     * @default dark
+     */
+    "tooltip-theme"?: string;
+    /**
      * 开启 highlight-row 后有效，当表格的当前行发生变化的时候会触发
      * currentRow：当前高亮行的数据
      * oldCurrentRow：上一次高亮的数据
@@ -106,6 +116,11 @@ export declare interface Table extends Vue {
      * selection：已选项数据
      */
     $emit(eventName: "on-select-all", selection: object[]): this;
+    /**
+     * 在多选模式下有效，点击取消全选时触发
+     * selection：已选项数据
+     */
+    $emit(eventName: "on-select-all-cancel", selection: object[]): this;
     /**
      * 在多选模式下有效，只要选中项发生变化时就会触发
      * selection：已选项数据
@@ -149,6 +164,12 @@ export declare interface Table extends Vue {
      * status：当前的状态
      */
     $emit(eventName: "on-expand", row: object, status: string): this;
+    /**
+     * 拖拽排序松开时触发，返回置换的两行数据索引
+     * index1
+     * index2
+     */
+    $emit(eventName: "on-drag-drop", index1: number, index2: number): this;
     /**
      * 导出数据
      */
@@ -250,6 +271,16 @@ export declare interface TableColumn {
         h?: CreateElement,
         params?: TableColumnRenderHeadParams
     ) => VNode;
+    /**
+     * type 为 index 时可用，自定义序号
+     * @param row 当前行数据
+     */
+    indexMethod?: (row?: object) => string | number;
+    /**
+     * 自定义渲染列，使用 slot-scope 写法
+     * 声明 slot 后，就可以在 Table 的 slot 中使用 slot-scope
+     */
+    slot?: string;
     /**
      * 对应列是否可以排序，如果设置为 custom，则代表用户希望远程排序，
      * 需要监听 Table 的 on- sort - change 事件,默认false
