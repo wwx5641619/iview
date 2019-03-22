@@ -235,6 +235,9 @@
                     {
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-textarea-${this.size}`]: !!this.size, // add by FEN 解决 textarea 一行的时候高度和 input 不一致
+                        // add by FEN
+                        ['uppercase']: this.upperCase && this.currentValue,
+                        ['lowercase']: this.lowerCase && this.currentValue,
                     }
                 ];
             }
