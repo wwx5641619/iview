@@ -13,14 +13,14 @@
     </span>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import {oneOf} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-switch';
 
     export default {
         name: 'iSwitch',
-        mixins: [ Emitter ],
+        mixins: [Emitter],
         props: {
             value: {
                 type: [String, Number, Boolean],
@@ -40,7 +40,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['large', 'small', 'default']);
+                    return oneOf(value, ['large', 'small', 'default', 'big']);
                 },
                 default () {
                     return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
