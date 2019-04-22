@@ -1,8 +1,8 @@
 <template>
     <div>
-        <i-switch v-model="m1" :loading="loading">
-            <span slot="open">开</span>
-            <span slot="close">关</span>
+        <i-switch v-model="m1" :loading="loading" size="big">
+            <span slot="open">Release</span>
+            <span slot="close">Controlled</span>
         </i-switch>
         {{ m1 }}
         <div @click="m1 = !m1">toggle</div>
