@@ -1,5 +1,8 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'ru-RU',
         select: {
             placeholder: 'Выбрать',
             noMatch: 'Нет соответствующих данных',
@@ -19,6 +22,7 @@ export default {
             endTime: 'Конечное время',
             clear: 'Очистить',
             ok: 'OK',
+            datePanelLabel: '[Mmmm] [yyyy]',
             month: '',
             month1: 'Январь',
             month2: 'Февраль',
@@ -33,6 +37,7 @@ export default {
             month11: 'Ноябрь',
             month12: 'Декабрь',
             year: '',
+            weekStartDay: '1',
             weeks: {
                 sun: 'Вс',
                 mon: 'Пн',
@@ -63,7 +68,7 @@ export default {
                 target: 'Цель'
             },
             filterPlaceholder: 'Искать здесь',
-            notFoundText: 'Не Найдено'
+            notFoundText: 'Не найдено'
         },
         modal: {
             okText: 'OK',
@@ -81,8 +86,8 @@ export default {
             items: 'пункты',
             prev5: 'Пред. 5 страниц',
             next5: 'След. 5 страниц',
-            page: '/page',
-            goto: 'Идти к',
+            page: ' на странице',
+            goto: 'Перейти к',
             p: ''
         },
         rate: {
@@ -94,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

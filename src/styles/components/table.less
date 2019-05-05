@@ -71,7 +71,19 @@
         overflow: hidden;
     }
     &-body{
-        overflow: auto;
+        //overflow: auto;
+        //position: relative;
+
+    }
+    &-overflowX{
+        overflow-x: scroll;
+    }
+    &-overflowY{
+        overflow-y: scroll;
+    }
+    &-tip{
+        overflow-x: auto;
+        overflow-y: hidden;
         //position: relative;
     }
 
@@ -146,6 +158,16 @@
             text-overflow: ellipsis;
         }
 
+        &-tooltip{
+            width: 100%;
+            &-content{
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
         &-with-expand{
             height: 47px;
             line-height: 47px;
@@ -161,6 +183,17 @@
             }
             &-expanded{
                 transform: rotate(90deg);
+            }
+        }
+        &-sort{
+            cursor: pointer;
+            user-select: none;
+        }
+
+        // #3159
+        &-with-selection{
+            .@{checkbox-prefix-cls}-wrapper{
+                margin-right: 0;
             }
         }
     }
@@ -185,6 +218,12 @@
         tr:nth-child(2n) {
             td{
                 background-color: @table-td-stripe-bg;
+            }
+        }
+        // #1380
+        tr.@{table-prefix-cls}-row-hover{
+            td{
+                background-color: @table-td-hover-bg;
             }
         }
     }
@@ -266,18 +305,28 @@
         right: 0;
         box-shadow: -2px 0 6px -2px rgba(0, 0, 0, 0.2);
     }
+    &-fixed-right-header{
+        position: absolute;
+        top: -1px;
+        right: 0;
+        background-color: @table-thead-bg;
+        border-top: 1px solid @border-color-base;
+        border-bottom: 1px solid @border-color-split;
+    }
     &-fixed-header{
         overflow: hidden;
-        &-with-empty{
-            .@{table-prefix-cls}-hidden{
-                .@{table-prefix-cls}-sort{
-                    display: none;
-                }
-                .@{table-prefix-cls}-cell span{
-                    display: none;
-                }
-            }
-        }
+        // 在 #1387 里，添加了下面的代码，但是在 #5174 会出现新的问题。
+        // 但是，在新版本里，注释掉后，#1387 的问题并没有再复现，所以注释掉
+        //&-with-empty{
+        //    .@{table-prefix-cls}-hidden{
+        //        .@{table-prefix-cls}-sort{
+        //            display: none;
+        //        }
+        //        .@{table-prefix-cls}-cell span{
+        //            display: none;
+        //        }
+        //    }
+        //}
     }
     &-fixed-body{
         overflow: hidden;
@@ -303,6 +352,7 @@
         display: inline-block;
         cursor: pointer;
         position: relative;
+        //top: 1px;
 
         i{
             color: @btn-disable-color;
@@ -324,7 +374,6 @@
                 }
                 label {
                     display: block;
-                    margin-bottom: 4px;
 
                     & > span{
                         margin-right: 4px;
@@ -339,15 +388,13 @@
         &-footer{
             padding: 4px;
             border-top: 1px solid @border-color-split;
-        }
-    }
-    .ivu-poptip-popper{
-        min-width: 0;
-        text-align: left;
-    }
-    thead .ivu-poptip-popper{
-        .ivu-poptip-body{
-            padding: 0;
+            overflow: hidden;
+            button:first-child{
+                float: left;
+            }
+            button:last-child{
+                float: right;
+            }
         }
     }
 
@@ -359,5 +406,16 @@
               text-align: center;
             }
         }
+    }
+
+    &-expanded-hidden{
+        visibility: hidden;
+    }
+}
+.ivu-table-popper{
+    min-width: 0;
+    text-align: left;
+    .ivu-poptip-body{
+        padding: 0;
     }
 }

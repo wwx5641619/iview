@@ -10,7 +10,7 @@
             <span :class="descClasses"><slot name="desc"></slot></span>
             <a :class="closeClasses" v-if="closable" @click="close">
                 <slot name="close">
-                    <Icon type="ios-close-empty"></Icon>
+                    <Icon type="ios-close"></Icon>
                 </slot>
             </a>
         </div>
@@ -43,6 +43,10 @@
             banner: {
                 type: Boolean,
                 default: false
+            },
+            inline: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -59,7 +63,8 @@
                     {
                         [`${prefixCls}-with-icon`]: this.showIcon,
                         [`${prefixCls}-with-desc`]: this.desc,
-                        [`${prefixCls}-with-banner`]: this.banner
+                        [`${prefixCls}-with-banner`]: this.banner,
+                        [`${prefixCls}-inline`]: this.inline
                     }
                 ];
             },
@@ -80,19 +85,20 @@
 
                 switch (this.type) {
                     case 'success':
-                        type = 'checkmark-circled';
+                        type = 'ios-checkmark-circle';
                         break;
                     case 'info':
-                        type = 'information-circled';
+                        type = 'ios-information-circle';
                         break;
                     case 'warning':
-                        type = 'android-alert';
+                        type = 'ios-alert';
                         break;
                     case 'error':
-                        type = 'close-circled';
+                        type = 'ios-close-circle';
                         break;
                 }
 
+                if (this.desc) type += '-outline';
                 return type;
             }
         },

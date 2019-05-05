@@ -7,9 +7,20 @@
         color: @text-color;
         font-size: @font-size-small !important;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         list-style: none;
         cursor: pointer;
         transition: background @transition-time @ease-in-out;
+
+        &:first-child{
+            border-top-left-radius:@btn-border-radius;
+            border-top-right-radius:@btn-border-radius;
+        }
+        &:last-child{
+            border-bottom-left-radius:@btn-border-radius;
+            border-bottom-right-radius:@btn-border-radius;
+        }
 
         &:hover{
             background: @background-color-select-hover;
@@ -31,12 +42,12 @@
         }
 
         &-selected ,&-selected:hover{
-            color: #fff;
-            background: @selected-color;
+            color: @primary-color;
+            //background: @selected-color;
         }
 
         &-selected&-focus {
-            background: shade(@selected-color, 10%);
+            //background: shade(@selected-color, 10%);
         }
 
         &-divided{

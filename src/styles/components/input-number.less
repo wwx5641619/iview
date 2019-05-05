@@ -33,7 +33,7 @@
         transition: opacity @transition-time @ease-in-out;
     }
 
-    &:hover &-handler-wrap {
+    &:hover &-handler-wrap, &--show-handler &-handler-wrap{
         opacity: 1;
     }
 
@@ -75,7 +75,7 @@
         color: #999;
         user-select: none;
         position: absolute;
-        right: 4px;
+        right: 5px;
         transition: all @transition-time linear;
     }
 
@@ -108,9 +108,14 @@
         border: 0;
         border-radius: @btn-border-radius;
         transition: all @transition-time linear;
+        .placeholder(); // add by FEN placeholder 颜色
 
         &[disabled] {
             .disabled();
+        }
+
+        &::placeholder {
+            color: @input-placeholder-color;
         }
     }
 

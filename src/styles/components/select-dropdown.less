@@ -1,14 +1,15 @@
 @select-dropdown-prefix-cls: ~"@{css-prefix}select-dropdown";
+@transfer-no-max-height: ~"@{css-prefix}transfer-no-max-height";
 
 .@{select-dropdown-prefix-cls} {
     width: inherit;
-    max-height: 200px;
+    max-height: 226px;
     overflow: auto;
     margin: 5px 0;
-    padding: 5px 0;
+    padding: 0;
     background-color: #fff;
     box-sizing: border-box;
-    //border: 1px solid @border-color-split;
+    border: 1px solid @dropdown-border-color;
     border-radius: @btn-border-radius;
     //box-shadow: 0 1px 3px rgba(0,0,0,.2);
     box-shadow: @shadow-base;
@@ -16,6 +17,26 @@
     z-index: @zindex-select;
     &-transfer{
         z-index: @zindex-transfer;
+        width: auto;
+    }
+    &.@{transfer-no-max-height} {
+        max-height: none;
+    }
+
+    // add by FEN 下拉框支持额外的按钮
+    &--extra{
+        overflow: visible;
+        max-height: 231px;
+
+        .@{select-dropdown-prefix-cls}-list{
+            overflow: auto;
+            max-height: 196px;
+        }
+        .@{css-prefix}select-item{
+            &:last-child{
+                border-radius:0;
+            }
+        }
     }
 }
 .@{modal-prefix-cls} {

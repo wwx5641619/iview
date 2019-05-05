@@ -8,6 +8,21 @@
 
     const prefixCls = 'ivu-steps';
 
+    function debounce(fn) {
+        let waiting;
+        return function() {
+            if (waiting) return;
+            waiting = true;
+            const context = this,
+                args = arguments;
+            const later = function() {
+                waiting = false;
+                fn.apply(context, args);
+            };
+            this.$nextTick(later);
+        };
+    }
+
     export default {
         name: 'Steps',
         props: {
@@ -31,6 +46,15 @@
                     return oneOf(value, ['horizontal', 'vertical']);
                 },
                 default: 'horizontal'
+            },
+            // add by fen
+            background: {
+                type: String
+            },
+            // add by fen 用于多行展示
+            col: {
+                type: Number,
+                default: null
             }
         },
         computed: {
@@ -44,11 +68,6 @@
                 ];
             }
         },
-        mounted () {
-            this.updateChildProps(true);
-            this.setNextError();
-            this.updateCurrent(true);
-        },
         methods: {
             updateChildProps (isInit) {
                 const total = this.$children.length;
@@ -57,6 +76,8 @@
 
                     if (this.direction === 'horizontal') {
                         child.total = total;
+                        // add by fen
+                        child.col = this.col;
                     }
 
                     // 如果已存在status,且在初始化时,则略过
@@ -98,7 +119,22 @@
                 } else {
                     this.$children[this.current].currentStatus = this.status;
                 }
+            },
+            debouncedAppendRemove () {
+                return debounce(function () {
+                    this.updateSteps();
+                });
+            },
+            updateSteps () {
+                this.updateChildProps(true);
+                this.setNextError();
+                this.updateCurrent(true);
             }
+        },
+        mounted () {
+            this.updateSteps();
+            this.$on('append', this.debouncedAppendRemove());
+            this.$on('remove', this.debouncedAppendRemove());
         },
         watch: {
             current () {

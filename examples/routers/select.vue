@@ -1,77 +1,47 @@
 <template>
-    <i-select transfer multiple v-model="m1">
-        <i-option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</i-option>
-    </i-select>
+    <div style="margin: 200px;">
+        <Select size="small" v-model="model10" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Select v-model="model10" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Select size="large" v-model="model10" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+    </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                m1: [],
-                showModal: false,
-                showModal2: false,
-                options: [
+                cityList: [
                     {
-                        value: 'beijing',
-                        label: '北京市'
+                        value: 'New York',
+                        label: 'New York'
                     },
                     {
-                        value: 'shanghai',
-                        label: '上海市'
+                        value: 'London',
+                        label: 'LondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondon'
                     },
                     {
-                        value: 'shenzhen',
-                        label: '深圳市'
+                        value: 'Sydney',
+                        label: 'Sydney'
                     },
                     {
-                        value: 'hangzhou',
-                        label: '杭州市'
+                        value: 'Ottawa',
+                        label: 'Ottawa'
                     },
                     {
-                        value: 'nanjing',
-                        label: '南京市'
+                        value: 'Paris',
+                        label: 'Paris'
                     },
                     {
-                        value: 'chongqing',
-                        label: '重庆市'
+                        value: 'Canberra',
+                        label: 'Canberra'
                     }
-                ]
-            }
-        },
-        methods: {
-            remoteMethod1 (query) {
-                if (query !== '') {
-                    this.loading1 = true;
-                    setTimeout(() => {
-                        this.loading1 = false;
-                        const list = this.list.map(item => {
-                            return {
-                                value: item,
-                                label: item
-                            };
-                        });
-                        this.options1 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
-                    }, 200);
-                } else {
-                    this.options1 = [];
-                }
-            },
-            remoteMethod2 (query) {
-                if (query !== '') {
-                    this.loading2 = true;
-                    setTimeout(() => {
-                        this.loading2 = false;
-                        const list = this.list.map(item => {
-                            return {
-                                value: item,
-                                label: item
-                            };
-                        });
-                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
-                    }, 200);
-                } else {
-                    this.options2 = [];
-                }
+                ],
+                model10: ['New York', 'London']
             }
         }
     }

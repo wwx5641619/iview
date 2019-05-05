@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
+        <label :class="[prefixCls + '-label']" :for="labelFor" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <transition name="fade">
@@ -10,8 +10,6 @@
     </div>
 </template>
 <script>
-    // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form-item.vue
-
     import AsyncValidator from 'async-validator';
     import Emitter from '../../mixins/emitter';
 
@@ -48,8 +46,12 @@
                 type: String,
                 default: ''
             },
+            size: { // by FEN
+                type: String,
+                default: ''
+            },
             labelWidth: {
-                type: Number
+                type: [Number,String]
             },
             prop: {
                 type: String
@@ -70,6 +72,9 @@
             showMessage: {
                 type: Boolean,
                 default: true
+            },
+            labelFor: {
+                type: String
             }
         },
         data () {
@@ -83,14 +88,21 @@
             };
         },
         watch: {
-            error (val) {
-                this.validateMessage = val;
-                this.validateState = 'error';
+            error: {
+                handler (val) {
+                    this.validateMessage = val;
+                    this.validateState = val ? 'error' : '';
+                },
+                immediate: true
             },
             validateStatus (val) {
                 this.validateState = val;
+            },
+            rules (){
+                this.setRules();
             }
         },
+        inject: ['form'],
         computed: {
             classes () {
                 return [
@@ -98,49 +110,73 @@
                     {
                         [`${prefixCls}-required`]: this.required || this.isRequired,
                         [`${prefixCls}-error`]: this.validateState === 'error',
+                        [`${prefixCls}-${this.itemSize}`]: this.itemSize,
                         [`${prefixCls}-validating`]: this.validateState === 'validating'
                     }
                 ];
             },
-            form() {
-                let parent = this.$parent;
-                while (parent.$options.name !== 'iForm') {
-                    parent = parent.$parent;
+            // form() {
+            //    let parent = this.$parent;
+            //    while (parent.$options.name !== 'iForm') {
+            //        parent = parent.$parent;
+            //    }
+            //    return parent;
+            // },
+            fieldValue () {
+                const model = this.form.model;
+                if (!model || !this.prop) { return; }
+
+                let path = this.prop;
+                if (path.indexOf(':') !== -1) {
+                    path = path.replace(/:/, '.');
                 }
-                return parent;
+
+                return getPropByPath(model, path).v;
             },
-            fieldValue: {
-                cache: false,
-                get() {
-                    const model = this.form.model;
-                    if (!model || !this.prop) { return; }
-
-                    let path = this.prop;
-                    if (path.indexOf(':') !== -1) {
-                        path = path.replace(/:/, '.');
-                    }
-
-                    return getPropByPath(model, path).v;
-                }
+            itemSize () {
+                const size = this.size || this.form.size;
+                return size;
             },
             labelStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
-                    style.width = `${labelWidth}px`;
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth === 0 || labelWidth && labelWidth !== '100%') {
+                    style.width = typeof labelWidth === 'string' && labelWidth === '100%' ? labelWidth : `${labelWidth}px`;
                 }
                 return style;
             },
             contentStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
-                    style.marginLeft = `${labelWidth}px`;
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth || labelWidth === 0) {
+                    if (labelWidth !== '100%'){
+                        style.marginLeft = `${labelWidth}px`;
+                    }
                 }
                 return style;
             }
         },
         methods: {
+            setRules() {
+                let rules = this.getRules();
+                if (rules.length&&this.required) {
+                    return;
+                }else if (rules.length) {
+                    rules.every((rule) => {
+                        this.isRequired = rule.required;
+                    });
+                }else if (this.required){
+                    this.isRequired = this.required;
+                }
+                this.$off('on-form-blur', this.onFieldBlur);
+                this.$off('on-form-change', this.onFieldChange);
+                this.$on('on-form-blur', this.onFieldBlur);
+                this.$on('on-form-change', this.onFieldChange);
+            },
             getRules () {
                 let formRules = this.form.rules;
                 const selfRules = this.rules;
@@ -155,10 +191,14 @@
                 return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
             },
             validate(trigger, callback = function () {}) {
-                const rules = this.getFilteredRule(trigger);
+                let rules = this.getFilteredRule(trigger);
                 if (!rules || rules.length === 0) {
-                    callback();
-                    return true;
+                    if (!this.required) {
+                        callback();
+                        return true;
+                    }else {
+                        rules = [{required: true}];
+                    }
                 }
 
                 this.validateState = 'validating';
@@ -227,18 +267,7 @@
                     value: this.fieldValue
                 });
 
-                let rules = this.getRules();
-
-                if (rules.length) {
-                    rules.every(rule => {
-                        if (rule.required) {
-                            this.isRequired = true;
-                            return false;
-                        }
-                    });
-                    this.$on('on-form-blur', this.onFieldBlur);
-                    this.$on('on-form-change', this.onFieldChange);
-                }
+                this.setRules();
             }
         },
         beforeDestroy () {

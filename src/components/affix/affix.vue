@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div :class="classes" :style="styles">
+        <div ref="point" :class="classes" :style="styles">
             <slot></slot>
         </div>
+        <div v-show="slot" :style="slotStyle"></div>
     </div>
 </template>
 <script>
@@ -47,12 +48,14 @@
             },
             offsetBottom: {
                 type: Number
-            }
+            },
         },
         data () {
             return {
                 affix: false,
-                styles: {}
+                styles: {},
+                slot: false,
+                slotStyle: {}
             };
         },
         computed: {
@@ -73,10 +76,14 @@
             }
         },
         mounted () {
+            this.handleScroll(); // add by fen 当是最底部的时候，
 //            window.addEventListener('scroll', this.handleScroll, false);
 //            window.addEventListener('resize', this.handleScroll, false);
             on(window, 'scroll', this.handleScroll);
             on(window, 'resize', this.handleScroll);
+            this.$nextTick(() => {
+                this.handleScroll();
+            });
         },
         beforeDestroy () {
 //            window.removeEventListener('scroll', this.handleScroll, false);
@@ -95,6 +102,11 @@
                 // Fixed Top
                 if ((elOffset.top - this.offsetTop) < scrollTop && this.offsetType == 'top' && !affix) {
                     this.affix = true;
+                    this.slotStyle = {
+                        width: this.$refs.point.clientWidth + 'px',
+                        height: this.$refs.point.clientHeight + 'px'
+                    };
+                    this.slot = true;
                     this.styles = {
                         top: `${this.offsetTop}px`,
                         left: `${elOffset.left}px`,
@@ -103,6 +115,8 @@
 
                     this.$emit('on-change', true);
                 } else if ((elOffset.top - this.offsetTop) > scrollTop && this.offsetType == 'top' && affix) {
+                    this.slot = false;
+                    this.slotStyle = {};
                     this.affix = false;
                     this.styles = null;
 

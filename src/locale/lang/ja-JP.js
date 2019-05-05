@@ -1,5 +1,8 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'ja-JP',
         select: {
             placeholder: '選んでください',
             noMatch: 'マッチするデータなし',
@@ -19,6 +22,7 @@ export default {
             endTime: '終了時間',
             clear: 'クリーア',
             ok: '確定',
+            datePanelLabel: '[yyyy年] [m月]',
             month: '月',
             month1: '1 月',
             month2: '2 月',
@@ -33,6 +37,7 @@ export default {
             month11: '11 月',
             month12: '12 月',
             year: '年',
+            weekStartDay: '0',
             weeks: {
                 sun: '日',
                 mon: '月',
@@ -89,8 +94,21 @@ export default {
             star: '点',
             stars: '点'
         },
+        time: {
+            before: '前',
+            after: '後',
+            just: 'たった今',
+            seconds: '秒',
+            minutes: '分',
+            hours: '時間',
+            days: '日'
+        },
         tree: {
             emptyText: 'データなし'
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

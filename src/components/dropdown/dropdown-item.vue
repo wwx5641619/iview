@@ -3,7 +3,7 @@
 </template>
 <script>
     const prefixCls = 'ivu-dropdown-item';
-
+    import { findComponentUpward } from '../../utils/assist';
     export default {
         name: 'DropdownItem',
         props: {
@@ -37,7 +37,7 @@
         },
         methods: {
             handleClick () {
-                const $parent = this.$parent.$parent.$parent;
+                const $parent = findComponentUpward(this, 'Dropdown');
                 const hasChildren = this.$parent && this.$parent.$options.name === 'Dropdown';
 
                 if (this.disabled) {
@@ -52,6 +52,7 @@
                     }
                 }
                 $parent.$emit('on-click', this.name);
+                this.$emit('on-click', this.name); // add by fen,方便定义每个菜单的点击方法
             }
         }
     };

@@ -1,16 +1,15 @@
 <template>
     <div>
-        <p>带描述信息</p>
-        <Button @click="info(false)">消息</Button>
-        <Button @click="success(false)">成功</Button>
-        <Button @click="warning(false)">警告</Button>
-        <Button @click="error(false)">错误</Button>
-        <p>仅标题</p>
-        <Button @click="info(true)">消息</Button>
-        <Button @click="success(true)">成功</Button>
-        <Button @click="warning(true)">警告</Button>
-        <Button @click="error(true)">错误</Button>
-        <Button @click="destroy()">销毁</Button>
+    <p>With desc</p>
+    <Button @click="info(false)">Info</Button>
+    <Button @click="success(false)">Success</Button>
+    <Button @click="warning(false)">Warning</Button>
+    <Button @click="error(false)">Error</Button>
+    <p>Only title</p>
+    <Button @click="info(true)">Info</Button>
+    <Button @click="success(true)">Success</Button>
+    <Button @click="warning(true)">Warning</Button>
+    <Button @click="error(true)">Error</Button>
     </div>
 </template>
 <script>
@@ -18,30 +17,28 @@
         methods: {
             info (nodesc) {
                 this.$Notice.info({
-                    title: '这是通知标题',
-                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                    title: 'Notification title',
+                    desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. ',
+                    duration: 0
                 });
             },
             success (nodesc) {
                 this.$Notice.success({
-                    title: '这是通知标题',
-                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                    title: 'Notification title',
+                    desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
             },
             warning (nodesc) {
                 this.$Notice.warning({
-                    title: '这是通知标题',
-                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                    title: 'Notification title',
+                    desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
             },
             error (nodesc) {
                 this.$Notice.error({
-                    title: '这是通知标题',
-                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                    title: 'Notification title',
+                    desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
-            },
-            destroy () {
-                this.$Notice.destroy();
             }
         }
     }

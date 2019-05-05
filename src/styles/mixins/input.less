@@ -38,6 +38,24 @@
     border-radius: @btn-border-radius-small;
 }
 
+.input-textarea-small() {
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+.input-textarea () {
+  padding-top:6px;
+  padding-bottom:6px;
+}
+
+.input-textarea-large() {
+    textarea&{
+        font-size: 14px;
+    };
+    padding-top:6px;
+    padding-bottom:6px;
+}
+
 .input() {
     display: inline-block;
     width: 100%;
@@ -72,8 +90,10 @@
     textarea& {
         max-width: 100%;
         height: auto;
+        min-height: @input-height-base;
         vertical-align: bottom;
-        font-size: @font-size-base;
+        //font-size: @font-size-base;
+        font-size:@font-size-small;
     }
 
     // Size
@@ -83,6 +103,18 @@
 
     &-small {
         .input-small();
+    }
+
+    &-textarea {
+      .input-textarea();
+    }
+
+    &-textarea-small {
+        .input-textarea-small();
+    }
+
+    &-textarea-large {
+        .input-textarea-large();
     }
 }
 
@@ -128,11 +160,15 @@
         //    border-radius: 0;
         //}
     }
-    &-with-prepend .@{inputClass} {
+    &-with-prepend .@{inputClass},
+    &-with-prepend&-small .@{inputClass}
+    {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    &-with-append .@{inputClass} {
+    &-with-append .@{inputClass},
+    &-with-append&-small .@{inputClass}
+    {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
@@ -143,7 +179,7 @@
         border-color: transparent;
         background-color: transparent;
         color: inherit;
-        margin: -(@input-padding-vertical-base + 1) (-@input-padding-horizontal);
+        margin: -(@input-padding-vertical-base + 2) (-@input-padding-horizontal);
     }
 
     &-prepend,
@@ -171,9 +207,9 @@
         line-height: 1;
         color: @input-color;
         text-align: center;
-        background-color: #eee;
+        background-color: @input-group-bg;
         border: 1px solid @input-border-color;
-        border-radius: @border-radius-base;
+        border-radius: @btn-border-radius;
 
         // Reset Select's style in addon
         .@{css-prefix}select {

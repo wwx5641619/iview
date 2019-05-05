@@ -1,9 +1,13 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'zh-CN',
         select: {
             placeholder: '请选择',
             noMatch: '无匹配数据',
-            loading: '加载中'
+            loading: '加载中',
+            add: '新增'
         },
         table: {
             noDataText: '暂无数据',
@@ -13,12 +17,17 @@ export default {
             clearFilter: '全部'
         },
         datepicker: {
+            nextMonth: '下一月',
+            prevMonth: '上一月',
+            nextYear: '下一年',
+            prevYear: '上一年',
             selectDate: '选择日期',
             selectTime: '选择时间',
             startTime: '开始时间',
             endTime: '结束时间',
             clear: '清空',
             ok: '确定',
+            datePanelLabel: '[yyyy年] [m月]',
             month: '月',
             month1: '1 月',
             month2: '2 月',
@@ -33,6 +42,7 @@ export default {
             month11: '11 月',
             month12: '12 月',
             year: '年',
+            weekStartDay: '0',
             weeks: {
                 sun: '日',
                 mon: '一',
@@ -89,8 +99,32 @@ export default {
             star: '星',
             stars: '星'
         },
+        time: {
+            before: '前',
+            after: '后',
+            just: '刚刚',
+            seconds: '秒',
+            minutes: '分钟',
+            hours: '小时',
+            days: '天'
+        },
         tree: {
             emptyText: '暂无数据'
+        },
+        tiledSelect: {
+            unlimited: '不限'
+        },
+        sideView: {
+            confirm: {
+                title: '更改未保存',
+                content: '您有尚未保存的更改。如果离开，您所做的更改将会丢失！确定要离开吗？',
+                buttonLeave: '舍弃更改',
+                buttonStay: '留在此页'
+            }
         }
     }
 };
+
+setLang(lang);
+
+export default lang;
